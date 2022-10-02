@@ -31,13 +31,13 @@ public class Users {
     private String description;
 
     @Column
-    private int following;
+    private Integer following;
 
     @Column
-    private int followers;
+    private Integer followers;
 
     @Column
-    private int nPosts;
+    private Integer nPosts;
 
     @Column
     private String url;
