@@ -31,7 +31,7 @@ public class Posts {
     @Column
     private int postType;
     @Column
-    private int numberLike;
+    private Integer numbrLikes;
     @Column
-    private int numberComments;
+    private Integer numberComments;
 }
