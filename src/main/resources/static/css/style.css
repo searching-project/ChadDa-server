@@ -9,6 +9,10 @@ body {
     margin-top: 10px;
 
 }
+#search-result-box-location {
+    margin-top: 10px;
+}
+
 .search-itemDto {
     width: 530px;
     display: flex;

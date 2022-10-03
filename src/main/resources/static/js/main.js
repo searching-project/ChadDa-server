@@ -69,6 +69,19 @@ function execSearch() {
             }
         }
     })
+    $.ajax({
+        type: 'GET',
+        url: `/api/locations/search/${query}`,
+        success: function (response) {
+            $('#search-result-box-location').empty();
+            for (let i = 0; i < response.length; i++) {
+                let itemDto = response[i];
+                let tempHtml = addLocationHTML(itemDto);
+                $('#search-result-box-location').append(tempHtml);
+            }
+        }
+    })
+
 }
 
 function addProfileHTML(itemDto) {
@@ -114,3 +127,19 @@ function addPostHTML(itemDto) {
             </div>
         </div>`
 }
+
+function addLocationHTML(itemDto) {
+    return `<div class="search-itemDto" id="${itemDto.sid}>
+            <div class="search-itemDto-center">
+                <div class="name">
+                     ${itemDto.name}
+                </div>
+                <div>
+                    <span class="unit region"> ${itemDto.region} </span>
+                    <span class="unit city"> ${itemDto.city} </span>
+                    <span class="unit street"> ${itemDto.street}</span>
+                </div>
+            </div>
+        </div>`
+}
+
