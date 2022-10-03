@@ -1,4 +1,8 @@
 package com.search.instagramsearching.exception;
+
+import lombok.Getter;
+
+@Getter
 public enum ErrorCode {
 
     INVALID_PARAMETER(400, null, "Invalid Request Data"),
