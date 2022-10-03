@@ -57,8 +57,44 @@ function execSearch() {
             }
         }
     })
+    $.ajax({
+        type: 'GET',
+        url: `/api/profiles/search/${query}`,
+        success: function (response) {
+            $('#search-result-box-profile').empty();
+            for (let i = 0; i < response.length; i++) {
+                let itemDto = response[i];
+                let tempHtml = addProfileHTML(itemDto);
+                $('#search-result-box-profile').append(tempHtml);
+            }
+        }
+    })
 }
 
+function addProfileHTML(itemDto) {
+    let isbusiness = itemDto.isBusinessAccount === "false"? "" : "✔"
+    return `<div class="search-itemDto id="${itemDto.sid}>
+            <div class="search-itemDto-center">
+                <div class="name">
+                     ${itemDto.profileName}
+                    <span class="unit business">${isbusiness}</span>
+                    <span class="unit business">@${itemDto.firstnameLastname}</span>
+                </div>
+                <div>
+                    <span class="unit">게시물</span>
+                    <span class="unit post"> ${itemDto.nPosts}</span>
+                    <span class="unit">/ 팔로잉</span>
+                    <span class="unit following"> ${itemDto.following}</span>
+                    <span class="unit">명 /</span>
+                    <span class="unit">팔로워 </span>
+                    <span class="unit followers"> ${itemDto.followers}</span>
+                    <span class="unit">명</span>
+                </div>
+                <div> ${itemDto.description} </div>
+                <div> ${itemDto.url}</div>
+            </div>
+        </div>`
+}
 
 function addPostHTML(itemDto) {
     return `<div class="search-itemDto" id="${itemDto.sid}">

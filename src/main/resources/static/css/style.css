@@ -5,6 +5,10 @@ body {
 #search-result-box-post {
     margin-top: 10px;
 }
+#search-result-box-profile {
+    margin-top: 10px;
+
+}
 .search-itemDto {
     width: 530px;
     display: flex;
