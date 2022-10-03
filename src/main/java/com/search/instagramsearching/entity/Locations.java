@@ -13,7 +13,9 @@ import java.util.Date;
 @Entity
 public class Locations {
     @Id
-    private Long sid;
+    private int sid;
+    @Column
+    private int id;
     @Column
     private String name;
     @Column
@@ -29,9 +31,9 @@ public class Locations {
     @Column
     private String phone;
     @Column
-    private boolean ajExactCityMatch;
+    private String ajExactCityMatch;
     @Column
-    private boolean ajExactCountryMatch;
+    private String ajExactCountryMatch;
     @Column
     private String blurb;
     @Column
@@ -45,9 +47,9 @@ public class Locations {
     @Column
     private String dirCountryName;
     @Column
-    private String lat;
+    private double lat;
     @Column
-    private String lng;
+    private double lng;
     @Column
     private String privaryAliasOnFb;
     @Column
