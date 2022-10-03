@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import static com.search.instagramsearching.exception.ErrorCode.RESULT_NOT_FOUND;
+import static com.search.instagramsearching.exception.ErrorCode.*;
 
 @Slf4j
 @RestControllerAdvice
@@ -26,12 +26,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<ResponseDto> resultExpirationExceptionHandler(ResultExpirationException exception) {
         logger.error("resultExpirationExceptionHandler", exception);
-        return new ResponseEntity<>(ResponseDto.fail(RESULT_NOT_FOUND), HttpStatus.GONE);
+        return new ResponseEntity<>(ResponseDto.fail(RESULT_EXPIRATION), HttpStatus.GONE);
     }
 
     @ExceptionHandler
     public ResponseEntity<ResponseDto> invalidParameterExceptionHandler(InvalidParameterException exception) {
         logger.error("invalidParameterExceptionHandler", exception);
-        return new ResponseEntity<>(ResponseDto.fail(RESULT_NOT_FOUND), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(ResponseDto.fail(INVALID_PARAMETER), HttpStatus.NOT_FOUND);
     }
 }
