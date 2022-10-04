@@ -1,9 +1,6 @@
 package com.search.instagramsearching.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-
-public interface UserSearchResponseDto {
+public interface UserSearchResultDto {
     Long getSid();
     String getProfile_name();
     String getBusiness_account_tf();
