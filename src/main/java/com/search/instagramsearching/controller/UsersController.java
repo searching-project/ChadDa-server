@@ -22,15 +22,4 @@ public class UsersController {
     public ResponseDto<?> searchUsers(@PathVariable String keyword, @PageableDefault(page = 0, size = 20) Pageable pageable) {
         return ResponseDto.success(usersService.searchUsers(keyword, pageable));
     }
-
-    // 이 아래부터는 full-text 성능 테스트용
-    @GetMapping("/user/n/{keyword}")
-    public ResponseDto<?> naturalSearch(@PathVariable String keyword, @PageableDefault(page = 0, size = 20) Pageable pageable) {
-        return ResponseDto.success(usersService.naturalSearch(keyword, pageable));
-    }
-
-    @GetMapping("/user/b/{keyword}")
-    public ResponseDto<?> booleanSearch(@PathVariable String keyword, @PageableDefault(page = 0, size = 20) Pageable pageable) {
-        return ResponseDto.success(usersService.booleanSearch(keyword, pageable));
-    }
 }
