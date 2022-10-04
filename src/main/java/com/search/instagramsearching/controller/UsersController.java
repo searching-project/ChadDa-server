@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsersController {
     private final UsersService usersService;
 
-//    @GetMapping("/user/{keyword}")
-//    public ResponseDto<?> search(@PathVariable String keyword, @PageableDefault(page = 0, size = 20) Pageable pageable) {
-//        return ResponseDto.success(usersService.search(keyword, pageable));
-//    }
+    // 유저 검색하기 API
+    @GetMapping("/user/{keyword}")
+    public ResponseDto<?> searchUsers(@PathVariable String keyword, @PageableDefault(page = 0, size = 20) Pageable pageable) {
+        return ResponseDto.success(usersService.searchUsers(keyword, pageable));
+    }
 
+    // 이 아래부터는 full-text 성능 테스트용
     @GetMapping("/user/n/{keyword}")
     public ResponseDto<?> naturalSearch(@PathVariable String keyword, @PageableDefault(page = 0, size = 20) Pageable pageable) {
         return ResponseDto.success(usersService.naturalSearch(keyword, pageable));

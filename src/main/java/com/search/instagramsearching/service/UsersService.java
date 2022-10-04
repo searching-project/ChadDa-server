@@ -21,6 +21,34 @@ public class UsersService {
     private final UsersRepository usersRepository;
 
     @Transactional
+    public List<?> searchUsers(String keyword, Pageable pageable) {
+        List<UserSearchResultDto> rawDataList = usersRepository.searchUsers(keyword, pageable);
+        if (rawDataList == null || rawDataList.size() == 0) {
+            throw new ResultNotFoundException();
+        }
+
+        List<UserResponseDto> searchResultList = new ArrayList<>();
+
+        for (UserSearchResultDto rawData : rawDataList) {
+            searchResultList.add(
+                    UserResponseDto.builder()
+                            .sid(rawData.getSid())
+                            .profileName(rawData.getProfile_name())
+                            .businessAccountTF(rawData.getBusiness_account_tf())
+                            .firstnameLastname(rawData.getFirstname_lastname())
+                            .profileId(rawData.getProfile_id())
+                            .nPosts(rawData.getN_posts())
+                            .following(rawData.getFollowing())
+                            .followers(rawData.getFollowers())
+                            .description(rawData.getDescription())
+                            .url(rawData.getUrl())
+                            .build()
+            );
+        }
+        return searchResultList;
+    }
+
+    @Transactional
     public List<?> naturalSearch(String keyword, Pageable pageable) {
         String original = keyword;
         keyword = getAnd(keyword);
