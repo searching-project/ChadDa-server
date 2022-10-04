@@ -14,7 +14,7 @@ public class ResponseDto<T> {       //T가 아니고 A/B어떤거든 상관없�
 
     private boolean success;
     private T data;         //제네릭의 변수 선언방법
-    private ErrorResponse errorResponse;
+    private ErrorResponse error;
 
     // Response 성공시 - data 담아 보내주기
     public static <T> ResponseDto<T> success(T data) {
