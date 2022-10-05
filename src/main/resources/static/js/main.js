@@ -28,7 +28,6 @@ $(document).ready(function () {
     $('#search-area').show();
 })
 
-
 function execSearch() {
     /**
      * 검색어 input id: query
@@ -87,9 +86,9 @@ function execSearch() {
 
 function addProfileHTML(itemDto) {
     let isbusiness = itemDto.isBusinessAccount === "false"? "" : "✔"
-    return `<div class="search-itemDto id="${itemDto.sid}>
+    return `<div class="search-itemDto" id="${itemDto.sid}">
             <div class="search-itemDto-center">
-                <div class="name">
+                <div class="name" onclick="findUserPosts(${itemDto.profileName})">
                      ${itemDto.profileName}
                     <span class="unit business">${isbusiness}</span>
                     <span class="unit business">@${itemDto.firstnameLastname}</span>
@@ -127,6 +126,23 @@ function addPostHTML(itemDto) {
                 <div>${itemDto.description}</div>
             </div>
         </div>`
+}
+
+function findUserPosts(profileName) {
+    window.location.href = "user-posts.html"
+    $.ajax({
+        type: 'GET',
+        url: `/api/user/${profileName}/posts`,
+        success: function (response) {
+            $('#search-result-box-post').empty();
+            response = response.data
+            for (let i = 0; i < response.length; i++) {
+                let itemDto = response[i];
+                let tempHtml = addPostHTML(itemDto);
+                $('#search-result-box-post').append(tempHtml);
+            }
+        }
+    })
 }
 
 function addLocationHTML(itemDto) {
