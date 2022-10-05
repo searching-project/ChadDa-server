@@ -28,4 +28,5 @@ public class PostsService {
         List<PostResponseDto> posts= postsRepository.searchView(keyword,pageable);
         return posts;
     }
+
 }
