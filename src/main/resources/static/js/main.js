@@ -110,6 +110,7 @@ function addProfileHTML(itemDto) {
             </div>
         </div>`
 }
+
 function findProfile(profileId) {
     $.ajax({
         type: "GET",
@@ -142,17 +143,17 @@ function findProfile(profileId) {
     })
 }
 function addPostHTML(itemDto) {
-    return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findProfile(${itemDto.sidProfile})" >
+    return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findProfile(${itemDto.sid_profile})" >
             <div class="search-itemDto-center" >
                 <div class="name" >
-                    ${itemDto.sidProfile}
+                    ${itemDto.profile_name}
                 </div>
                 <div>
                     <span class="unit">좋아요</span>
-                    <span class="unit like">${itemDto.numbrLikes}</span>
+                    <span class="unit like">${itemDto.numbr_likes}</span>
                     <span class="unit">개 /</span>
                     <span class="unit">댓글 </span>
-                    <span class="unit comment">${itemDto.numberComments}</span>
+                    <span class="unit comment">${itemDto.number_comments}</span>
                     <span class="unit">개</span>
                 </div>
                 <div>${itemDto.description}</div>
