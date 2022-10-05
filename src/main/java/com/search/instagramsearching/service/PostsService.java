@@ -1,5 +1,6 @@
 package com.search.instagramsearching.service;
 
+import com.search.instagramsearching.dto.response.PostResponseDto;
 import com.search.instagramsearching.entity.Posts;
 import com.search.instagramsearching.repository.PostsRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,12 @@ public class PostsService {
     @Transactional
     public List<Posts> search(String keyword, Pageable pageable){
         List<Posts> posts= postsRepository.search(keyword,pageable);
+        return posts;
+    }
+
+    @Transactional
+    public List<PostResponseDto> searchView(String keyword, Pageable pageable){
+        List<PostResponseDto> posts= postsRepository.searchView(keyword,pageable);
         return posts;
     }
 }

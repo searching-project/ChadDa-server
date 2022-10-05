@@ -1,5 +1,6 @@
 package com.search.instagramsearching.controller;
 
+import com.search.instagramsearching.dto.response.PostResponseDto;
 import com.search.instagramsearching.entity.Posts;
 import com.search.instagramsearching.service.PostsService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,8 @@ public class PostsController {
     private final PostsService postsService;
 
     @GetMapping("search/post/{keyword}")
-    public List<Posts> search(@PathVariable String keyword, @PageableDefault(page = 0, size = 5) Pageable pageable){
-        return postsService.search(keyword,pageable);
+    public List<?> search(@PathVariable String keyword, @PageableDefault(page = 0, size = 5) Pageable pageable){
+//        return postsService.search(keyword,pageable);
+        return postsService.searchView(keyword,pageable);
     }
 }
