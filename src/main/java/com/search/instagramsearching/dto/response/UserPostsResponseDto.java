@@ -11,6 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class UserPostsResponseDto {
     private Long profileId;
+    private String profileName;
     private String postId;
     private Long locationId;
     private String description;

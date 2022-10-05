@@ -76,6 +76,7 @@ public class UsersService {
             response.add(
                     UserPostsResponseDto.builder()
                             .profileId(post.getProfileId())
+                            .profileName(profileName)
                             .postId(post.getPostId())
                             .locationId(post.getLocationId())
                             .description(post.getDescription())
