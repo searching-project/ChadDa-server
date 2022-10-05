@@ -33,4 +33,19 @@ public class PostsTest {
         // then
         System.out.println(stopWatch.prettyPrint());
     }
+
+    @Test
+    void testSearchViewQuery(){
+        // given
+        StopWatch stopWatch = new StopWatch();
+        Pageable pageable = PageRequest.of(0, 10);
+
+        // when
+        stopWatch.start("검색 쿼리");
+        postsRepository.searchView(keyword,pageable);
+        stopWatch.stop();
+
+        // then
+        System.out.println(stopWatch.prettyPrint());
+    }
 }

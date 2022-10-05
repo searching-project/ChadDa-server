@@ -110,6 +110,7 @@ function addProfileHTML(itemDto) {
             </div>
         </div>`
 }
+
 function findProfile(profileId) {
     $.ajax({
         type: "GET",
@@ -124,7 +125,7 @@ function findProfile(profileId) {
                 <span class="unit business" id="profile-detail-business">${isbusiness}</span>
             </h1>
                 <span class="unit">게시물</span>
-                <span class="unit like" id="profile-detail-post"> ${response.nPosts}</span>
+                <span class="unit like" id="profile-detail-post"> ${response.nposts}</span>
                 <span class="unit">/ 팔로잉</span>
                 <span class="unit like" id="profile-detail-following"> ${response.following}</span>
                 <span class="unit">명 /</span>
@@ -142,17 +143,19 @@ function findProfile(profileId) {
     })
 }
 function addPostHTML(itemDto) {
-    return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findProfile(${itemDto.sidProfile})" >
+    let like_num = itemDto.numbr_likes===null? 0: itemDto.numbr_likes
+    let comment_num = itemDto.number_comments===null? 0: itemDto.number_comments
+    return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findProfile(${itemDto.sid_profile})" >
             <div class="search-itemDto-center" >
                 <div class="name" >
-                    ${itemDto.sidProfile}
+                    ${itemDto.profile_name}
                 </div>
                 <div>
                     <span class="unit">좋아요</span>
-                    <span class="unit like">${itemDto.numbrLikes}</span>
+                    <span class="unit like">${like_num}</span>
                     <span class="unit">개 /</span>
                     <span class="unit">댓글 </span>
-                    <span class="unit comment">${itemDto.numberComments}</span>
+                    <span class="unit comment">${comment_num}</span>
                     <span class="unit">개</span>
                 </div>
                 <div>${itemDto.description}</div>
