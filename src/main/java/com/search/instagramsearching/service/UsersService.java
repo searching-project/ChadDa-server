@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -43,7 +44,7 @@ public class UsersService {
                             .id(rawData.getId())
                             .sid(rawData.getSid())
                             .profileName(rawData.getProfile_name())
-                            .businessAccountTF(rawData.getBusiness_account_tf())
+                            .businessAccountTf(rawData.getBusiness_account_tf())
                             .firstnameLastname(rawData.getFirstname_lastname())
                             .profileId(rawData.getProfile_id())
                             .nPosts(rawData.getN_posts())
@@ -85,7 +86,7 @@ public class UsersService {
 
     // fulltext - profileNamed으로 users table 조회
     private Long getProfileId(String profileName, Pageable pageable) {
-        List<UserSearchResultDto> searchResult = usersRepository.searchUsers(profileName,pageable);
+        List<UserSearchResultDto> searchResult = usersRepository.searchUsers(profileName, pageable);
         if (searchResult.size() == 0) {
             throw new UserNotFoundException();
         }
@@ -101,5 +102,28 @@ public class UsersService {
             throw new PostsNotFoundExceptioin();
         }
         return searchResult;
+    }
+
+    @Transactional
+    public UserResponseDto findUserBySID (Long sid){
+        Optional<Users> usersOptional = usersRepository.findUsersBySid(sid);
+        Users user = new Users();
+        if (usersOptional.isPresent()) {
+            user = usersOptional.get();
+        }
+
+        return UserResponseDto.builder()
+                .id(user.getId())
+                .sid(user.getSid())
+                .profileName(user.getProfileName())
+                .businessAccountTf(user.getBusinessAccountTf())
+                .firstnameLastname(user.getFirstnameLastname())
+                .profileId(user.getProfileId())
+                .nPosts(user.getNPosts())
+                .following(user.getFollowing())
+                .followers(user.getFollowers())
+                .description(user.getDescription())
+                .url(user.getUrl())
+                .build();
     }
 }

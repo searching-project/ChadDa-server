@@ -21,4 +21,9 @@ public interface UsersRepository extends JpaRepository<Users,Long> {
             countQuery = "SELECT count(*) FROM users WHERE MATCH (profile_name, firstname_lastname) AGAINST (:keyword IN BOOLEAN MODE)",
             nativeQuery = true)
     List<UserSearchResultDto> searchUsers(@Param("keyword") String keyword, @PageableDefault Pageable pageable);
+
+    //sid로 유저 검색
+    Optional<Users> findUsersBySid(Long sid);
+
+
 }

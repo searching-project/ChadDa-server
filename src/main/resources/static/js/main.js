@@ -5,6 +5,7 @@ $(document).ready(function () {
             execSearch();
         }
     });
+
     $('#close').on('click', function () {
         $('#container').removeClass('active');
     })
@@ -46,7 +47,7 @@ function execSearch() {
     // 3. GET /api/search/${query} 요청
     $.ajax({
         type: 'GET',
-        url: `/api/posts/search/${query}`,
+        url: `/api/search/post/${query}`,
         success: function (response) {
             $('#search-result-box-post').empty();
             for (let i = 0; i < response.length; i++) {
@@ -109,18 +110,53 @@ function addProfileHTML(itemDto) {
         </div>`
 }
 
+function findProfile(profileId) {
+    $.ajax({
+        type: "GET",
+        url: `/api/post/${profileId}/user`,
+        contentType: "application/json",
+        success: function (response) {
+            response = response['data']
+            let isbusiness = response.businessAccountTf === "true"? "✔" : ""
+            $('#profile-detail').empty();
+            let html =`<h1 class="name" id="profile-detail-name">
+                ${response.profileName}
+                <span class="unit business" id="profile-detail-business">${isbusiness}</span>
+            </h1>
+                <span class="unit">게시물</span>
+                <span class="unit like" id="profile-detail-post"> ${response.nposts}</span>
+                <span class="unit">/ 팔로잉</span>
+                <span class="unit like" id="profile-detail-following"> ${response.following}</span>
+                <span class="unit">명 /</span>
+                <span class="unit" >팔로워 </span>
+                <span class="unit comment" id="profile-detail-follower"> ${response.followers}</span>
+                <span class="unit">명</span>
+            <div id="profile-detail-description"> ${response.description} </div>
+            <div id="profile-detail-url"> ${response.url}</div>
+        </div>`
+            $('#profile-detail').append(html);
+            // 2. 응답 함수에서 modal을 뜨게 함
+            $('#container').addClass('active');
+
+        }
+    })
+}
 function addPostHTML(itemDto) {
-    return `<div class="search-itemDto" id="${itemDto.sid}">
-            <div class="search-itemDto-center">
-                <div class="name">
-                    ${itemDto.profileId}
+    let location_name = itemDto.name===null? "": "@"+itemDto.name
+    let like_num = itemDto.numbr_likes===null? 0: itemDto.numbr_likes
+    let comment_num = itemDto.number_comments===null? 0: itemDto.number_comments
+    return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findProfile(${itemDto.sid_profile})" >
+            <div class="search-itemDto-center" >
+                <div class="name" >
+                    ${itemDto.profile_name}
+                    <span class="unit"> ${location_name}</span>
                 </div>
                 <div>
                     <span class="unit">좋아요</span>
-                    <span class="unit like">${itemDto.numbrLikes}</span>
+                    <span class="unit like">${like_num}</span>
                     <span class="unit">개 /</span>
                     <span class="unit">댓글 </span>
-                    <span class="unit comment">${itemDto.numberComments}</span>
+                    <span class="unit comment">${comment_num}</span>
                     <span class="unit">개</span>
                 </div>
                 <div>${itemDto.description}</div>
@@ -159,4 +195,6 @@ function addLocationHTML(itemDto) {
             </div>
         </div>`
 }
+
+
 

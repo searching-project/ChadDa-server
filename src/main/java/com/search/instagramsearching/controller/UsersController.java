@@ -28,4 +28,9 @@ public class UsersController {
     public ResponseDto<?> getUserPosts(@PathVariable String profileName, @PageableDefault(page = 0, size = 20) Pageable pageable) {
         return ResponseDto.success(usersService.getUserPosts(profileName, pageable));
     }
+    
+    @GetMapping("/post/{sid}/user")
+    public ResponseDto<?> findUser(@PathVariable Long sid) {
+        return ResponseDto.success(usersService.findUserBySID(sid));
+    }
 }
