@@ -1,5 +1,6 @@
 package com.search.instagramsearching.service;
 
+import com.search.instagramsearching.dto.response.UserPostSearchResultDto;
 import com.search.instagramsearching.dto.response.UserPostsResponseDto;
 import com.search.instagramsearching.dto.response.UserResponseDto;
 import com.search.instagramsearching.dto.response.UserSearchResultDto;
@@ -64,26 +65,29 @@ public class UsersService {
 //            throw new UserNotFoundException();
 //        }
 
-        Long profileId = getProfileId(profileName);
+        Long profileId = getProfileId(profileName, pageable);
 
-        List<Posts> postsList = postsRepository.findByProfileId(profileId);
-        if (postsList.size() == 0) {
-            throw new PostsNotFoundExceptioin();
-        }
+        // findBy로 조회 -> 속도가 느려 삭제
+//        List<Posts> postsList = postsRepository.findByProfileId(profileId);
+//        if (postsList.size() == 0) {
+//            throw new PostsNotFoundExceptioin();
+//        }
+
+        List<UserPostSearchResultDto> postsList = getSearchResult(profileId, pageable);
 
         List<UserPostsResponseDto> response = new ArrayList<>();
-        for (Posts post : postsList) {
+        for (UserPostSearchResultDto postInfo : postsList) {
             response.add(
                     UserPostsResponseDto.builder()
-                            .profileId(post.getProfileId())
+                            .profileId(postInfo.getProfile_id())
                             .profileName(profileName)
-                            .postId(post.getPostId())
-                            .locationId(post.getLocationId())
-                            .description(post.getDescription())
-                            .cts(post.getCts())
-                            .postType(post.getPostType())
-                            .numberLikes(post.getNumbrLikes())
-                            .numberComments(post.getNumberComments())
+                            .postId(postInfo.getPost_id())
+                            .locationId(postInfo.getLocation_id())
+                            .description(postInfo.getDescription())
+                            .cts(postInfo.getCts())
+                            .postType(postInfo.getPost_type())
+                            .numberLikes(postInfo.getNumber_likes())
+                            .numberComments(postInfo.getNumber_comments())
                             .build()
             );
         }
@@ -96,15 +100,23 @@ public class UsersService {
         return user.orElse(null);
     }
 
-    private Long getProfileId(String profileName) {
-        Pageable pageable = Pageable.ofSize(1);
-
+    // fulltext - profileNamed으로 users table 조회
+    private Long getProfileId(String profileName, Pageable pageable) {
         List<UserSearchResultDto> searchResult = usersRepository.searchUsers(profileName,pageable);
         if (searchResult.size() == 0) {
             throw new UserNotFoundException();
         }
-        Long profileId = searchResult.get(0).getProfile_id();
 
+        Long profileId = searchResult.get(0).getProfile_id();
         return profileId;
+    }
+
+    // 인덱스 - profileId로 posts table 조회
+    private List<UserPostSearchResultDto> getSearchResult(Long profileId, Pageable pageable) {
+        List<UserPostSearchResultDto> searchResult = postsRepository.getUserPosts(profileId, pageable);
+        if (searchResult.size() == 0) {
+            throw new PostsNotFoundExceptioin();
+        }
+        return searchResult;
     }
 }

@@ -19,5 +19,4 @@ public class UserPostsResponseDto {
     private Integer postType;
     private Integer numberLikes;
     private Integer numberComments;
-
 }
