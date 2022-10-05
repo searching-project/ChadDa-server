@@ -59,11 +59,12 @@ function execSearch() {
     })
     $.ajax({
         type: 'GET',
-        url: `/api/profiles/search/${query}`,
+        url: `/api/search/user/${query}`,
         success: function (response) {
             $('#search-result-box-profile').empty();
-            for (let i = 0; i < response.length; i++) {
-                let itemDto = response[i];
+            // for (let i = 0; i < response.data.length; i++) {
+            for (let i = 0; i < 5; i++) {
+                let itemDto = response.data[i];
                 let tempHtml = addProfileHTML(itemDto);
                 $('#search-result-box-profile').append(tempHtml);
             }
