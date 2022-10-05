@@ -3,6 +3,7 @@ package com.search.instagramsearching.service;
 import com.search.instagramsearching.dto.response.ResponseDto;
 import com.search.instagramsearching.dto.response.UserResponseDto;
 import com.search.instagramsearching.dto.response.UserSearchResultDto;
+import com.search.instagramsearching.entity.Users;
 import com.search.instagramsearching.exception.ResultNotFoundException;
 import com.search.instagramsearching.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -35,7 +37,7 @@ public class UsersService {
                             .id(rawData.getId())
                             .sid(rawData.getSid())
                             .profileName(rawData.getProfile_name())
-                            .businessAccountTF(rawData.getBusiness_account_tf())
+                            .businessAccountTf(rawData.getBusiness_account_tf())
                             .firstnameLastname(rawData.getFirstname_lastname())
                             .profileId(rawData.getProfile_id())
                             .nPosts(rawData.getN_posts())

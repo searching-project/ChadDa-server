@@ -11,7 +11,7 @@ public class UserResponseDto {
     private Long id;
     private Long sid;
     private String profileName;
-    private String businessAccountTF;
+    private String businessAccountTf;
     private String firstnameLastname;
     private Long profileId;
     private Integer nPosts;
