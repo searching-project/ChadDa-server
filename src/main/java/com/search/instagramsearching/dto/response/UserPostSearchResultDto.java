@@ -4,7 +4,6 @@ import java.util.Date;
 
 public interface UserPostSearchResultDto {
     Long getProfile_id();
-    String getProfile_name();
     String getPost_id();
     Long getLocation_id();
     String getDescription();
