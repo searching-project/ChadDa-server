@@ -1,9 +1,14 @@
 package com.search.instagramsearching.service;
 
-import com.search.instagramsearching.dto.response.ResponseDto;
+import com.search.instagramsearching.dto.response.UserPostsResponseDto;
 import com.search.instagramsearching.dto.response.UserResponseDto;
 import com.search.instagramsearching.dto.response.UserSearchResultDto;
+import com.search.instagramsearching.entity.Posts;
+import com.search.instagramsearching.entity.Users;
+import com.search.instagramsearching.exception.PostsNotFoundExceptioin;
 import com.search.instagramsearching.exception.ResultNotFoundException;
+import com.search.instagramsearching.exception.UserNotFoundException;
+import com.search.instagramsearching.repository.PostsRepository;
 import com.search.instagramsearching.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,12 +18,14 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 @Slf4j
 public class UsersService {
     private final UsersRepository usersRepository;
+    private final PostsRepository postsRepository;
 
     @Transactional
     public List<?> searchUsers(String keyword, Pageable pageable) {
@@ -47,5 +54,56 @@ public class UsersService {
             );
         }
         return searchResultList;
+    }
+
+    public List<?> getUserPosts(String profileName, Pageable pageable) {
+
+        // findBy로 조회 -> 속도가 느려 삭제
+//        Users user = isPresentProfileName(profileName);
+//        if (user == null) {
+//            throw new UserNotFoundException();
+//        }
+
+        Long profileId = getProfileId(profileName);
+
+        List<Posts> postsList = postsRepository.findByProfileId(profileId);
+        if (postsList.size() == 0) {
+            throw new PostsNotFoundExceptioin();
+        }
+
+        List<UserPostsResponseDto> response = new ArrayList<>();
+        for (Posts post : postsList) {
+            response.add(
+                    UserPostsResponseDto.builder()
+                            .profileId(post.getProfileId())
+                            .postId(post.getPostId())
+                            .locationId(post.getLocationId())
+                            .description(post.getDescription())
+                            .cts(post.getCts())
+                            .postType(post.getPostType())
+                            .numberLikes(post.getNumbrLikes())
+                            .numberComments(post.getNumberComments())
+                            .build()
+            );
+        }
+        return response;
+    }
+
+    // findBy로 조회 -> 검색 속도가 너무 느려 삭제
+    private Users isPresentProfileName(String profileName) {
+        Optional<Users> user = usersRepository.findByProfileName(profileName);
+        return user.orElse(null);
+    }
+
+    private Long getProfileId(String profileName) {
+        Pageable pageable = Pageable.ofSize(1);
+
+        List<UserSearchResultDto> searchResult = usersRepository.searchUsers(profileName,pageable);
+        if (searchResult.size() == 0) {
+            throw new UserNotFoundException();
+        }
+        Long profileId = searchResult.get(0).getProfile_id();
+
+        return profileId;
     }
 }

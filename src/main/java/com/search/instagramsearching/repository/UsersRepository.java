@@ -9,8 +9,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UsersRepository extends JpaRepository<Users,Long> {
+
+    Optional<Users> findByProfileName(String profileName);
 
     // Fulltext - 단어 단위로 유저 검색
     @Query(value = "SELECT id, sid, profile_name, business_account_tf, firstname_lastname, profile_id, n_posts, following, followers, description, url FROM users\n" +

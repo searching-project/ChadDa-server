@@ -12,14 +12,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RequiredArgsConstructor
-@RequestMapping("/api/search")
+@RequestMapping("/api")
 @RestController
 public class UsersController {
     private final UsersService usersService;
 
     // 유저 검색하기 API
-    @GetMapping("/user/{keyword}")
+    @GetMapping("/search/user/{keyword}")
     public ResponseDto<?> searchUsers(@PathVariable String keyword, @PageableDefault(page = 0, size = 20) Pageable pageable) {
         return ResponseDto.success(usersService.searchUsers(keyword, pageable));
+    }
+
+    // 유저 profileName으로 유저의 게시글 조회하기 API
+    @GetMapping("/user/{profileName}/posts")
+    public ResponseDto<?> getUserPosts(@PathVariable String profileName, @PageableDefault(page = 0, size = 20) Pageable pageable) {
+        return ResponseDto.success(usersService.getUserPosts(profileName, pageable));
     }
 }
