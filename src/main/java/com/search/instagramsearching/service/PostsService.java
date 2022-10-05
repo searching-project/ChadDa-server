@@ -21,4 +21,5 @@ public class PostsService {
         List<Posts> posts= postsRepository.search(keyword,pageable);
         return posts;
     }
+
 }
