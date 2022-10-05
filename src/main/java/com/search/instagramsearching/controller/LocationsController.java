@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/location")
+@RequestMapping("/api")
 @RestController
 public class LocationsController {
     private final LocationsService locationsService;
 
-    @GetMapping("/search/{keyword}")
-    public ResponseDto<?> search(@PathVariable String keyword, @PageableDefault(page = 0, size = 20) Pageable pageable){
+    @GetMapping("/search/location/{keyword}")
+    public ResponseDto<?> searchLocations(@PathVariable String keyword, @PageableDefault(page = 0, size = 20) Pageable pageable){
         return locationsService.searchLocations(keyword,pageable);
     }
-    @GetMapping("/search/{locationid}")
-    public ResponseDto<?> search(@PathVariable Long locationid){
+    @GetMapping("/search/location/{locationid}/post")
+    public ResponseDto<?> searchPostsFromLocations(@PathVariable Long locationid){
         return locationsService.searchPostsFromLocations(locationid);
     }
 }

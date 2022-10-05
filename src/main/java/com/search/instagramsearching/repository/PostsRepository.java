@@ -12,8 +12,9 @@ import org.springframework.data.web.PageableDefault;
 import java.util.List;
 
 public interface PostsRepository extends JpaRepository<Posts, Long> {
+    // locationId로 검색 -> JPA 문법 사용
     List<Posts> findAllByLocationId(Long locationId);
-}
+
     @Query(value = "select * FROM posts as p WHERE MATCH(p.description) AGAINST(:keyword IN NATURAL LANGUAGE MODE)"
             ,countQuery ="select count(*) from posts as p WHERE MATCH(p.description) AGAINST(:keyword IN NATURAL LANGUAGE MODE)",nativeQuery = true )
     List<Posts> search(@Param("keyword")String keyword, @PageableDefault Pageable pageable);

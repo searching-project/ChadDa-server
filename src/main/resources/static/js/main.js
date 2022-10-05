@@ -73,7 +73,7 @@ function execSearch() {
     })
     $.ajax({
         type: 'GET',
-        url: `/api/locations/search/${query}`,
+        url: `/api/search/location/${query}`,
         success: function (response) {
             $('#search-result-box-location').empty();
             for (let i = 0; i < response.length; i++) {
