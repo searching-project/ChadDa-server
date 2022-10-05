@@ -11,9 +11,5 @@ import org.springframework.data.web.PageableDefault;
 import java.util.List;
 
 public interface PostsRepository extends JpaRepository<Posts, Long> {
-    @Query(value = "select L.sid, L.name, L.city, L.region, L.street" +
-            " from instagram_locations as L where match(name, region) against(:keyword IN BOOLEAN MODE)",
-            countQuery = "select count(*) from instagram_locations where match (name, region) against(:keyword IN BOOLEAN MODE)",
-            nativeQuery = true)
-    List<LocationResResultDto> serachPostsFromLocation(@Param("keyword") String keyword, @PageableDefault Pageable pageable);
+    List<Posts> findAllByLocationId(Long locationId);
 }

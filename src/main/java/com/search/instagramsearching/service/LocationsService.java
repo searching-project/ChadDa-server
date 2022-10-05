@@ -5,6 +5,7 @@ import com.search.instagramsearching.dto.response.LocationResResultDto;
 import com.search.instagramsearching.dto.response.ResponseDto;
 import com.search.instagramsearching.exception.ResultNotFoundException;
 import com.search.instagramsearching.repository.LocationsRepository;
+import com.search.instagramsearching.repository.PostsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ import java.util.List;
 @Slf4j
 public class LocationsService {
     private final LocationsRepository locationsRepository;
+    private final PostsRepository postsRepository;
 
     @Transactional
     public ResponseDto<?> searchLocations(String keyword, Pageable pageable) {
@@ -35,5 +37,8 @@ public class LocationsService {
             );
         }
         return ResponseDto.success(locationResDtoList);
+    }
+    public ResponseDto<?> searchPostsFromLocations(Long locationId){
+        return ResponseDto.success(postsRepository.findAllByLocationId(locationId));
     }
 }

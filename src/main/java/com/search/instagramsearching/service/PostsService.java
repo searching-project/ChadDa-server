@@ -19,5 +19,4 @@ public class PostsService {
     public ResponseDto<?> search(String keyword, Pageable pageable){
         throw new ResultNotFoundException();
     }
-
 }
