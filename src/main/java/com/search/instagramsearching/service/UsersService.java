@@ -50,4 +50,27 @@ public class UsersService {
         }
         return searchResultList;
     }
+
+    @Transactional
+    public UserResponseDto findUserBySID(Long sid) {
+        Optional<Users> usersOptional = usersRepository.findUsersBySid(sid);
+        Users user = new Users();
+        if(usersOptional.isPresent()) {
+            user = usersOptional.get();
+        }
+
+        return UserResponseDto.builder()
+                .id(user.getId())
+                .sid(user.getSid())
+                .profileName(user.getProfileName())
+                .businessAccountTf(user.getBusinessAccountTf())
+                .firstnameLastname(user.getFirstnameLastname())
+                .profileId(user.getProfileId())
+                .nPosts(user.getNPosts())
+                .following(user.getFollowing())
+                .followers(user.getFollowers())
+                .description(user.getDescription())
+                .url(user.getUrl())
+                .build();
+    }
 }
