@@ -47,7 +47,7 @@ function execSearch() {
     // 3. GET /api/search/${query} 요청
     $.ajax({
         type: 'GET',
-        url: `/api/posts/search/${query}`,
+        url: `/api/search/post/${query}`,
         success: function (response) {
             $('#search-result-box-post').empty();
             for (let i = 0; i < response.length; i++) {

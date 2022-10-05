@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/posts")
+@RequestMapping("/api/")
 @RestController
 public class PostsController {
     private final PostsService postsService;
 
-    @GetMapping("search/{keyword}")
+    @GetMapping("search/post/{keyword}")
     public List<Posts> search(@PathVariable String keyword, @PageableDefault(page = 0, size = 5) Pageable pageable){
         return postsService.search(keyword,pageable);
     }
