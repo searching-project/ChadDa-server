@@ -18,6 +18,6 @@ public class LocationsController {
 
     @GetMapping("search/{keyword}")
     public ResponseDto<?> search(@PathVariable String keyword, @PageableDefault(page = 0, size = 20) Pageable pageable){
-        return ResponseDto.success(locationsService.search(keyword,pageable));
+        return ResponseDto.success(locationsService.searchLocations(keyword,pageable));
     }
 }

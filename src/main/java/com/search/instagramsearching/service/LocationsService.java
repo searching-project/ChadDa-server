@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class LocationsService {
     private final LocationsRepository locationsRepository;
 
-    public ResponseDto<?> search(String keyword, Pageable pageable) {
+    public ResponseDto<?> searchLocations(String keyword, Pageable pageable) {
         throw new ResultNotFoundException();
     }
 }
