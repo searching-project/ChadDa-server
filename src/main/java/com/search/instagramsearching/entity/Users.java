@@ -46,5 +46,5 @@ public class Users {
     private String cts;
 
     @Column
-    private String isBusinessAccount;
+    private String businessAccountTf;
 }

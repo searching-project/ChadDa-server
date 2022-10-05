@@ -18,19 +18,19 @@ public class GlobalExceptionHandler {
     private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler
-    public ResponseEntity<ResponseDto> resultNotFoundExceptionHandler(ResultNotFoundException exception) {
+    protected ResponseEntity<?> resultNotFoundExceptionHandler(ResultNotFoundException exception) {
         logger.error("resultNotFoundExceptionHandler", exception);
         return new ResponseEntity<>(ResponseDto.fail(RESULT_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ResponseDto> resultExpirationExceptionHandler(ResultExpirationException exception) {
+    protected ResponseEntity<?> resultExpirationExceptionHandler(ResultExpirationException exception) {
         logger.error("resultExpirationExceptionHandler", exception);
         return new ResponseEntity<>(ResponseDto.fail(RESULT_EXPIRATION), HttpStatus.GONE);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ResponseDto> invalidParameterExceptionHandler(InvalidParameterException exception) {
+    protected ResponseEntity<?> invalidParameterExceptionHandler(InvalidParameterException exception) {
         logger.error("invalidParameterExceptionHandler", exception);
         return new ResponseEntity<>(ResponseDto.fail(INVALID_PARAMETER), HttpStatus.NOT_FOUND);
     }
