@@ -32,6 +32,7 @@ public class UsersService {
         for (UserSearchResultDto rawData : rawDataList) {
             searchResultList.add(
                     UserResponseDto.builder()
+                            .id(rawData.getId())
                             .sid(rawData.getSid())
                             .profileName(rawData.getProfile_name())
                             .businessAccountTF(rawData.getBusiness_account_tf())

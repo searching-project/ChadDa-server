@@ -13,7 +13,7 @@ import java.util.List;
 public interface UsersRepository extends JpaRepository<Users,Long> {
 
     // Fulltext - 단어 단위로 유저 검색
-    @Query(value = "SELECT sid, profile_name, business_account_tf, firstname_lastname, profile_id, n_posts, following, followers, description, url FROM users\n" +
+    @Query(value = "SELECT id, sid, profile_name, business_account_tf, firstname_lastname, profile_id, n_posts, following, followers, description, url FROM users\n" +
             "WHERE MATCH (profile_name, firstname_lastname) AGAINST (:keyword IN BOOLEAN MODE)",
             countQuery = "SELECT count(*) FROM users WHERE MATCH (profile_name, firstname_lastname) AGAINST (:keyword IN BOOLEAN MODE)",
             nativeQuery = true)

@@ -1,6 +1,7 @@
 package com.search.instagramsearching.dto.response;
 
 public interface UserSearchResultDto {
+    Long getId();
     Long getSid();
     String getProfile_name();
     String getBusiness_account_tf();
