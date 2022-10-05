@@ -5,6 +5,7 @@ $(document).ready(function () {
             execSearch();
         }
     });
+
     $('#close').on('click', function () {
         $('#container').removeClass('active');
     })
@@ -109,12 +110,42 @@ function addProfileHTML(itemDto) {
             </div>
         </div>`
 }
+function findProfile(profileId) {
+    $.ajax({
+        type: "GET",
+        url: `/api/post/${profileId}/user`,
+        contentType: "application/json",
+        success: function (response) {
+            response = response['data']
+            let isbusiness = response.businessAccountTf === "true"? "✔" : ""
+            $('#profile-detail').empty();
+            let html =`<h1 class="name" id="profile-detail-name">
+                ${response.profileName}
+                <span class="unit business" id="profile-detail-business">${isbusiness}</span>
+            </h1>
+                <span class="unit">게시물</span>
+                <span class="unit like" id="profile-detail-post"> ${response.nPosts}</span>
+                <span class="unit">/ 팔로잉</span>
+                <span class="unit like" id="profile-detail-following"> ${response.following}</span>
+                <span class="unit">명 /</span>
+                <span class="unit" >팔로워 </span>
+                <span class="unit comment" id="profile-detail-follower"> ${response.followers}</span>
+                <span class="unit">명</span>
+            <div id="profile-detail-description"> ${response.description} </div>
+            <div id="profile-detail-url"> ${response.url}</div>
+        </div>`
+            $('#profile-detail').append(html);
+            // 2. 응답 함수에서 modal을 뜨게 함
+            $('#container').addClass('active');
 
+        }
+    })
+}
 function addPostHTML(itemDto) {
-    return `<div class="search-itemDto" id="${itemDto.sid}">
-            <div class="search-itemDto-center">
-                <div class="name">
-                    ${itemDto.profileId}
+    return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findProfile(${itemDto.sidProfile})" >
+            <div class="search-itemDto-center" >
+                <div class="name" >
+                    ${itemDto.sidProfile}
                 </div>
                 <div>
                     <span class="unit">좋아요</span>
@@ -143,4 +174,6 @@ function addLocationHTML(itemDto) {
             </div>
         </div>`
 }
+
+
 
