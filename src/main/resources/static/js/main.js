@@ -197,7 +197,8 @@ function findUserPosts(userSid) {
                 let tempHtml = `<div class="search-itemDto" id="${itemDto.profileName}" onclick="findProfile(${itemDto.sid_profile})" >
                                     <div class="search-itemDto-center" >
                                         <div class="name" >
-<!--                                            ${itemDto.profileName} -->
+<!--                                            ${itemDto.profileName}-->
+                                            ${itemDto.profileId} 
                                             <span class="unit"> ${location_name}</span>
                                         </div>
                                         <div>
@@ -215,7 +216,9 @@ function findUserPosts(userSid) {
             }
             // 여기까지 -----------------------------------------------------------------------------
             // 2. 응답 함수에서 modal을 뜨게 함
-            $('#container').addClass('active');
+            // $('#container').addClass('active');
+            $('#see-area').show();
+            $('#search-area').hide();
             }
     })
 }
