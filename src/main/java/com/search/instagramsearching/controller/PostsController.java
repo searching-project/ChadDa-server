@@ -18,13 +18,14 @@ import java.util.List;
 @RequestMapping("/api/")
 @RestController
 public class PostsController {
+
     private final PostsService postsService;
-/*
+
     @GetMapping("search/post/{keyword}")
     public List<?> search(@PathVariable String keyword, @PageableDefault(page = 0, size = 5) Pageable pageable){
 //        return postsService.search(keyword,pageable);
         return postsService.searchView(keyword,pageable);
-    }*/
+    }
 
     // 유저 profileName으로 유저의 게시글 조회하기 API
     @GetMapping("/user/{userSid}/posts")

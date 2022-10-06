@@ -20,7 +20,6 @@ import java.util.List;
 @Slf4j
 public class PostsService {
     private final PostsRepository postsRepository;
-/*
 
     @Transactional
     public List<Posts> search(String keyword, Pageable pageable){
@@ -33,7 +32,6 @@ public class PostsService {
         List<PostResponseDto> posts= postsRepository.searchView(keyword,pageable);
         return posts;
     }
-*/
 
     public List<UserPostsResponseDto> getUserPosts(Long userSid, Pageable pageable) {
 
