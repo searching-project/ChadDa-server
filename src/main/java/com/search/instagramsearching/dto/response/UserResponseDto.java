@@ -8,15 +8,14 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class UserResponseDto {
-    private Long id;
     private Long sid;
-    private String profileName;
-    private String businessAccountTf;
-    private String firstnameLastname;
     private Long profileId;
-    private Integer nPosts;
+    private String profileName;
+    private String firstnameLastname;
+    private String description;
     private Integer following;
     private Integer followers;
-    private String description;
+    private Integer nPosts;
     private String url;
+    private Boolean businessAccountTf;
 }

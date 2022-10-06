@@ -41,7 +41,6 @@ public class UsersService {
         for (UserSearchResultDto rawData : rawDataList) {
             searchResultList.add(
                     UserResponseDto.builder()
-                            .id(rawData.getId())
                             .sid(rawData.getSid())
                             .profileName(rawData.getProfile_name())
                             .businessAccountTf(rawData.getBusiness_account_tf())
@@ -113,7 +112,6 @@ public class UsersService {
         }
 
         return UserResponseDto.builder()
-                .id(user.getId())
                 .sid(user.getSid())
                 .profileName(user.getProfileName())
                 .businessAccountTf(user.getBusinessAccountTf())
