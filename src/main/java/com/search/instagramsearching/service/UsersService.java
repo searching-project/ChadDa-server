@@ -57,19 +57,19 @@ public class UsersService {
         return searchResultList;
     }
 
-    public List<?> getUserPosts(String profileName, Pageable pageable) {
+    public List<UserPostsResponseDto> getUserPosts(Long userSid, Pageable pageable) {
 
-        // profileName으로 profileId 찾기
-        Long profileId = getProfileId(profileName, pageable);
+//        // profileName으로 profileId 찾기
+//        Long profileId = getProfileId(profileName, pageable);
 
         // profileId로 해당 posts 조회하기
-        List<UserPostSearchResultDto> postsList = getSearchResult(profileId, pageable);
+        List<UserPostSearchResultDto> postsList = getSearchResult(userSid, pageable);
         List<UserPostsResponseDto> response = new ArrayList<>();
         for (UserPostSearchResultDto postInfo : postsList) {
             response.add(
                     UserPostsResponseDto.builder()
                             .profileId(postInfo.getProfile_id())
-                            .profileName(profileName)
+                            .profileName(null)
                             .postId(postInfo.getPost_id())
                             .locationId(postInfo.getLocation_id())
                             .description(postInfo.getDescription())
