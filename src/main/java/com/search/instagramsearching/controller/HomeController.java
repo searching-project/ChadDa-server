@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
     @GetMapping("/postpage")
     public String helloForm(){
-        return "LocationPost.html";
+        return "locationPost.html";
     }
 }
