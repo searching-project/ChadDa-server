@@ -36,7 +36,7 @@ function execSearch() {
      * 검색결과 목록: #search-result-box
      * 검색결과 HTML 만드는 함수: addHTML
      */
-        // 1. 검색창의 입력값을 가져온다.
+    // 1. 검색창의 입력값을 가져온다.
     let query = $('#query').val();
 
     // 2. 검색창 입력값을 검사하고, 입력하지 않았을 경우 focus.
@@ -46,38 +46,40 @@ function execSearch() {
         return;
     }
     // 3. GET /api/search/${query} 요청
-    $.ajax({
-        type: 'GET',
-        url: `/api/search/post/${query}`,
-        success: function (response) {
-            $('#search-result-box-post').empty();
-            for (let i = 0; i < response.length; i++) {
-                let itemDto = response[i];
-                let tempHtml = addPostHTML(itemDto);
-                $('#search-result-box-post').append(tempHtml);
-            }
-        }
-    })
-    $.ajax({
-        type: 'GET',
-        url: `/api/search/user/${query}`,
-        success: function (response) {
-            $('#search-result-box-profile').empty();
-            // for (let i = 0; i < response.data.length; i++) {
-            for (let i = 0; i < 5; i++) {
-                let itemDto = response.data[i];
-                let tempHtml = addProfileHTML(itemDto);
-                $('#search-result-box-profile').append(tempHtml);
-            }
-        }
-    })
+    // $.ajax({
+    //     type: 'GET',
+    //     url: `/api/search/post/${query}`,
+    //     success: function (response) {
+    //         $('#search-result-box-post').empty();
+    //         for (let i = 0; i < response.length; i++) {
+    //             let itemDto = response[i];
+    //             let tempHtml = addPostHTML(itemDto);
+    //             $('#search-result-box-post').append(tempHtml);
+    //         }
+    //     }
+    // })
+    // $.ajax({
+    //     type: 'GET',
+    //     url: `/api/search/user/${query}`,
+    //     success: function (response) {
+    //         $('#search-result-box-profile').empty();
+    //         // for (let i = 0; i < response.data.length; i++) {
+    //         for (let i = 0; i < 5; i++) {
+    //             let itemDto = response.data[i];
+    //             let tempHtml = addProfileHTML(itemDto);
+    //             $('#search-result-box-profile').append(tempHtml);
+    //         }
+    //     }
+    // })
     $.ajax({
         type: 'GET',
         url: `/api/search/location/${query}`,
         success: function (response) {
             $('#search-result-box-location').empty();
-            for (let i = 0; i < response.length; i++) {
-                let itemDto = response[i];
+            console.log(response)
+            for (let i = 0; i < response['data'].length; i++) {
+                let itemDto = response['data'][i];
+                console.log(itemDto)
                 let tempHtml = addLocationHTML(itemDto);
                 $('#search-result-box-location').append(tempHtml);
             }
@@ -179,6 +181,15 @@ function addLocationHTML(itemDto) {
             </div>
         </div>`
 }
-
+function move(){
+    $.ajax({
+        type: 'GET',
+        url: `/postpage`,
+        success: function (response) {
+            alert("성공")
+            window.location.href = "/" + response
+        }
+    })
+}
 
 

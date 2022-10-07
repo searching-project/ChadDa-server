@@ -16,7 +16,7 @@ body {
 .search-itemDto {
     width: 530px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-content: center;
     justify-content: space-around;
     margin-top: 5px;
