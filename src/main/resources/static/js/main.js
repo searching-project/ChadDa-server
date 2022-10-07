@@ -46,7 +46,6 @@ function execSearch() {
     }
 
     // 3. GET /api/search/${query} 요청
-    /*
     $.ajax({
         type: 'GET',
         url: `/api/search/post/${query}`,
@@ -59,7 +58,6 @@ function execSearch() {
             }
         }
     })
-    */
     $.ajax({
         type: 'GET',
         url: `/api/search/user/${query}`,
@@ -73,46 +71,52 @@ function execSearch() {
             }
         }
     })
-/*
-    $.ajax({
-        type: 'GET',
-        url: `/api/locations/search/${query}`,
-        success: function (response) {
-            $('#search-result-box-location').empty();
-            for (let i = 0; i < response.length; i++) {
-                let itemDto = response[i];
-                let tempHtml = addLocationHTML(itemDto);
-                $('#search-result-box-location').append(tempHtml);
+        $.ajax({
+            type: 'GET',
+            url: `/api/locations/search/${query}`,
+            success: function (response) {
+                $('#search-result-box-location').empty();
+                for (let i = 0; i < response.length; i++) {
+                    let itemDto = response[i];
+                    let tempHtml = addLocationHTML(itemDto);
+                    $('#search-result-box-location').append(tempHtml);
+                }
             }
-        }
-    })
-*/
+        })
 
 }
 
 function addProfileHTML(itemDto) {
     let isbusiness = itemDto.businessAccountTf === false ? "" : "✔"
-    return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findUserPosts(${itemDto.sid})" style="cursor:pointer">
-            <div class="search-itemDto-center">
-                <div class="name" id="${itemDto.profileName}">
-                     ${itemDto.profileName}
-                    <span class="unit business">${isbusiness}</span>
-                    <span class="unit business">@${itemDto.firstnameLastname}</span>
+    return `<div class="search-itemDto" >
+                <div class="search-itemDto-center">
+                    <div class="name" id="${itemDto.profileName}" onclick="findUserPosts(${itemDto.sid})" style="cursor:pointer">
+                         ${itemDto.profileName}
+                        <span class="unit business">${isbusiness}</span>
+                        <span class="unit business">@${itemDto.firstnameLastname}</span>
+                    </div>
+                    <div>
+                        <span class="unit">게시글 </span>
+                        <span class="unit post"> ${itemDto.nPosts}</span>
+<!--                        <span class="unit link" th:onclick="'location.href=\'' + @{/../../templates/user-posts.html} + '\''" style="cursor:pointer"> 🔗링크0</span>-->
+<!--                        <span class="unit link" th:onclick="|location.href='/../../templates/user-posts.html'|" style="cursor:pointer"> 🔗링크</span>-->
+<!--                        <span class="unit link" th:onclick="location.href='/../../templates/user-posts.html'" style="cursor:pointer"> 🔗링크2</span>-->
+<!--                        <span class="unit link" th:onclick="|location.href='/templates/user-posts.html'|" style="cursor:pointer"> 🔗링크3</span>-->
+<!--                        <span class="unit link" th:onclick="'location.href=\\'' + @{/../../templates/user-posts.html} + '\\''" style="cursor:pointer"> 🔗링크3</span>-->
+<!--                        <span class="unit link" th:onclick="'location.href=\\'' + @{/../../user-posts.html} + '\\''" style="cursor:pointer"> 🔗링크4</span>-->
+<!--                        <span class="unit link" th:onclick="'location.href=\\'' + @{/user-posts.html} + '\\''" style="cursor:pointer"> 🔗링크5</span>-->
+<!--                        <a th:href="@{/user-posts.html}" style="cursor:pointer"> 🔗링크</a>-->
+                        <span class="unit">/ 팔로잉</span>
+                        <span class="unit following"> ${itemDto.following}</span>
+                        <span class="unit">명 /</span>
+                        <span class="unit">팔로워 </span>
+                        <span class="unit followers"> ${itemDto.followers}</span>
+                        <span class="unit">명</span>
+                    </div>
+                    <div> ${itemDto.description} </div>
+                    <div> ${itemDto.url}</div>
                 </div>
-                <div>
-                    <span class="unit" onclick="findUserPosts(${itemDto.profileName})" style="cursor:pointer">게시글 🔗</span>
-                    <span class="unit post"> ${itemDto.nPosts}</span>
-                    <span class="unit">/ 팔로잉</span>
-                    <span class="unit following"> ${itemDto.following}</span>
-                    <span class="unit">명 /</span>
-                    <span class="unit">팔로워 </span>
-                    <span class="unit followers"> ${itemDto.followers}</span>
-                    <span class="unit">명</span>
-                </div>
-                <div> ${itemDto.description} </div>
-                <div> ${itemDto.url}</div>
-            </div>
-        </div>`
+            </div>`
 }
 
 function findProfile(profileId) {
@@ -124,12 +128,12 @@ function findProfile(profileId) {
             response = response['data']
             let isbusiness = response.businessAccountTf === true ? "✔" : ""
             $('#profile-detail').empty();
-            let html =`<h1 class="name" id="profile-detail-name">
+            let html = `<h1 class="name" id="profile-detail-name">
                 ${response.profileName}
                 <span class="unit business" id="profile-detail-business">${isbusiness}</span>
             </h1>
                 <span class="unit">게시물</span>
-                <span class="unit like" id="profile-detail-post"> ${response.nposts}</span>
+                <span class="unit like" id="profile-detail-post"> ${response.nPosts}</span>
                 <span class="unit">/ 팔로잉</span>
                 <span class="unit like" id="profile-detail-following"> ${response.following}</span>
                 <span class="unit">명 /</span>
@@ -148,9 +152,9 @@ function findProfile(profileId) {
 }
 
 function addPostHTML(itemDto) {
-    let location_name = itemDto.name===null? "": "@"+itemDto.name
-    let like_num = itemDto.numbr_likes===null? 0: itemDto.numbr_likes
-    let comment_num = itemDto.number_comments===null? 0: itemDto.number_comments
+    let location_name = itemDto.name === null ? "" : "@" + itemDto.name
+    let like_num = itemDto.numbr_likes === null ? 0 : itemDto.numbr_likes
+    let comment_num = itemDto.number_comments === null ? 0 : itemDto.number_comments
     return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findProfile(${itemDto.sid_profile})" >
             <div class="search-itemDto-center" >
                 <div class="name" >
@@ -181,45 +185,18 @@ function findUserPosts(userSid) {
         contentType: "application/json",
         success: function (response) {
             $('#user-posts').empty();
-            /*
-            view 적용 전
+
+            // 1. view 적용
             for (let i = 0; i < response.data.length; i++) {
                 let itemDto = response.data[i];
                 let tempHtml = addPostHTML(itemDto);
                 $('#user-posts').append(tempHtml);
-            */
-            // 임시 - view 적용 전까지만 ---------------------------------------------------------------------
-            for (let i = 0; i < response.data.length; i++) {
-                let itemDto = response.data[i];
-                let location_name = "somewhere";
-                let like_num = itemDto.numberLikes === null? 0: itemDto.numberLikes
-                let comment_num = itemDto.numberComments ===null? 0: itemDto.numberComments
-                let tempHtml = `<div class="search-itemDto" id="${itemDto.profileName}" onclick="findProfile(${itemDto.sid_profile})" >
-                                    <div class="search-itemDto-center" >
-                                        <div class="name" >
-<!--                                            ${itemDto.profileName}-->
-                                            ${itemDto.profileId} 
-                                            <span class="unit"> ${location_name}</span>
-                                        </div>
-                                        <div>
-                                            <span class="unit">좋아요</span>
-                                            <span class="unit like">${like_num}</span>
-                                            <span class="unit">개 /</span>
-                                            <span class="unit">댓글 </span>
-                                            <span class="unit comment">${comment_num}</span>
-                                            <span class="unit">개</span>
-                                        </div>
-                                        <div>${itemDto.description}</div>
-                                    </div>
-                                </div>`
-                $('#user-posts').append(tempHtml);
-            }
-            // 여기까지 -----------------------------------------------------------------------------
+
             // 2. 응답 함수에서 modal을 뜨게 함
-            // $('#container').addClass('active');
             $('#see-area').show();
             $('#search-area').hide();
             }
+        }
     })
 }
 

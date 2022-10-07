@@ -33,32 +33,16 @@ public class PostsService {
         return posts;
     }
 
-    public List<UserPostsResponseDto> getUserPosts(Long userSid, Pageable pageable) {
+    public List<PostResponseDto> getUserPosts(Long userSid, Pageable pageable) {
 
         // profileId로 해당 posts 조회하기
-        List<UserPostSearchResultDto> postsList = getSearchResult(userSid, pageable);
-        List<UserPostsResponseDto> response = new ArrayList<>();
-        for (UserPostSearchResultDto postInfo : postsList) {
-            response.add(
-                    UserPostsResponseDto.builder()
-                            .profileId(postInfo.getProfile_id())
-                            .profileName(null)
-                            .postId(postInfo.getPost_id())
-                            .locationId(postInfo.getLocation_id())
-                            .description(postInfo.getDescription())
-                            .cts(postInfo.getCts())
-                            .postType(postInfo.getPost_type())
-                            .numberLikes(postInfo.getNumber_likes())
-                            .numberComments(postInfo.getNumber_comments())
-                            .build()
-            );
-        }
-        return response;
+        List<PostResponseDto> posts = getSearchResult(userSid, pageable);
+        return posts;
     }
 
     // Index - profileId로 posts table 조회
-    private List<UserPostSearchResultDto> getSearchResult(Long profileId, Pageable pageable) {
-        List<UserPostSearchResultDto> searchResult = postsRepository.getUserPosts(profileId, pageable);
+    private List<PostResponseDto> getSearchResult(Long profileId, Pageable pageable) {
+        List<PostResponseDto> searchResult = postsRepository.getUserPosts(profileId, pageable);
         if (searchResult.size() == 0) {
             throw new PostsNotFoundExceptioin();
         }
