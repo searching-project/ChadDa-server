@@ -98,14 +98,7 @@ function addProfileHTML(itemDto) {
                     <div>
                         <span class="unit">게시글 </span>
                         <span class="unit post"> ${itemDto.nPosts}</span>
-<!--                        <span class="unit link" th:onclick="'location.href=\'' + @{/../../templates/user-posts.html} + '\''" style="cursor:pointer"> 🔗링크0</span>-->
-<!--                        <span class="unit link" th:onclick="|location.href='/../../templates/user-posts.html'|" style="cursor:pointer"> 🔗링크</span>-->
-<!--                        <span class="unit link" th:onclick="location.href='/../../templates/user-posts.html'" style="cursor:pointer"> 🔗링크2</span>-->
-<!--                        <span class="unit link" th:onclick="|location.href='/templates/user-posts.html'|" style="cursor:pointer"> 🔗링크3</span>-->
-<!--                        <span class="unit link" th:onclick="'location.href=\\'' + @{/../../templates/user-posts.html} + '\\''" style="cursor:pointer"> 🔗링크3</span>-->
-<!--                        <span class="unit link" th:onclick="'location.href=\\'' + @{/../../user-posts.html} + '\\''" style="cursor:pointer"> 🔗링크4</span>-->
-<!--                        <span class="unit link" th:onclick="'location.href=\\'' + @{/user-posts.html} + '\\''" style="cursor:pointer"> 🔗링크5</span>-->
-<!--                        <a th:href="@{/user-posts.html}" style="cursor:pointer"> 🔗링크</a>-->
+                        <span class="unit link" onclick = "location.href = 'user-posts'" style="cursor:pointer"> 🔗링크</span>
                         <span class="unit">/ 팔로잉</span>
                         <span class="unit following"> ${itemDto.following}</span>
                         <span class="unit">명 /</span>
@@ -175,9 +168,11 @@ function addPostHTML(itemDto) {
 }
 
 function findUserPosts(userSid) {
+    // window.location.href = "user-posts"
     // window.location.href = "user-posts.html"
     // window.location.href = "../../templates/user-posts.html"
-    // window.location.href = "@{/user-posts.html}"
+    // window.location.href = "@{/user-posts}"
+    window.location.href = 'user-posts'
     // window.location.href = "@{/../../user-posts.html}"
     $.ajax({
         type: 'GET',
@@ -196,6 +191,17 @@ function findUserPosts(userSid) {
             $('#see-area').show();
             $('#search-area').hide();
             }
+        }
+    })
+}
+
+function moveToUserPosts() {
+    $.ajax({
+        type: 'GET',
+        url: `/user-posts`,
+        success: function (response) {
+            alert("유저의 게시글 조회 완료")
+            window.location.href = "/" + response
         }
     })
 }
