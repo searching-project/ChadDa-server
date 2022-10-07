@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -12,10 +13,6 @@ import javax.persistence.*;
 @Entity
 public class Users {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column
     private Long sid;
 
     @Column
@@ -43,8 +40,8 @@ public class Users {
     private String url;
 
     @Column
-    private String cts;
+    private LocalDateTime cts;
 
     @Column
-    private String businessAccountTf;
+    private Boolean businessAccountTf;
 }
