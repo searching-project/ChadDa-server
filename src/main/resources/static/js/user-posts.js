@@ -23,11 +23,10 @@ function findUserPosts(userSid) {
                 let itemDto = response.data[i];
                 let tempHtml = addPostHTML(itemDto);
                 $('#search-result-box-post').append(tempHtml);
-
-    alert("조회 완료")
             }
         }
     })
+    alert("조회 완료")
 }
 
 // 포스트 추가 함수
