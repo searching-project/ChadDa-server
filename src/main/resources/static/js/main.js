@@ -98,7 +98,6 @@ function addProfileHTML(itemDto) {
                     <div>
                         <span class="unit">게시글 </span>
                         <span class="unit post"> ${itemDto.nPosts}</span>
-<!--                        <span class="unit link" onclick = "location.href = 'user-posts'" style="cursor:pointer"> 🔗링크</span>-->
                         <span class="unit link" onclick = "moveToUserPosts(${itemDto.sid})" style="cursor:pointer"> 🔗링크</span>
                         <span class="unit">/ 팔로잉</span>
                         <span class="unit following"> ${itemDto.following}</span>
@@ -167,47 +166,11 @@ function addPostHTML(itemDto) {
             </div>
         </div>`
 }
-/*
-function findUserPosts(userSid) {
-    // window.location.href = 'user-posts?' + ${userSid}
-    window.location.href = "user-posts?" + userSid
-    $('#search-result-box-post').empty();
-/!*    alert("유저의 게시글을 조회중입니다.")
-
-    $.ajax({
-        type: 'GET',
-        url: `/api/user/${userSid}/posts`,
-        contentType: "application/json",
-        success: function (response) {
-                        // 1. view 적용
-            for (let i = 0; i < response.data.length; i++) {
-                let itemDto = response.data[i];
-                let tempHtml = addPostHTML(itemDto);
-                // $('#user-posts').append(tempHtml);
-                $('#search-result-box-post').append(tempHtml);
-
-            // // 2. 응답 함수에서 modal을 뜨게 함
-            // $('#see-area').show();
-            // $('#search-area').hide();
-
-    // alert("조회 완료")
-            }
-        }
-    })*!/
-}
-*/
 
 function moveToUserPosts(userSid) {
-    $.ajax({
-        type: 'GET',
-        url: `/user-posts?${userSid}`,
-        success: function (response) {
-            // window.location.href = "/" + response
             window.location.href = "user-posts?" + userSid
             $('#search-result-box-post').empty();
             findUserPosts(userSid);
-        }
-    })
 }
 
 function addLocationHTML(itemDto) {
