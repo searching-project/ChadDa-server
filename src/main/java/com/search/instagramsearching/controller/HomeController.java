@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/")
 public class HomeController {
-    @GetMapping("/postpage")
+    @GetMapping("/locationPost")
     public String helloForm(){
         return "locationPost.html";
     }

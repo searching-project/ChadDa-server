@@ -22,6 +22,7 @@ public class LocationsController {
     }
     @GetMapping("/search/location/{locationid}/post")
     public ResponseDto<?> searchPostsFromLocations(@PathVariable Long locationid){
+        System.out.println("메롱");
         return locationsService.searchPostsFromLocations(locationid);
     }
 }

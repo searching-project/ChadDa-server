@@ -46,31 +46,31 @@ function execSearch() {
         return;
     }
     // 3. GET /api/search/${query} 요청
-    // $.ajax({
-    //     type: 'GET',
-    //     url: `/api/search/post/${query}`,
-    //     success: function (response) {
-    //         $('#search-result-box-post').empty();
-    //         for (let i = 0; i < response.length; i++) {
-    //             let itemDto = response[i];
-    //             let tempHtml = addPostHTML(itemDto);
-    //             $('#search-result-box-post').append(tempHtml);
-    //         }
-    //     }
-    // })
-    // $.ajax({
-    //     type: 'GET',
-    //     url: `/api/search/user/${query}`,
-    //     success: function (response) {
-    //         $('#search-result-box-profile').empty();
-    //         // for (let i = 0; i < response.data.length; i++) {
-    //         for (let i = 0; i < 5; i++) {
-    //             let itemDto = response.data[i];
-    //             let tempHtml = addProfileHTML(itemDto);
-    //             $('#search-result-box-profile').append(tempHtml);
-    //         }
-    //     }
-    // })
+    $.ajax({
+        type: 'GET',
+        url: `/api/search/post/${query}`,
+        success: function (response) {
+            $('#search-result-box-post').empty();
+            for (let i = 0; i < response.length; i++) {
+                let itemDto = response[i];
+                let tempHtml = addPostHTML(itemDto);
+                $('#search-result-box-post').append(tempHtml);
+            }
+        }
+    })
+    $.ajax({
+        type: 'GET',
+        url: `/api/search/user/${query}`,
+        success: function (response) {
+            $('#search-result-box-profile').empty();
+            // for (let i = 0; i < response.data.length; i++) {
+            for (let i = 0; i < 5; i++) {
+                let itemDto = response.data[i];
+                let tempHtml = addProfileHTML(itemDto);
+                $('#search-result-box-profile').append(tempHtml);
+            }
+        }
+    })
     $.ajax({
         type: 'GET',
         url: `/api/search/location/${query}`,
@@ -166,9 +166,31 @@ function addPostHTML(itemDto) {
             </div>
         </div>`
 }
+function addLocationPostHTML(postDto) {
+    let location_name = itemDto.name===null? "": "@"+itemDto.name
+    let like_num = itemDto.numbr_likes===null? 0: itemDto.numbr_likes
+    let comment_num = itemDto.number_comments===null? 0: itemDto.number_comments
+    return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findProfile(${itemDto.sid_profile})" >
+            <div class="search-itemDto-center" >
+                <div class="name" >
+                    ${itemDto.profile_name}
+                    <span class="unit"> ${location_name}</span>
+                </div>
+                <div>
+                    <span class="unit">좋아요</span>
+                    <span class="unit like">${like_num}</span>
+                    <span class="unit">개 /</span>
+                    <span class="unit">댓글 </span>
+                    <span class="unit comment">${comment_num}</span>
+                    <span class="unit">개</span>
+                </div>
+                <div>${itemDto.description}</div>
+            </div>
+        </div>`
+}
 
 function addLocationHTML(itemDto) {
-    return `<div class="search-itemDto" id="${itemDto.sid}>
+    return `<div class="search-itemDto" id="${itemDto.sid}" onclick="movetoLocationPost(${itemDto.sid})">
             <div class="search-itemDto-center">
                 <div class="name">
                      ${itemDto.name}
@@ -181,15 +203,10 @@ function addLocationHTML(itemDto) {
             </div>
         </div>`
 }
-function move(){
-    $.ajax({
-        type: 'GET',
-        url: `/postpage`,
-        success: function (response) {
-            alert("성공")
-            window.location.href = "/" + response
-        }
-    })
+
+function movetoLocationPost(LocationId){
+    console.log("locationPost?" + LocationId)
+    window.location.href = "locationPost?" + LocationId
 }
 
 

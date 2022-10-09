@@ -1,10 +1,38 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script th:src="@{/js/locationPost.js}" ></script>
+    <title>인스타그램 검색 서비스</title>
 </head>
 <body>
-    <div>메롱</div>
+<div class="header">
+    Instagram Searching
+</div>
+<div class="nav">
+    <div class="nav-search active">
+        검색하기
+    </div>
+    <div class="nav-see">
+        (미정)
+    </div>
+</div>
+
+<div id="see-area">
+</div>
+
+<div id="search-area">
+    <div>
+        <input type="text" id="query">
+    </div>
+    <div class="search-title"> Posts </div>
+    <div id="search-result-box-post">
+    </div>
+</div>
 </body>
 </html>
