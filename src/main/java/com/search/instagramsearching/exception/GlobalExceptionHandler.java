@@ -34,4 +34,16 @@ public class GlobalExceptionHandler {
         logger.error("invalidParameterExceptionHandler", exception);
         return new ResponseEntity<>(ResponseDto.fail(INVALID_PARAMETER), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler
+    protected ResponseEntity<?> userNotFoundExceptionHandler(UserNotFoundException exception) {
+        logger.error("userNotFoundExceptionHandler", exception);
+        return new ResponseEntity<>(ResponseDto.fail(USER_NOT_FOUND), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    protected ResponseEntity<?> postNotFoundExceptionHandler(PostsNotFoundExceptioin exception) {
+        logger.error("postNotFoundExceptionHandler", exception);
+        return new ResponseEntity<>(ResponseDto.fail(POST_NOT_FOUND), HttpStatus.NOT_FOUND);
+    }
 }
