@@ -47,4 +47,11 @@ public class Users {
 
     @Column
     private String businessAccountTf;
+
+    @Column
+    private String password;
+
+//    public void update(String password)
+//        this.password = password;
+//    }
 }
