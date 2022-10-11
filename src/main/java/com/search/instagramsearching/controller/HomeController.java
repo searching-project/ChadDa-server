@@ -11,4 +11,8 @@ public class HomeController {
     public String helloForm(){
         return "locationPost.html";
     }
+    @GetMapping("/user-posts")
+    public String userForm() {
+        return "user-posts.html";
+    }
 }
