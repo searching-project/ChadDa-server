@@ -44,4 +44,9 @@ public class Users {
 
     @Column
     private Boolean businessAccountTf;
+    @Column
+    private String password;
+//    public void update(String password)
+//        this.password = password;
+//    }
 }

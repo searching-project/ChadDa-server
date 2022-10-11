@@ -24,6 +24,4 @@ public interface UsersRepository extends JpaRepository<Users,Long> {
 
     //sid로 유저 검색
     Optional<Users> findUsersBySid(Long sid);
-
-
 }
