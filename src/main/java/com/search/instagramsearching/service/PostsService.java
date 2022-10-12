@@ -1,6 +1,8 @@
 package com.search.instagramsearching.service;
 
+import com.search.instagramsearching.dto.request.PostRequestDto;
 import com.search.instagramsearching.dto.response.PostResponseDto;
+import com.search.instagramsearching.dto.response.ResponseDto;
 import com.search.instagramsearching.dto.response.UserPostSearchResultDto;
 import com.search.instagramsearching.dto.response.UserPostsResponseDto;
 import com.search.instagramsearching.entity.Posts;
@@ -47,5 +49,10 @@ public class PostsService {
             throw new PostsNotFoundExceptioin();
         }
         return searchResult;
+    }
+
+    public ResponseDto<?> createPost(PostRequestDto requestDto) {
+
+        return ResponseDto.success();
     }
 }
