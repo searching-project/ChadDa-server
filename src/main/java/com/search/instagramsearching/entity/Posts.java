@@ -3,6 +3,9 @@ package com.search.instagramsearching.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,6 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Posts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,12 +29,15 @@ public class Posts {
     private Long profileId;
     @Column
     private Long locationId;
-    @Column
+    @CreatedDate
     private Date cts;
     @Column
+    @ColumnDefault("1")
     private int postType;
     @Column
+    @ColumnDefault("0")
     private Integer numbrLikes;
     @Column
+    @ColumnDefault("0")
     private Integer numberComments;
 }
