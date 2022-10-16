@@ -50,9 +50,10 @@ public class PostsService {
         }
         return searchResult;
     }
-
+    @Transactional
     public ResponseDto<?> createPost(PostRequestDto requestDto) {
-
-        return ResponseDto.success();
+        Posts post = new Posts(requestDto);
+        postsRepository.save(post);
+        return ResponseDto.success(post);
     }
 }

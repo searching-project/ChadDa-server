@@ -1,5 +1,6 @@
 package com.search.instagramsearching.entity;
 
+import com.search.instagramsearching.dto.request.PostRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +33,6 @@ public class Posts {
     @CreatedDate
     private Date cts;
     @Column
-    @ColumnDefault("1")
     private int postType;
     @Column
     @ColumnDefault("0")
@@ -40,4 +40,9 @@ public class Posts {
     @Column
     @ColumnDefault("0")
     private Integer numberComments;
+
+    public Posts(PostRequestDto requestDto){
+        this.description = requestDto.getDescription();
+        this.postType = requestDto.getPostType();
+    }
 }
