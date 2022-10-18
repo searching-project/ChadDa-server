@@ -35,7 +35,7 @@ function execSearch() {
      * 검색결과 목록: #search-result-box
      * 검색결과 HTML 만드는 함수: addHTML
      */
-    // 1. 검색창의 입력값을 가져온다.
+        // 1. 검색창의 입력값을 가져온다.
     let query = $('#query').val();
 
     // 2. 검색창 입력값을 검사하고, 입력하지 않았을 경우 focus.
@@ -82,11 +82,13 @@ function execSearch() {
                 console.log(itemDto)
                 let tempHtml = addLocationHTML(itemDto);
                 $('#search-result-box-location').append(tempHtml);
-}
+            }
+        }
+    })
 
-function addProfileHTML(itemDto) {
-    let isbusiness = itemDto.businessAccountTf === false ? "" : "✔"
-    return `<div class="search-itemDto" >
+    function addProfileHTML(itemDto) {
+        let isbusiness = itemDto.businessAccountTf === false ? "" : "✔"
+        return `<div class="search-itemDto" >
                 <div class="search-itemDto-center">
                     <div class="name" id="${itemDto.profileName}" onclick="moveToUserPosts(${itemDto.sid})" style="cursor:pointer">
                          ${itemDto.profileName}
@@ -108,18 +110,18 @@ function addProfileHTML(itemDto) {
                     <div> ${itemDto.url}</div>
                 </div>
             </div>`
-}
+    }
 
-function findProfile(profileId) {
-    $.ajax({
-        type: "GET",
-        url: `/api/post/${profileId}/user`,
-        contentType: "application/json",
-        success: function (response) {
-            response = response['data']
-            let isbusiness = response.businessAccountTf === true ? "✔" : ""
-            $('#profile-detail').empty();
-            let html = `<h1 class="name" id="profile-detail-name">
+    function findProfile(profileId) {
+        $.ajax({
+            type: "GET",
+            url: `/api/post/${profileId}/user`,
+            contentType: "application/json",
+            success: function (response) {
+                response = response['data']
+                let isbusiness = response.businessAccountTf === true ? "✔" : ""
+                $('#profile-detail').empty();
+                let html = `<h1 class="name" id="profile-detail-name">
                 ${response.profileName}
                 <span class="unit business" id="profile-detail-business">${isbusiness}</span>
             </h1>
@@ -134,19 +136,19 @@ function findProfile(profileId) {
             <div id="profile-detail-description"> ${response.description} </div>
             <div id="profile-detail-url"> ${response.url}</div>
         </div>`
-            $('#profile-detail').append(html);
-            // 2. 응답 함수에서 modal을 뜨게 함
-            $('#container').addClass('active');
+                $('#profile-detail').append(html);
+                // 2. 응답 함수에서 modal을 뜨게 함
+                $('#container').addClass('active');
 
-        }
-    })
-}
+            }
+        })
+    }
 
-function addPostHTML(itemDto) {
-    let location_name = itemDto.name === null ? "" : "@" + itemDto.name
-    let like_num = itemDto.numbr_likes === null ? 0 : itemDto.numbr_likes
-    let comment_num = itemDto.number_comments === null ? 0 : itemDto.number_comments
-    return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findProfile(${itemDto.sid_profile})" >
+    function addPostHTML(itemDto) {
+        let location_name = itemDto.name === null ? "" : "@" + itemDto.name
+        let like_num = itemDto.numbr_likes === null ? 0 : itemDto.numbr_likes
+        let comment_num = itemDto.number_comments === null ? 0 : itemDto.number_comments
+        return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findProfile(${itemDto.sid_profile})" >
             <div class="search-itemDto-center" >
                 <div class="name" >
                     ${itemDto.profile_name}
@@ -163,12 +165,13 @@ function addPostHTML(itemDto) {
                 <div>${itemDto.description}</div>
             </div>
         </div>`
-}
-function addLocationPostHTML(postDto) {
-    let location_name = itemDto.name===null? "": "@"+itemDto.name
-    let like_num = itemDto.numbr_likes===null? 0: itemDto.numbr_likes
-    let comment_num = itemDto.number_comments===null? 0: itemDto.number_comments
-    return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findProfile(${itemDto.sid_profile})" >
+    }
+
+    function addLocationPostHTML(postDto) {
+        let location_name = itemDto.name === null ? "" : "@" + itemDto.name
+        let like_num = itemDto.numbr_likes === null ? 0 : itemDto.numbr_likes
+        let comment_num = itemDto.number_comments === null ? 0 : itemDto.number_comments
+        return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findProfile(${itemDto.sid_profile})" >
             <div class="search-itemDto-center" >
                 <div class="name" >
                     ${itemDto.profile_name}
@@ -185,16 +188,16 @@ function addLocationPostHTML(postDto) {
                 <div>${itemDto.description}</div>
             </div>
         </div>`
-}
+    }
 
-function moveToUserPosts(userSid) {
-            window.location.href = "user-posts?" + userSid
-            $('#search-result-box-post').empty();
-            findUserPosts(userSid);
-}
+    function moveToUserPosts(userSid) {
+        window.location.href = "user-posts?" + userSid
+        $('#search-result-box-post').empty();
+        findUserPosts(userSid);
+    }
 
-function addLocationHTML(itemDto) {
-    return `<div class="search-itemDto" id="${itemDto.sid}" onclick="movetoLocationPost(${itemDto.sid})">
+    function addLocationHTML(itemDto) {
+        return `<div class="search-itemDto" id="${itemDto.sid}" onclick="movetoLocationPost(${itemDto.sid})">
             <div class="search-itemDto-center">
                 <div class="name">
                      ${itemDto.name}
@@ -206,11 +209,12 @@ function addLocationHTML(itemDto) {
                 </div>
             </div>
         </div>`
-}
+    }
 
-function movetoLocationPost(LocationId){
-    console.log("locationPost?" + LocationId)
-    window.location.href = "locationPost?" + LocationId
+    function movetoLocationPost(LocationId) {
+        console.log("locationPost?" + LocationId)
+        window.location.href = "locationPost?" + LocationId
+    }
 }
 
 
