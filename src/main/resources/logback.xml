@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <!-- Layout 1  :  kafkaAppender -->
+    <appender name="kafkaAppender" class="com.github.danielwegener.logback.kafka.KafkaAppender">
+        <encoder class="com.github.danielwegener.logback.kafka.encoding.LayoutKafkaMessageEncoder">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            </layout>
+        </encoder>
+        <topic>log</topic>
+        <producerConfig>bootstrap.servers=localhost:9092</producerConfig>
+    </appender>
+
+    <!-- Layout 2  :  kafkaAppender with Logstash -->
+    <appender name="logstashKafkaAppender" class="com.github.danielwegener.logback.kafka.KafkaAppender">
+        <encoder class="com.github.danielwegener.logback.kafka.encoding.PatternLayoutKafkaMessageEncoder">
+            <layout class="net.logstash.logback.layout.LogstashLayout" />
+        </encoder>
+        <topic>log</topic>
+        <producerConfig>bootstrap.servers=localhost:9092</producerConfig>
+    </appender>
+
+
+    <!-- logger -->
+    <logger name="org.apache.kafka" level="ERROR"/>
+    <logger name="com.minsub.java.logger.kafka" level="DEBUG">
+        <appender-ref ref="kafkaAppender" />
+        <!--
+        <appender-ref ref="logstashKafkaAppender" />
+        -->
+    </logger>
+
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
