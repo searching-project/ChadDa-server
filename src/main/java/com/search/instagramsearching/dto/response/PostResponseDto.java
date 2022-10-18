@@ -13,6 +13,6 @@ public interface PostResponseDto {
     Date getCts();
     int getPost_type();
     String getDescription();
-    Integer getNumbr_likes();
+    Integer getNumber_likes();
     Integer getNumber_comments();
 }
