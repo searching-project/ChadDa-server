@@ -24,7 +24,7 @@ public class LoggingAop {
 
     @Before(value = "@annotation(logging)", argNames="joinPoint, logging")
     public void log(JoinPoint joinPoint, Logging logging) throws Throwable{
-        geValue(joinPoint, logging);
+        getValue(joinPoint, logging);
     }
 
     void getValue(JoinPoint joinPoint, Logging logging) {
