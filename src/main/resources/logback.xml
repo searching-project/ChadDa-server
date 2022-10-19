@@ -2,7 +2,9 @@
 <configuration>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+<!--            <Pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>-->
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+<!--            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>-->
         </layout>
     </appender>
 
@@ -10,7 +12,8 @@
     <appender name="kafkaAppender" class="com.github.danielwegener.logback.kafka.KafkaAppender">
         <encoder class="com.github.danielwegener.logback.kafka.encoding.LayoutKafkaMessageEncoder">
             <layout class="ch.qos.logback.classic.PatternLayout">
-                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+<!--                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
             </layout>
         </encoder>
         <topic>search_log</topic>
@@ -35,8 +38,10 @@
     <!-- logger -->
     <logger name="org.apache.kafka" level="ERROR"/>
     <logger name="com.minsub.java.logger.kafka" level="DEBUG">
-<!--        <appender-ref ref="kafkaAppender" />-->
-        <appender-ref ref="logstashKafkaAppender" />
+        <!-- Layout 1 -->
+        <appender-ref ref="kafkaAppender" />
+        <!-- Layout 2 -->
+<!--        <appender-ref ref="logstashKafkaAppender" />-->
     </logger>
 
     <root level="DEBUG">
