@@ -29,30 +29,16 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    // kafka 관련 설정
+    implementation 'org.springframework.kafka:spring-kafka'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+
     // logback-kafka-appender 관련 설정
-//    // https://mavenlibs.com/maven/dependency/com.github.danielwegener/logback-kafka-appender
-//    implementation 'com.github.danielwegener:logback-kafka-appender:0.1.0'
-//    // https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder
-//    implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '6.2'
-
-//    runtimeOnly 'com.github.danielwegener:logback-kafka-appender:0.2.0'
-//    runtimeOnly 'net.logstash.logback:logbag-classic:1.2.3'
-
-//    implementation group: 'io.dropwizard', name: 'dropwizard-logging', version: "2.0.0"
-//
-//    implementation('com.github.danielwegener:logback-kafka-appender:0.2.0-RC2') {
-//        exclude group: 'org.apache.kafka', module: 'kafka-clients'
-//        // is bundled with old version of kafka-clients 1.0.0
-//    }
-//    runtimeOnly group: 'org.apache.kafka', name: 'kafka-clients', version: '2.4.0'
-
-//    implementation "com.github.danielwegener:logback-kafka-appender:0.2.0"
-//    implementation "ch.qos.logback:logback-classic:1.2.3"
-
     implementation "com.github.danielwegener:logback-kafka-appender:0.1.0"
     implementation "net.logstash.logback:logstash-logback-encoder:4.8"
 
-
+//    compile "org.slf4j:slf4j-api:${slf4j.version}"
+//    compile "ch.qos.logback:logback-classic:1.2.3"
 }
 
 tasks.named('test') {

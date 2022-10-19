@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("logging")
 public class LogController {
     private static final Logger kafkaLogger = LoggerFactory.getLogger("kafkaLogger");
+//    private LogProducer logProducer;
 
     @GetMapping("test")
     public void testLogging(@RequestParam(value = "name")String name) {
         kafkaLogger.info("name: {}", name);
+//        logProducer();
     }
 }
