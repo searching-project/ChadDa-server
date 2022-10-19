@@ -1,14 +1,16 @@
 package com.search.instagramsearching.aop;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StopWatch;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import java.util.stream.Stream;
 @Component
 public class LoggingAop {
     Logger log = LoggerFactory.getLogger(LoggingAop.class);
+    private static final Logger kafkaLogger = LoggerFactory.getLogger("logstashKafkaAppender");
 
     @Before(value = "@annotation(logging)", argNames="joinPoint, logging")
     public void log(JoinPoint joinPoint, Logging logging) throws Throwable{
@@ -28,7 +31,13 @@ public class LoggingAop {
     }
 
     void getValue(JoinPoint joinPoint, Logging logging) {
-        log.info(">>>>> " + getClassName(joinPoint, logging) + " / " + getMethodName(joinPoint) + " / " + getParameter(joinPoint));
+        KeywordLog keywordLog = KeywordLog.builder()
+                .className(getClassName(joinPoint, logging))
+                .methodName(getMethodName(joinPoint))
+                .parameter(getParameter(joinPoint).toString())
+                .build();
+//        log.info(keywordLog.toString());
+        kafkaLogger.info(keywordLog.toString());
     }
 
     // 메소드명 가져오기

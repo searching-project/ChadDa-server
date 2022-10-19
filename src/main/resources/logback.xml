@@ -42,64 +42,6 @@
         <producerConfig>bootstrap.servers=localhost:9092</producerConfig>
     </appender>
 
-    <!--    &lt;!&ndash; ExecutionTime Logger - json 시도 1 &ndash;&gt;
-        <appender name="kafkaAppender-ExecutionTime-json1" class="com.github.danielwegener.logback.kafka.KafkaAppender">
-            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-                <includeCallerData>true</includeCallerData>
-            </encoder>
-            <topic>log</topic>
-            <producerConfig>bootstrap.servers=localhost:9092</producerConfig>
-        </appender>-->
-
-    <!--    &lt;!&ndash; ExecutionTime Logger with json &ndash;&gt;
-        <appender name="kafkaAppender-ExecutionTime-json" class="com.github.danielwegener.logback.kafka.KafkaAppender">
-            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-                <jsonGeneratorDecorator class="kr.co.eda.kbn.logback.PrettyPrintingDecorator"/>
-                <jsonFactoryDecorator class="kr.co.eda.kbn.logback.ISO8601DateDecorator"/>
-            </encoder>
-    &lt;!&ndash;        <encoder class="com.github.danielwegener.logback.kafka.encoding.LayoutKafkaMessageEncoder">&ndash;&gt;
-    &lt;!&ndash;            <layout class="ch.qos.logback.classic.PatternLayout">&ndash;&gt;
-    &lt;!&ndash;                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>&ndash;&gt;
-    &lt;!&ndash;                &lt;!&ndash;                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>&ndash;&gt;&ndash;&gt;
-    &lt;!&ndash;            </layout>&ndash;&gt;
-    &lt;!&ndash;        </encoder>&ndash;&gt;
-            <topic>log</topic>
-            <producerConfig>bootstrap.servers=localhost:9092</producerConfig>
-        </appender>-->
-
-    <!--
-    &lt;!&ndash;  Logback JsonLayout을 이용 ////////////////////////ERROR &ndash;&gt;
-    <appender name="json" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
-            <jsonFormatter
-                    class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
-                <prettyPrint>true</prettyPrint>
-            </jsonFormatter>
-            <timestampFormat>yyyy-MM-dd' 'HH:mm:ss.SSS</timestampFormat>
-        </layout>
-    </appender>
-
-    <logger name="jsonLogger" level="TRACE">
-        <appender-ref ref="json" />
-    </logger>
-    -->
-
-    <!-- json -->
-    <appender name="stdout-json" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-            <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
-                <timestampFormat>yyyy-MM-dd'T'HH:mm:ss.SSSX</timestampFormat>
-                <timestampFormatTimezoneId>Etc/UTC</timestampFormatTimezoneId>
-                <appendLineSeparator>true</appendLineSeparator>
-                <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
-                    <!--                    <prettyPrint>true</prettyPrint>-->
-                </jsonFormatter>
-            </layout>
-        </encoder>
-        <topic>log</topic>
-        <producerConfig>bootstrap.servers=localhost:9092</producerConfig>
-    </appender>
-
     <!-- Async 한 KafkaAppender 추가 -->
     <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="kafkaAppender"/>
@@ -115,16 +57,12 @@
         <!--        <appender-ref ref="logstashKafkaAppender" />-->
     </logger>
 
-    <root level="INFO">
-        <appender-ref ref="stdout-json"/>
-    </root>
-
     <root level="DEBUG">
         <appender-ref ref="STDOUT"/>
     </root>
 
-    <!--    <root level="info">-->
-    <!--        <appender-ref ref="ASYNC" />-->
-    <!--    </root>-->
+        <root level="info">
+            <appender-ref ref="ASYNC" />
+        </root>
 
 </configuration>

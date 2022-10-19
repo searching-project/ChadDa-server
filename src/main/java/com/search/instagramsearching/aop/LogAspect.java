@@ -14,23 +14,23 @@ import org.springframework.util.StopWatch;
 @Log4j2
 public class LogAspect {
 
-//    private static final Logger ExecutionTimeLogger = LoggerFactory.getLogger("kafkaAppender-ExecutionTime");
-    private static final Logger ExecutionTimeLogger = LoggerFactory.getLogger("stdout-json");
+    private static final Logger ExecutionTimeLogger = LoggerFactory.getLogger("kafkaAppender-ExecutionTime");
 
     // 특정 메서드에 대한 실행시간을 측정하기 위해 남겨보는 테스트용 코드
-    @Around("@annotation(LogExecutionTime)")    // 해당 어노테이션에 대해
+    @Around("@annotation(com.search.instagramsearching.aop.RuntimeLogging)")    // 해당 어노테이션에 대해
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
+
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
         Object proceed = joinPoint.proceed();
 
         stopWatch.stop();
-//        log.info(stopWatch.prettyPrint());
-//        ExecutionTimeLogger.info("executionTime : {}", stopWatch.prettyPrint());
+
 //        ExecutionTimeLogger.info(stopWatch.prettyPrint());
-//        ExecutionTimeLogger.info(String.valueOf(stopWatch.getTotalTimeMillis()));
-        ExecutionTimeLogger.info(stopWatch.toString());
+        String stopWatchStr = stopWatch.toString().split(";")[0].replace("StopWatch '': ", "");
+        ExecutionTimeLogger.info(stopWatchStr);
+
         return proceed;
     }
 }
