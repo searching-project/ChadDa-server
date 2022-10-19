@@ -42,7 +42,8 @@
         <producerConfig>bootstrap.servers=localhost:9092</producerConfig>
     </appender>
 
-    <!--  Logback JsonLayout을 이용  -->
+    <!--
+    &lt;!&ndash;  Logback JsonLayout을 이용 ////////////////////////ERROR &ndash;&gt;
     <appender name="json" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
             <jsonFormatter
@@ -56,6 +57,7 @@
     <logger name="jsonLogger" level="TRACE">
         <appender-ref ref="json" />
     </logger>
+    -->
 
     <!-- Async 한 KafkaAppender 추가 -->
     <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">

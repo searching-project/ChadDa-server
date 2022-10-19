@@ -37,6 +37,12 @@ dependencies {
     implementation "com.github.danielwegener:logback-kafka-appender:0.1.0"
     implementation "net.logstash.logback:logstash-logback-encoder:4.8"
 
+//    // Logback json으로 생성하는 설정 ------------ ERROR
+//    implementation "org.apache.logging.log4j:log4j-slf4j18-impl:2.11.2"
+//    implementation "com.fasterxml.jackson.core:jackson-core:2.7.4"
+//    implementation "com.fasterxml.jackson.core:jackson-databind:2.7.4"
+//    implementation "com.fasterxml.jackson.core:jackson-annotations:2.7.4"
+
     // AOP 로깅 관련 설정
     implementation 'org.springframework.boot:spring-boot-starter-aop'
 }

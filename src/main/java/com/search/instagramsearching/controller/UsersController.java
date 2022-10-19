@@ -1,5 +1,6 @@
 package com.search.instagramsearching.controller;
 
+import com.search.instagramsearching.aop.Logging;
 import com.search.instagramsearching.dto.response.ResponseDto;
 import com.search.instagramsearching.service.UsersService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ public class UsersController {
     private final UsersService usersService;
 
     // 유저 검색하기 API
+    @Logging
     @GetMapping("/search/user/{keyword}")
     public ResponseDto<?> searchUsers(@PathVariable String keyword, @PageableDefault(page = 0, size = 20) Pageable pageable) {
         return ResponseDto.success(usersService.searchUsers(keyword, pageable));
