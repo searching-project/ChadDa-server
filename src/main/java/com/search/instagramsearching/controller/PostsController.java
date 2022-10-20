@@ -34,6 +34,7 @@ public class PostsController {
     // 게시글 생성
     @PostMapping("/post")
     public ResponseDto<?> createPost(@RequestBody PostRequestDto requestDto){
+        System.out.println(requestDto);
         return postsService.createPost(requestDto);
     }
 }
