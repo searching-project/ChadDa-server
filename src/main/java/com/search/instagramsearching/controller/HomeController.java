@@ -58,6 +58,17 @@ public class HomeController {
         return "redirect:/user/loginView";
     }
 
+    // 회원 관련 정보 받기
+    @PostMapping("/user/userinfo")
+    @ResponseBody
+    public UserInfoDto getUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if(userDetails!=null) {
+            String username = userDetails.getUsers().getProfileName();
+            return new UserInfoDto(username);
+        }
+        return new UserInfoDto(null);
+    }
+
 
     // 로그인
     @PostMapping("/user/login")
