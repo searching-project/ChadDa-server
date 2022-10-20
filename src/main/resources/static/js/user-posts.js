@@ -32,7 +32,7 @@ function findUserPosts(userSid) {
 // 포스트 추가 함수
 function addPostHTML(itemDto) {
     let location_name = itemDto.name === null ? "" : "@" + itemDto.name
-    let like_num = itemDto.numbr_likes === null ? 0 : itemDto.numbr_likes
+    let like_num = itemDto.number_likes === null ? 0 : itemDto.number_likes
     let comment_num = itemDto.number_comments === null ? 0 : itemDto.number_comments
     return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findProfile(${itemDto.sid_profile})" >
                 <div class="search-itemDto-center" >
