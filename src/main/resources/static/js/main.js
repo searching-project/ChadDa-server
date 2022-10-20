@@ -1,4 +1,37 @@
 $(document).ready(function () {
+    if ($.cookie('access')&&$.cookie('refresh')) {
+        $.ajaxSetup({
+            headers:{
+                'Authorization': $.cookie('access'),
+                'Refresh-Token': $.cookie('refresh')
+            }
+        })
+        showLogin(true)
+        console.log("success authorization")
+    } else {
+        showLogin()
+        console.log("No access")
+    }
+
+    $.ajax({
+        type: "POST",
+        url: `/user/userinfo`,
+        contentType: "application/json",
+        success: function (response) {
+            const username = response.username;
+
+
+            if (!username) {
+                window.location.href = '/user/loginView';
+            }
+
+            $('#username').text(username);
+        },
+        error: function () {
+            window.location.href = '/user/loginView';
+        }
+    })
+
     // id 가 query 인 녀석 위에서 엔터를 누르면 execSearch() 함수를 실행.
     $('#query').on('keypress', function (e) {
         if (e.key == 'Enter') {
@@ -28,6 +61,18 @@ $(document).ready(function () {
     $('#see-area').hide();
     $('#search-area').show();
 })
+
+function showLogin(isAuth){
+    if(isAuth){
+        $('#signout_form').show();
+        $('#signin_form').hide();
+    }else{
+        $('#signout_form').hide();
+        $('#signin_form').show();
+    }
+}
+
+
 
 function execSearch() {
     /**
