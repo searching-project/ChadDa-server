@@ -101,6 +101,46 @@ public class UsersService {
         Users user = new Users(username, password,name);
         usersRepository.save(user);
     }
+    @Transactional
+    public ResponseDto<?> login(LoginReqDto loginReqDto, HttpServletResponse response){
+        String username = loginReqDto.getUsername();
+        Users user = isPresentUsersByUsername(username);
+
+        if(user == null){
+            return ResponseDto.fail(ErrorCode.USER_NOT_FOUND);
+        }
+
+        if(!user.validatePassword(passwordEncoder,loginReqDto.getPassword())){
+            return ResponseDto.fail(ErrorCode.USER_NOT_FOUND);
+        }
+
+        // 토큰 발급
+        String accessToken = jwtUtil.createToken(username,TokenProperties.AUTH_HEADER);
+        String refreshToken = jwtUtil.createToken(username, TokenProperties.REFRESH_HEADER);
+
+        RefreshToken refreshTokenFromDB = jwtUtil.getRefreshTokenFromDB(username);
+
+        // 로그인 경력이 있는 사용자 -> DB에 Refresh Token 있음 -> 새로 로그인 했으면 새로 발급받는 토큰으로 변경
+        // 로그인이 처음인 사용자 -> DB에 Refresh Token 없음 -> 발급받은 Refresh 토큰 저장
+        if(refreshTokenFromDB == null){
+            RefreshToken saveRefreshToken = RefreshToken.createRefreshToken(username,refreshToken,TokenProperties.REFRESH_TOKEN_VALID_TIME);
+
+            refreshTokenRepository.save(saveRefreshToken);
+
+        }else{
+            refreshTokenFromDB.updateValue(refreshToken);
+        }
+
+        // 헤더에 응답으로 보내줌
+        TokenToHeaders(response, accessToken, refreshToken);
+
+        LoginResDto loginResDto = LoginResDto.builder()
+                .id(user.getSid())
+                .username(username)
+                .build();
+        return ResponseDto.success(loginResDto);
+    }
+
     @Transactional()
     public Users isPresentUsersByUsername(String username) {
         Optional<Users> optionalUsers = usersRepository.findByProfileName(username);

@@ -59,4 +59,12 @@ public class HomeController {
     }
 
 
+    // 로그인
+    @PostMapping("/user/login")
+    @ResponseBody
+    public ResponseDto<?> login(@RequestBody LoginReqDto loginReqDto, HttpServletResponse response) {
+        return usersService.login(loginReqDto, response);
+    }
+
+
 }
