@@ -36,7 +36,8 @@ public class Posts {
     private int postType;
     @Column
     @ColumnDefault("0")
-    private Integer numbrLikes;
+    private Integer numberLikes;
+
     @Column
     @ColumnDefault("0")
     private Integer numberComments;
