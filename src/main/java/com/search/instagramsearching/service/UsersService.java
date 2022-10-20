@@ -1,20 +1,25 @@
 package com.search.instagramsearching.service;
 
-import com.search.instagramsearching.dto.response.UserPostSearchResultDto;
-import com.search.instagramsearching.dto.response.UserPostsResponseDto;
-import com.search.instagramsearching.dto.response.UserResponseDto;
-import com.search.instagramsearching.dto.response.UserSearchResultDto;
+import com.search.instagramsearching.dto.request.LoginReqDto;
+import com.search.instagramsearching.dto.request.SignupRequestDto;
+import com.search.instagramsearching.dto.response.*;
+import com.search.instagramsearching.entity.RefreshToken;
 import com.search.instagramsearching.entity.Users;
-import com.search.instagramsearching.exception.PostsNotFoundExceptioin;
+import com.search.instagramsearching.exception.ErrorCode;
 import com.search.instagramsearching.exception.ResultNotFoundException;
-import com.search.instagramsearching.exception.UserNotFoundException;
+import com.search.instagramsearching.jwt.util.JwtUtil;
+import com.search.instagramsearching.jwt.util.TokenProperties;
 import com.search.instagramsearching.repository.PostsRepository;
+import com.search.instagramsearching.repository.RefreshTokenRedisRepository;
 import com.search.instagramsearching.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +29,12 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class UsersService {
+    private final PasswordEncoder passwordEncoder;
     private final UsersRepository usersRepository;
     private final PostsRepository postsRepository;
+
+    private final RefreshTokenRedisRepository refreshTokenRepository;
+    private final JwtUtil jwtUtil;
 
     @Transactional
     public List<?> searchUsers(String keyword, Pageable pageable) {
@@ -78,4 +87,29 @@ public class UsersService {
                 .url(user.getUrl())
                 .build();
     }
+
+    public void registerUser(SignupRequestDto requestDto) {
+        String username = requestDto.getUsername();
+        String password = passwordEncoder.encode(requestDto.getPassword());
+        // 회원 ID 중복 확인
+        Optional<Users> found = usersRepository.findByProfileName(username);
+        if (found.isPresent()) {
+            throw new IllegalArgumentException("중복된 사용자 ID 가 존재합니다.");
+        }
+
+        String name = requestDto.getName();
+        Users user = new Users(username, password,name);
+        usersRepository.save(user);
+    }
+    @Transactional()
+    public Users isPresentUsersByUsername(String username) {
+        Optional<Users> optionalUsers = usersRepository.findByProfileName(username);
+        return optionalUsers.orElse(null);
+    }
+
+    private void TokenToHeaders(HttpServletResponse response, String accessToken, String refreshToken) {
+        response.addHeader(TokenProperties.AUTH_HEADER, TokenProperties.TOKEN_TYPE + accessToken);
+        response.addHeader(TokenProperties.REFRESH_HEADER, TokenProperties.TOKEN_TYPE + refreshToken);
+    }
+
 }
