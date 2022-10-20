@@ -45,7 +45,7 @@
     $.ajax({
       type: "post",
       headers: {'Content-Type': 'application/json'},
-      url: "http://localhost:8080/user/login",
+      url: "/user/login",
       // contentType: "application/json",
       data: JSON.stringify({
         username: $('#username').val(),
@@ -53,24 +53,19 @@
       }),
       dataType: "json",
       success: function (response,status,request) {
-        //로컬스토리지에 데이터 추가
-
-
         const accessToken = request.getResponseHeader('Authorization')
         const refreshToken = request.getResponseHeader('Refresh-Token')
 
 
         if(accessToken&&refreshToken){
-            $.cookie("access", accessToken);
-            $.cookie("refresh", refreshToken);
+            // $.cookie("access", { path: '/' , expires:access_date.toUTCString() });
+            // $.cookie("refresh",{ path: '/' , expires:refresh_date.toUTCString() });
             $.ajaxSetup({
               headers:{
-                'Authorization': $.cookie('access', accessToken, { path: '/' }),
-                'Refresh-Token': $.cookie('refresh', refreshToken, { path: '/' })
+                'Authorization': $.cookie('access', accessToken, { path: '/' , expires: new Date(Date.now() + /*24*60*60**/1000) }),
+                'Refresh-Token': $.cookie('refresh', refreshToken, { path: '/' , expires: new Date(Date.now() + 24*60*60*1000) })
               }
             });
-          // localStorage.setItem("Authorization", request.getResponseHeader('Authorization'))
-          // localStorage.setItem("RefreshToken", request.getResponseHeader('RefreshToken'))
           console.log(request.getResponseHeader('Authorization'))
           console.log(request.getResponseHeader('Refresh-Token'))
           window.location.href = '/';
@@ -85,22 +80,6 @@
         window.location.href = '/user/loginView?error';
         console.log("login error")
       }
-        // // const jwtToken = response.getResponseHeader("Authorization");
-        // const jwtToken = response.data.message;
-        // alert(jwtToken);
-        //
-        // if (jwtToken) {
-        //   $.cookie("token", jwtToken);
-        //   $.ajaxSetup({
-        //     headers:{
-        //       'Authorization': $.cookie('token', jwtToken, { path: '/' })
-        //     }
-        //   });
-        //   window.location.href = '/';
-        // } else {
-        //   window.location.href = '/user/loginView?error';
-        // }
-      // }
     });
 
   }
