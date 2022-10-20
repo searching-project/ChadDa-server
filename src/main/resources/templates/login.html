@@ -46,7 +46,6 @@
       type: "post",
       headers: {'Content-Type': 'application/json'},
       url: "/user/login",
-      // contentType: "application/json",
       data: JSON.stringify({
         username: $('#username').val(),
         password: $('#password').val()
@@ -58,11 +57,9 @@
 
 
         if(accessToken&&refreshToken){
-            // $.cookie("access", { path: '/' , expires:access_date.toUTCString() });
-            // $.cookie("refresh",{ path: '/' , expires:refresh_date.toUTCString() });
             $.ajaxSetup({
               headers:{
-                'Authorization': $.cookie('access', accessToken, { path: '/' , expires: new Date(Date.now() + /*24*60*60**/1000) }),
+                'Authorization': $.cookie('access', accessToken, { path: '/' , expires: new Date(Date.now() + 30 * 60 * 1000) }),
                 'Refresh-Token': $.cookie('refresh', refreshToken, { path: '/' , expires: new Date(Date.now() + 24*60*60*1000) })
               }
             });

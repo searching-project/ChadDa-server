@@ -100,8 +100,6 @@ function reissue() {
             const accessToken = request.getResponseHeader('Authorization')
             const refreshToken = request.getResponseHeader('Refresh-Token')
             if (accessToken && refreshToken) {
-                // $.cookie("access", accessToken);
-                // $.cookie("refresh", refreshToken);
                 $.ajaxSetup({
                     headers: {
                         'Authorization': $.cookie('access', accessToken, {
