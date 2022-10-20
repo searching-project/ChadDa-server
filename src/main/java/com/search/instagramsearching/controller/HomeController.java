@@ -77,5 +77,10 @@ public class HomeController {
         return usersService.login(loginReqDto, response);
     }
 
+    // reissue
+    @PostMapping("/user/reissue")
+    public ResponseDto<?> reissue(HttpServletRequest request, HttpServletResponse response) {
+        return usersService.reissue(request,response);
+    }
 
 }

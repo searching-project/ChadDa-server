@@ -141,6 +141,67 @@ public class UsersService {
         return ResponseDto.success(loginResDto);
     }
 
+    @Transactional
+    public ResponseDto<?> reissue(HttpServletRequest request, HttpServletResponse response) {
+        String refreshHeader = request.getHeader(TokenProperties.REFRESH_HEADER);
+        String accessHeader = request.getHeader(TokenProperties.AUTH_HEADER);
+
+        if (refreshHeader == null) {
+            return ResponseDto.fail(ErrorCode.REFRESH_TOKEN_NOT_FOUND);
+        }
+
+        if (!refreshHeader.startsWith(TokenProperties.TOKEN_TYPE)) {
+            return ResponseDto.fail(ErrorCode.INVALID_REFRESH_TOKEN);
+        }
+
+        if(accessHeader == null){
+            return ResponseDto.fail(ErrorCode.ACCESS_TOKEN_NOT_FOUND);
+        }
+
+        if (!accessHeader.startsWith(TokenProperties.TOKEN_TYPE)) {
+            return ResponseDto.fail(ErrorCode.INVALID_ACCESS_TOKEN);
+        }
+
+        String refreshToken = refreshHeader.replace(TokenProperties.TOKEN_TYPE, "");
+        String accessToken = accessHeader.replace(TokenProperties.TOKEN_TYPE, "");
+
+        // Access 토큰 검증
+        String AccessTokenValidate = jwtUtil.validateToken(accessToken);
+
+        if (AccessTokenValidate.equals(TokenProperties.INVALID)) {
+            return ResponseDto.fail(ErrorCode.INVALID_ACCESS_TOKEN);
+        }
+
+        // Refresh 토큰 검증
+        String refreshTokenValidate = jwtUtil.validateToken(refreshToken);
+
+        switch (refreshTokenValidate) {
+            case TokenProperties.EXPIRED:
+                return ResponseDto.fail(ErrorCode.EXPIRED_REFRESH_TOKEN);
+            case TokenProperties.VALID:
+                String username = jwtUtil.getUsernameFromToken(refreshToken);
+                Users user = isPresentUsersByUsername(username);
+
+                if (user == null) {
+                    return ResponseDto.fail(ErrorCode.USER_NOT_FOUND);
+                } else {
+                    RefreshToken refreshTokenFromDB = jwtUtil.getRefreshTokenFromDB(user.getProfileName());
+                    if (refreshTokenFromDB != null && refreshToken.equals(refreshTokenFromDB.getTokenValue())) {
+                        String newAccessToken = jwtUtil.createToken(username, TokenProperties.AUTH_HEADER);
+                        response.addHeader(TokenProperties.AUTH_HEADER, TokenProperties.TOKEN_TYPE + newAccessToken);
+                        MessageDto messageDto = MessageDto.builder()
+                                .message("Access Token이 발급되었습니다.")
+                                .build();
+                        return ResponseDto.success(messageDto);
+                    } else {
+                        return ResponseDto.fail(ErrorCode.INVALID_REFRESH_TOKEN);
+                    }
+                }
+            default:
+                return ResponseDto.fail(ErrorCode.INVALID_REFRESH_TOKEN);
+        }
+    }
+
     @Transactional()
     public Users isPresentUsersByUsername(String username) {
         Optional<Users> optionalUsers = usersRepository.findByProfileName(username);
