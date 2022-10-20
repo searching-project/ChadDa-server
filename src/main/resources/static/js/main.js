@@ -116,24 +116,24 @@ function execSearch() {
             }
         }
     })
-        $.ajax({
-            type: 'GET',
-            url: `/api/locations/search/${query}`,
-            success: function (response) {
-                $('#search-result-box-location').empty();
-                for (let i = 0; i < response.length; i++) {
-                    let itemDto = response[i];
-                    let tempHtml = addLocationHTML(itemDto);
-                    $('#search-result-box-location').append(tempHtml);
-                }
+    $.ajax({
+        type: 'GET',
+        url: `/api/search/location/${query}`,
+        success: function (response) {
+            $('#search-result-box-location').empty();
+            console.log(response)
+            for (let i = 0; i < response['data'].length; i++) {
+                let itemDto = response['data'][i];
+                console.log(itemDto)
+                let tempHtml = addLocationHTML(itemDto);
+                $('#search-result-box-location').append(tempHtml);
             }
-        })
+        }
+    })
 
-}
-
-function addProfileHTML(itemDto) {
-    let isbusiness = itemDto.businessAccountTf === false ? "" : "✔"
-    return `<div class="search-itemDto" >
+    function addProfileHTML(itemDto) {
+        let isbusiness = itemDto.businessAccountTf === false ? "" : "✔"
+        return `<div class="search-itemDto" >
                 <div class="search-itemDto-center">
                     <div class="name" id="${itemDto.profileName}" onclick="moveToUserPosts(${itemDto.sid})" style="cursor:pointer">
                          ${itemDto.profileName}
@@ -155,18 +155,18 @@ function addProfileHTML(itemDto) {
                     <div> ${itemDto.url}</div>
                 </div>
             </div>`
-}
+    }
 
-function findProfile(profileId) {
-    $.ajax({
-        type: "GET",
-        url: `/api/post/${profileId}/user`,
-        contentType: "application/json",
-        success: function (response) {
-            response = response['data']
-            let isbusiness = response.businessAccountTf === true ? "✔" : ""
-            $('#profile-detail').empty();
-            let html = `<h1 class="name" id="profile-detail-name">
+    function findProfile(profileId) {
+        $.ajax({
+            type: "GET",
+            url: `/api/post/${profileId}/user`,
+            contentType: "application/json",
+            success: function (response) {
+                response = response['data']
+                let isbusiness = response.businessAccountTf === true ? "✔" : ""
+                $('#profile-detail').empty();
+                let html = `<h1 class="name" id="profile-detail-name">
                 ${response.profileName}
                 <span class="unit business" id="profile-detail-business">${isbusiness}</span>
             </h1>
@@ -181,19 +181,19 @@ function findProfile(profileId) {
             <div id="profile-detail-description"> ${response.description} </div>
             <div id="profile-detail-url"> ${response.url}</div>
         </div>`
-            $('#profile-detail').append(html);
-            // 2. 응답 함수에서 modal을 뜨게 함
-            $('#container').addClass('active');
+                $('#profile-detail').append(html);
+                // 2. 응답 함수에서 modal을 뜨게 함
+                $('#container').addClass('active');
 
-        }
-    })
-}
+            }
+        })
+    }
 
-function addPostHTML(itemDto) {
-    let location_name = itemDto.name === null ? "" : "@" + itemDto.name
-    let like_num = itemDto.numbr_likes === null ? 0 : itemDto.numbr_likes
-    let comment_num = itemDto.number_comments === null ? 0 : itemDto.number_comments
-    return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findProfile(${itemDto.sid_profile})" >
+    function addPostHTML(itemDto) {
+        let location_name = itemDto.name === null ? "" : "@" + itemDto.name
+        let like_num = itemDto.numbr_likes === null ? 0 : itemDto.numbr_likes
+        let comment_num = itemDto.number_comments === null ? 0 : itemDto.number_comments
+        return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findProfile(${itemDto.sid_profile})" >
             <div class="search-itemDto-center" >
                 <div class="name" >
                     ${itemDto.profile_name}
@@ -210,16 +210,39 @@ function addPostHTML(itemDto) {
                 <div>${itemDto.description}</div>
             </div>
         </div>`
-}
+    }
 
-function moveToUserPosts(userSid) {
-            window.location.href = "user-posts?" + userSid
-            $('#search-result-box-post').empty();
-            findUserPosts(userSid);
-}
+    function addLocationPostHTML(postDto) {
+        let location_name = itemDto.name === null ? "" : "@" + itemDto.name
+        let like_num = itemDto.numbr_likes === null ? 0 : itemDto.numbr_likes
+        let comment_num = itemDto.number_comments === null ? 0 : itemDto.number_comments
+        return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findProfile(${itemDto.sid_profile})" >
+            <div class="search-itemDto-center" >
+                <div class="name" >
+                    ${itemDto.profile_name}
+                    <span class="unit"> ${location_name}</span>
+                </div>
+                <div>
+                    <span class="unit">좋아요</span>
+                    <span class="unit like">${like_num}</span>
+                    <span class="unit">개 /</span>
+                    <span class="unit">댓글 </span>
+                    <span class="unit comment">${comment_num}</span>
+                    <span class="unit">개</span>
+                </div>
+                <div>${itemDto.description}</div>
+            </div>
+        </div>`
+    }
 
-function addLocationHTML(itemDto) {
-    return `<div class="search-itemDto" id="${itemDto.sid}>
+    function moveToUserPosts(userSid) {
+        window.location.href = "user-posts?" + userSid
+        $('#search-result-box-post').empty();
+        findUserPosts(userSid);
+    }
+
+    function addLocationHTML(itemDto) {
+        return `<div class="search-itemDto" id="${itemDto.sid}" onclick="movetoLocationPost(${itemDto.sid})">
             <div class="search-itemDto-center">
                 <div class="name">
                      ${itemDto.name}
@@ -231,7 +254,12 @@ function addLocationHTML(itemDto) {
                 </div>
             </div>
         </div>`
-}
+    }
 
+    function movetoLocationPost(LocationId) {
+        console.log("locationPost?" + LocationId)
+        window.location.href = "locationPost?" + LocationId
+    }
+}
 
 

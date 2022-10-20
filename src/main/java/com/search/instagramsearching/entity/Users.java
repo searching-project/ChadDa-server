@@ -57,4 +57,9 @@ public class Users {
     public boolean validatePassword(PasswordEncoder passwordEncoder, String password) {
         return passwordEncoder.matches(password, this.password);
     }
+    
+//    public void update(String password)
+//        this.password = password;
+//    }
+
 }
