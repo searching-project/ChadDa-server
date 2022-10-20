@@ -44,7 +44,7 @@ public class JwtUtil {
     // 토큰 생성
     public String createToken(String username, String type){
         Date date = new Date();
-        int time = type.equals(TokenProperties.AUTH_HEADER)? TokenProperties.ACCESS_TOKEN_VALID_TIME : TokenProperties.REFRESH_TOKEN_VALID_TIME;
+        long time = type.equals(TokenProperties.AUTH_HEADER)? TokenProperties.ACCESS_TOKEN_VALID_TIME : TokenProperties.REFRESH_TOKEN_VALID_TIME;
 
         return Jwts.builder()
                 .setSubject(username)
