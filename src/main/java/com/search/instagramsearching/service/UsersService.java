@@ -129,6 +129,7 @@ public class UsersService {
 
         }else{
             refreshTokenFromDB.updateValue(refreshToken);
+            refreshTokenRepository.save(refreshTokenFromDB);
         }
 
         // 헤더에 응답으로 보내줌
@@ -144,7 +145,6 @@ public class UsersService {
     @Transactional
     public ResponseDto<?> reissue(HttpServletRequest request, HttpServletResponse response) {
         String refreshHeader = request.getHeader(TokenProperties.REFRESH_HEADER);
-        String accessHeader = request.getHeader(TokenProperties.AUTH_HEADER);
 
         if (refreshHeader == null) {
             return ResponseDto.fail(ErrorCode.REFRESH_TOKEN_NOT_FOUND);
@@ -154,23 +154,8 @@ public class UsersService {
             return ResponseDto.fail(ErrorCode.INVALID_REFRESH_TOKEN);
         }
 
-        if(accessHeader == null){
-            return ResponseDto.fail(ErrorCode.ACCESS_TOKEN_NOT_FOUND);
-        }
-
-        if (!accessHeader.startsWith(TokenProperties.TOKEN_TYPE)) {
-            return ResponseDto.fail(ErrorCode.INVALID_ACCESS_TOKEN);
-        }
-
         String refreshToken = refreshHeader.replace(TokenProperties.TOKEN_TYPE, "");
-        String accessToken = accessHeader.replace(TokenProperties.TOKEN_TYPE, "");
 
-        // Access 토큰 검증
-        String AccessTokenValidate = jwtUtil.validateToken(accessToken);
-
-        if (AccessTokenValidate.equals(TokenProperties.INVALID)) {
-            return ResponseDto.fail(ErrorCode.INVALID_ACCESS_TOKEN);
-        }
 
         // Refresh 토큰 검증
         String refreshTokenValidate = jwtUtil.validateToken(refreshToken);
@@ -188,7 +173,8 @@ public class UsersService {
                     RefreshToken refreshTokenFromDB = jwtUtil.getRefreshTokenFromDB(user.getProfileName());
                     if (refreshTokenFromDB != null && refreshToken.equals(refreshTokenFromDB.getTokenValue())) {
                         String newAccessToken = jwtUtil.createToken(username, TokenProperties.AUTH_HEADER);
-                        response.addHeader(TokenProperties.AUTH_HEADER, TokenProperties.TOKEN_TYPE + newAccessToken);
+                        // 헤더에 응답으로 보내줌
+                        TokenToHeaders(response, newAccessToken, refreshToken);
                         MessageDto messageDto = MessageDto.builder()
                                 .message("Access Token이 발급되었습니다.")
                                 .build();

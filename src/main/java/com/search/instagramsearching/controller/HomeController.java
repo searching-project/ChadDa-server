@@ -85,6 +85,7 @@ public class HomeController {
 
     // reissue
     @PostMapping("/user/reissue")
+    @ResponseBody
     public ResponseDto<?> reissue(HttpServletRequest request, HttpServletResponse response) {
         return usersService.reissue(request,response);
     }
