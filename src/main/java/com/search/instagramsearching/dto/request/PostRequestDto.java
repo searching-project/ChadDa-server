@@ -14,12 +14,5 @@ import java.util.Date;
 @Builder
 public class PostRequestDto {
     private String description;
-    private Long sidProfile;
-    private String postId;
-    private Long profileId;
-    private Long locationId;
-    private Date cts;
     private int postType;
-    private Integer numbrLikes;
-    private Integer numberComments;
 }
