@@ -32,9 +32,14 @@ public class PostsController {
     }
 
     // 게시글 생성
-    @PostMapping("/post")
+    @PostMapping("post")
     public ResponseDto<?> createPost(@RequestBody PostRequestDto requestDto){
         System.out.println(requestDto);
-        return postsService.createPost(requestDto);
+        return ResponseDto.success("f");
+    }
+
+    @PostMapping("test/a")
+    public void test(@RequestBody PostRequestDto requestDto){
+        System.out.println(requestDto.getDescription());
     }
 }

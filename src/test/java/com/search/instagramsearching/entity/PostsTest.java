@@ -28,6 +28,6 @@ class PostsTest {
         assertEquals(posts.getDescription(),description);
         assertNull(posts.getNumberComments());
         assertNull(posts.getSid());
-        assertNull(posts.getCts());
+        assertNotNull(posts.getCts());
     }
 }
