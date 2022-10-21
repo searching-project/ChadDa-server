@@ -1,14 +1,10 @@
 package com.search.instagramsearching.service;
 
-import com.search.instagramsearching.dto.response.UserPostSearchResultDto;
-import com.search.instagramsearching.dto.response.UserPostsResponseDto;
+import com.search.instagramsearching.aop.ExecutionTimeLogging;
 import com.search.instagramsearching.dto.response.UserResponseDto;
 import com.search.instagramsearching.dto.response.UserSearchResultDto;
 import com.search.instagramsearching.entity.Users;
-import com.search.instagramsearching.exception.PostsNotFoundExceptioin;
 import com.search.instagramsearching.exception.ResultNotFoundException;
-import com.search.instagramsearching.exception.UserNotFoundException;
-import com.search.instagramsearching.repository.PostsRepository;
 import com.search.instagramsearching.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +21,8 @@ import java.util.Optional;
 @Slf4j
 public class UsersService {
     private final UsersRepository usersRepository;
-    private final PostsRepository postsRepository;
 
+    @ExecutionTimeLogging
     @Transactional
     public List<?> searchUsers(String keyword, Pageable pageable) {
 

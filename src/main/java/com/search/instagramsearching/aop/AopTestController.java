@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AopTestController {
 
     @GetMapping("/aop/loggingTest")
-    @LogExecutionTime
+    @ExecutionTimeLogging
     public ResponseEntity<?> test() {
 
         String data = "테스트";

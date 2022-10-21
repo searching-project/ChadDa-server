@@ -1,5 +1,6 @@
 package com.search.instagramsearching.repository;
 
+import com.search.instagramsearching.aop.ExecutionTimeLogging;
 import com.search.instagramsearching.dto.response.UserSearchResultDto;
 import com.search.instagramsearching.entity.Users;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ public interface UsersRepository extends JpaRepository<Users,Long> {
     Optional<Users> findByProfileName(String profileName);
 
     // Fulltext - 단어 단위로 유저 검색
+    @ExecutionTimeLogging
     @Query(value = "SELECT sid, profile_id, profile_name, firstname_lastname, description, following, followers, n_posts, url, business_account_tf FROM users\n" +
             "WHERE MATCH (profile_name, firstname_lastname) AGAINST (:keyword IN BOOLEAN MODE)",
             countQuery = "SELECT count(*) FROM users WHERE MATCH (profile_name, firstname_lastname) AGAINST (:keyword IN BOOLEAN MODE)",

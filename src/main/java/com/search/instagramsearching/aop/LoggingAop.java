@@ -13,31 +13,40 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
 
-//@Slf4j
 @RequiredArgsConstructor
 @Aspect
 @Component
 public class LoggingAop {
-    Logger log = LoggerFactory.getLogger(LoggingAop.class);
-    private static final Logger kafkaLogger = LoggerFactory.getLogger("logstashKafkaAppender");
+    private static final Logger unitedLogger = LoggerFactory.getLogger("kafkaAppender");
 
-    @Before(value = "@annotation(logging)", argNames="joinPoint, logging")
-    public void log(JoinPoint joinPoint, Logging logging) throws Throwable{
-        getValue(joinPoint, logging);
+    @Around("@annotation(com.search.instagramsearching.aop.ExecutionTimeLogging)")
+    public Object executionTimeLog(ProceedingJoinPoint joinPoint) throws Throwable{
+
+        // 실행 시간 측정
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+
+        Object proceed = joinPoint.proceed();
+
+        stopWatch.stop();
+        String stopWatchStr = stopWatch.toString().split(";")[0].replace("StopWatch '': ", "");
+
+        // 로그 남기기
+        unitedLogger.info(getClassName(joinPoint) + " " + getMethodName(joinPoint) + " " + stopWatchStr + getParameter(joinPoint) + " ");
+
+        return proceed;
     }
 
-    void getValue(JoinPoint joinPoint, Logging logging) {
-        KeywordLog keywordLog = KeywordLog.builder()
-                .className(getClassName(joinPoint, logging))
+    // 실행시간 로그 생성하기
+    private ExecutionTimeLog createExecutionTimeLog(JoinPoint joinPoint, String stopWatchStr) {
+        ExecutionTimeLog timeLog = ExecutionTimeLog.builder()
+                .className(getClassName(joinPoint))
                 .methodName(getMethodName(joinPoint))
                 .parameter(getParameter(joinPoint).toString())
+                .executionTime(stopWatchStr)
                 .build();
-//        log.info(keywordLog.toString());
-        kafkaLogger.info(keywordLog.toString());
+        return timeLog;
     }
 
     // 메소드명 가져오기
@@ -48,19 +57,21 @@ public class LoggingAop {
     }
 
     // 클래스명 가져오기
-    public String getClassName(JoinPoint joinPoint, Logging logging) {
+    public String getClassName(JoinPoint joinPoint) {
         Class<?> activeClass = joinPoint.getTarget().getClass();
-        logging= activeClass.getAnnotation(Logging.class);
         return activeClass.getName();
     }
 
     // 매개변수 가져오기
-    public List<String> getParameter(JoinPoint joinPoint) {
-        List<String> parameterNames = new ArrayList<>();
+    public String getParameter(JoinPoint joinPoint) {
 
-        Stream.of(joinPoint.getArgs()).forEach(it -> {
-            parameterNames.add(it.toString());
-        });
-        return parameterNames;
+        StringBuilder parameters = new StringBuilder();
+
+        for (Object it : joinPoint.getArgs()) {
+            parameters.append(" ");
+            parameters.append(it.toString());
+        }
+
+        return parameters.toString();
     }
 }

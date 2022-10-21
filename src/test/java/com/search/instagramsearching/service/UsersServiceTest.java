@@ -38,7 +38,7 @@ class UsersServiceTest {
 
         // when
         stopWatch.start("ngram - natural mode");
-        usersRepository.ngramNatualSearch(keyword, original, pageable);
+//        usersRepository.ngramNatualSearch(keyword, original, pageable);
         stopWatch.stop();
 
         // then
@@ -55,7 +55,7 @@ class UsersServiceTest {
 
         // when
         stopWatch.start("ngram - boolean mode");
-        usersRepository.ngramNatualSearch(keyword, original, pageable);
+//        usersRepository.ngramNatualSearch(keyword, original, pageable);
         stopWatch.stop();
 
         // then
