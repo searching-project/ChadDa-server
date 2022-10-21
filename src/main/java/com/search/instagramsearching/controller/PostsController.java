@@ -35,11 +35,6 @@ public class PostsController {
     @PostMapping("post")
     public ResponseDto<?> createPost(@RequestBody PostRequestDto requestDto){
         System.out.println(requestDto);
-        return ResponseDto.success("f");
-    }
-
-    @PostMapping("test/a")
-    public void test(@RequestBody PostRequestDto requestDto){
-        System.out.println(requestDto.getDescription());
+        return postsService.createPost(requestDto);
     }
 }

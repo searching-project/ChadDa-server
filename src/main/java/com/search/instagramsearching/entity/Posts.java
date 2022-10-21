@@ -31,7 +31,7 @@ public class Posts {
     @Column
     private Long locationId;
     @CreatedDate
-    private Long cts;
+    private Date cts;
 
     @Column
     private int postType;
@@ -45,6 +45,6 @@ public class Posts {
 
     public Posts(PostRequestDto requestDto){
         this.description = requestDto.getDescription();
-//        this.postType = requestDto.getPostType();
+        this.postType = requestDto.getPostType();
     }
 }

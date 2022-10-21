@@ -36,7 +36,6 @@ public class PostsService {
     }
 
     public List<PostResponseDto> getUserPosts(Long userSid, Pageable pageable) {
-
         // profileId로 해당 posts 조회하기
         List<PostResponseDto> posts = getSearchResult(userSid, pageable);
         return posts;
