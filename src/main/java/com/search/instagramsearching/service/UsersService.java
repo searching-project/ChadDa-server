@@ -129,7 +129,6 @@ public class UsersService {
 
         }else{
             refreshTokenFromDB.updateValue(refreshToken);
-            refreshTokenRepository.save(refreshTokenFromDB);
         }
 
         // 헤더에 응답으로 보내줌

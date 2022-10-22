@@ -10,8 +10,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
-@EnableJpaAuditing
-@EnableCaching
 public class InstagramSearchingApplication {
     public static void main(String[] args) {
         SpringApplication.run(InstagramSearchingApplication.class, args);
