@@ -7,12 +7,13 @@ import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
 
 import javax.persistence.Id;
+import java.io.Serializable;
 
 @Getter
 @RedisHash(value = "refreshToken")
 @AllArgsConstructor
 @Builder
-public class RefreshToken {
+public class RefreshToken implements Serializable {
 
     @Id
     private String id;

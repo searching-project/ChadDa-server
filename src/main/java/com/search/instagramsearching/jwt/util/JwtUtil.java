@@ -1,6 +1,7 @@
 package com.search.instagramsearching.jwt.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.search.instagramsearching.CacheKey;
 import com.search.instagramsearching.dto.response.ResponseDto;
 import com.search.instagramsearching.entity.RefreshToken;
 import com.search.instagramsearching.entity.Users;
@@ -13,6 +14,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -74,7 +76,9 @@ public class JwtUtil {
         response.getWriter().write(httpResponse);
     }
 
+
     // DB에 있는 refreshToken가져오기
+    @Cacheable(value = CacheKey.REFRESH, key = "#userName", unless = "#result == null")
     public RefreshToken getRefreshTokenFromDB(String userName){
         Optional<RefreshToken> refreshTokenFromDB = refreshTokenRepository.findById(userName);
         return refreshTokenFromDB.orElse(null);
