@@ -164,8 +164,7 @@ function execSearch() {
         url: `/api/search/user/${query}`,
         success: function (response) {
             $('#search-result-box-profile').empty();
-            // for (let i = 0; i < response.data.length; i++) {
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < response.data.length; i++) {
                 let itemDto = response.data[i];
                 let tempHtml = addProfileHTML(itemDto);
                 $('#search-result-box-profile').append(tempHtml);
@@ -199,7 +198,7 @@ function addProfileHTML(itemDto) {
                     </div>
                     <div>
                         <span class="unit">게시글 </span>
-                        <span class="unit post"> ${itemDto.nPosts}</span>
+                        <span class="unit post"> ${itemDto.nposts}</span>
                         <span class="unit link" onclick = "moveToUserPosts(${itemDto.sid})" style="cursor:pointer"> 🔗링크</span>
                         <span class="unit">/ 팔로잉</span>
                         <span class="unit following"> ${itemDto.following}</span>
