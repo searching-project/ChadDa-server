@@ -6,7 +6,7 @@ import com.search.instagramsearching.dto.response.*;
 import com.search.instagramsearching.entity.RefreshToken;
 import com.search.instagramsearching.entity.Users;
 import com.search.instagramsearching.exception.ErrorCode;
-import com.search.instagramsearching.exception.ResultNotFoundException;
+import com.search.instagramsearching.exception.NotFoundException;
 import com.search.instagramsearching.jwt.util.JwtUtil;
 import com.search.instagramsearching.jwt.util.TokenProperties;
 import com.search.instagramsearching.repository.PostsRepository;
@@ -42,7 +42,7 @@ public class UsersService {
         // 키워드에 맞는 검색 결과 받아오기
         List<UserSearchResultDto> rawDataList = usersRepository.searchUsers(keyword, pageable);
         if (rawDataList == null || rawDataList.size() == 0) {
-            throw new ResultNotFoundException();
+            throw new NotFoundException(ErrorCode.RESULT_NOT_FOUND);
         }
 
         // 검색결과를 ResponseDto에 담기

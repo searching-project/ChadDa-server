@@ -1,10 +1,9 @@
 package com.search.instagramsearching.service;
 
 import com.search.instagramsearching.dto.response.PostResponseDto;
-import com.search.instagramsearching.dto.response.UserPostSearchResultDto;
-import com.search.instagramsearching.dto.response.UserPostsResponseDto;
 import com.search.instagramsearching.entity.Posts;
-import com.search.instagramsearching.exception.PostsNotFoundExceptioin;
+import com.search.instagramsearching.exception.ErrorCode;
+import com.search.instagramsearching.exception.NotFoundException;
 import com.search.instagramsearching.repository.PostsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -44,7 +42,7 @@ public class PostsService {
     private List<PostResponseDto> getSearchResult(Long profileId, Pageable pageable) {
         List<PostResponseDto> searchResult = postsRepository.getUserPosts(profileId, pageable);
         if (searchResult.size() == 0) {
-            throw new PostsNotFoundExceptioin();
+            throw new NotFoundException(ErrorCode.RESULT_NOT_FOUND);
         }
         return searchResult;
     }
