@@ -20,7 +20,6 @@ public interface PostsRepository extends JpaRepository<Posts, Long> {
     @Lock(LockModeType.OPTIMISTIC)
     List<Posts> findAllByLocationId(Long locationId);
 
-
     @Query(value = "select * FROM posts as p WHERE MATCH(p.description) AGAINST(:keyword IN NATURAL LANGUAGE MODE)"
             ,countQuery ="select count(*) from posts as p WHERE MATCH(p.description) AGAINST(:keyword IN NATURAL LANGUAGE MODE)",nativeQuery = true )
     List<Posts> search(@Param("keyword")String keyword, @PageableDefault Pageable pageable);

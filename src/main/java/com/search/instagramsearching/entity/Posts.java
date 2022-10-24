@@ -46,5 +46,6 @@ public class Posts {
     public Posts(PostRequestDto requestDto){
         this.description = requestDto.getDescription();
         this.postType = requestDto.getPostType();
+        this.sidProfile = requestDto.getSidProfile();
     }
 }
