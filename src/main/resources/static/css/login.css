@@ -169,7 +169,7 @@ button {
     width: 369.1px;
     height: 43.9px;
     border-radius: 2px;
-    background-color: #15aabf;
+    background-color: #1a3474;
     border: none;
 }
 
@@ -197,7 +197,7 @@ button {
 .header {
     height: 255px;
     box-sizing: border-box;
-    background-color: #15aabf;
+    background-color: #1a3474;
     color: white;
     text-align: center;
     padding-top: 80px;
@@ -432,7 +432,7 @@ button {
     margin: 40px 0 0;
     padding: 11px 12px;
     border-radius: 5px;
-    background-color: #15aabf;
+    background-color: #1a3474;
 
     font-family: SpoqaHanSansNeo;
     font-size: 20px;
