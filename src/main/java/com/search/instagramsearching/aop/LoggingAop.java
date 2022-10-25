@@ -18,7 +18,8 @@ import java.lang.reflect.Method;
 @Aspect
 @Component
 public class LoggingAop {
-    private static final Logger unitedLogger = LoggerFactory.getLogger("kafkaAppender");
+//    private static final Logger unitedLogger = LoggerFactory.getLogger("kafkaAppender");
+    private static final Logger logger = LoggerFactory.getLogger("logstashKafkaAppender");
 
     @Around("@annotation(com.search.instagramsearching.aop.ExecutionTimeLogging)")
     public Object executionTimeLog(ProceedingJoinPoint joinPoint) throws Throwable{
@@ -33,7 +34,7 @@ public class LoggingAop {
         String stopWatchStr = stopWatch.toString().split(";")[0].replace("StopWatch '': ", "");
 
         // 로그 남기기
-        unitedLogger.info(getClassName(joinPoint) + " " + getMethodName(joinPoint) + " " + stopWatchStr + getParameter(joinPoint) + " ");
+        logger.info(getClassName(joinPoint) + " " + getMethodName(joinPoint) + " " + stopWatchStr + getParameter(joinPoint) + " ");
 
         return proceed;
     }

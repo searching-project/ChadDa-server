@@ -35,7 +35,7 @@ dependencies {
 
     // logback-kafka-appender 관련 설정
     implementation "com.github.danielwegener:logback-kafka-appender:0.1.0"
-    implementation 'net.logstash.logback:logstash-logback-encoder:5.2'
+    implementation 'net.logstash.logback:logstash-logback-encoder:6.2'
 
 //    // Logback json으로 생성하는 설정 ------------ ERROR
 //    implementation "org.apache.logging.log4j:log4j-slf4j18-impl:2.11.2"
