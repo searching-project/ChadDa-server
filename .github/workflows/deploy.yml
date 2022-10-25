@@ -99,7 +99,7 @@ jobs:
         pwd
         ls -a .
         echo "copy properties"
-        echo $DEV_PROP >> ./application-DB-URL.properties
+        echo $DEV_PROP >> ./application-db-url.properties
         cat application-db-url.properties
       shell: bash
       env:
