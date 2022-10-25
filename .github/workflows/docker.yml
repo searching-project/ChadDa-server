@@ -132,7 +132,8 @@ jobs:
           key: ${{secrets.EC2_PRIVATE_KEY}}
           envs: GITHUB_SHA
           script: |
-            docker pull $DOCKER_USER/$REPO
+            docker login
+            docker pull ${{secrets.DOCKER_USER}}/chadda-repo
             docker stop chadda_server
             docker rm chadda_server
-            docker run --detach --name chadda_server -p 8080:8080 $DOCKER_USER/chadda-repo
+            docker run --detach --name chadda_server -p 8080:8080 ${{secrets.DOCKER_USER}}/chadda-repo
