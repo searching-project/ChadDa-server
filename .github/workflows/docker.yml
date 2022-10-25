@@ -124,7 +124,7 @@ jobs:
       - name: Docker Push
         env:
           REPO: chadda-repo
-        run:
+        run: |
           docker build -t $REPO .
           docker tag $REPO:latest ${{secrets.DOCKER_USER}}/$REPO:latest
           docker push ${{secrets.DOCKER_USER}}/$REPO
@@ -133,11 +133,11 @@ jobs:
       - name: Docker Pull & Run From Hub
         uses: appleboy/ssh-action@master
         with:
-          host:
+          host: 3.36.109.80
           username: ubuntu
           key: ${{secrets.EC2_PRIVATE_KEY}}
           envs: GITHUB_SHA
-          script:
+          script: |
             docker login
             docker pull ${{secrets.DOCKER_USER}}/$REPO
             docker stop chadda_server
