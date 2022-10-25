@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -7,12 +7,23 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script th:src="@{/js/main.js}" ></script>
     <title>인스타그램 검색 서비스</title>
 </head>
 <body>
-<div class="header">
-    Instagram Searching
+<div class="header" style="position:relative;">
+
+    <div id="header-title-select-shop">
+        Instagram Searching
+    </div>
+    <form id="signin_form" method="get" action="/user/loginView" >
+
+        <a id="login-text" href="javascript:{}" onclick="document.getElementById('signin_form').submit(); "> 로그인</a>
+    </form>
+    <form id="signout_form" method="post" action="/user/logout" >
+        <a id="logout-text" href="javascript:{}" onclick="document.getElementById('signout_form').submit(); "> <span id="username">user</span>님 로그아웃</a>
+    </form>
 </div>
 <div class="nav">
     <div class="nav-search active">
