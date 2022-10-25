@@ -10,7 +10,7 @@ on:
 env:
   AWS_REGION: ap-northeast-2
   S3_BUCKET_NAME: searchinstagrambucket
-  CODE_DEPLOY_APPLICATION_NAME: search-codedeploy-app
+  CODE_DEPLOY_APPLICATION_NAME: search-codedepoly-app
   CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: search-codedeploy-deployment-group
 
 permissions:
