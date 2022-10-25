@@ -8,10 +8,9 @@ on:
 # 본인이 설정한 값을 여기서 채워넣습니다.
 # 리전, 버킷 이름, CodeDeploy 앱 이름, CodeDeploy 배포 그룹 이름
 env:
-  AWS_REGION: ap-northeast-2
-  S3_BUCKET_NAME: searchinstagrambucket
-  CODE_DEPLOY_APPLICATION_NAME: search-codedepoly-app
-  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: search-codedeploy-deployment-group
+  DOCKER_USER: ${{ secrets.DOCKER_USER }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  REPO: chadda-repo
 
 permissions:
   contents: read
@@ -114,20 +113,15 @@ jobs:
 
       #(5) Docker Login
       - name: Docker Login
-        env:
-          DOCKER_USER: ${{ secrets.DOCKER_USER }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run:
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
       #(6) Docker Push
       - name: Docker Push
-        env:
-          REPO: chadda-repo
         run: |
           docker build -t $REPO .
-          docker tag $REPO:latest ${{secrets.DOCKER_USER}}/$REPO:latest
-          docker push ${{secrets.DOCKER_USER}}/$REPO
+          docker tag $REPO:latest $DOCKER_USER/$REPO:latest
+          docker push $DOCKER_USER/$REPO
 
       #{7} Docker Pull & Run From Hub
       - name: Docker Pull & Run From Hub
@@ -139,7 +133,7 @@ jobs:
           envs: GITHUB_SHA
           script: |
             docker login
-            docker pull ${{secrets.DOCKER_USER}}/$REPO
+            docker pull $DOCKER_USER/$REPO
             docker stop chadda_server
             docker rm chadda_server
-            docker run --detach --name chadda_server -p 8080:8080 ${{secrets.DOCKER_USER}}/chadda-repo
+            docker run --detach --name chadda_server -p 8080:8080 $DOCKER_USER/chadda-repo
