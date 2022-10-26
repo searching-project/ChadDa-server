@@ -5,7 +5,7 @@
 
 ### Repository 설명
 
-- 모든 비즈니스 로직이 들어있는 Spring Application
+모든 비즈니스 로직이 들어있는 Spring Application입니다.
 
 <br>
 
