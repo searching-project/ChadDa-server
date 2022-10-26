@@ -3,6 +3,12 @@
 
 <br>
 
+### Repository 설명
+
+- 모든 비즈니스 로직이 들어있는 Spring Application
+
+<br>
+
 ### 구현 기능
 
 1. 회원 관련
