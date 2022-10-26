@@ -1,10 +1,10 @@
 # ChadDa-server
 위치, 사용자, 게시글 기반 대용량 데이터 검색 서비스 ChadDa입니다.
 
+<br>
+
 ![KakaoTalk_20221022_131132127](https://user-images.githubusercontent.com/100582309/198098722-09bde50d-ac80-4707-b0ff-2d354ef16d06.png)
 
-
-<br>
 
 ### Repository 설명
 
