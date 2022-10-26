@@ -1,4 +1,23 @@
 $(document).ready(function () {
+    if ($.cookie('access') && $.cookie('refresh')) {
+        showLogin(true)
+        console.log("success authorization")
+        $.ajaxSetup({
+            headers: {
+                'Authorization': $.cookie('access'),
+                'Refresh-Token': $.cookie('refresh')
+            }
+        })
+        showUserInfo()
+
+    } else if ($.cookie('refresh')) {
+        reissue()
+    } else {
+        showLogin()
+        console.log("No access")
+    }
+
+
     // id 가 query 인 녀석 위에서 엔터를 누르면 execSearch() 함수를 실행.
     $('#query').on('keypress', function (e) {
         if (e.key == 'Enter') {
@@ -27,7 +46,89 @@ $(document).ready(function () {
 
     $('#see-area').hide();
     $('#search-area').show();
-})
+});
+
+function showUserInfo() {
+    if (!$.cookie('username')) {
+        $.ajax({
+            type: "POST",
+            url: `/user/userinfo`,
+            contentType: "application/json",
+            headers: {
+                'Authorization': $.cookie('access'),
+                'Refresh-Token': $.cookie('refresh')
+            },
+            success: function (response) {
+                const username = response.username;
+                if (!username) {
+                    console.log("username not found")
+                } else {
+                    $.cookie('username', username, {path: '/', expires: $.cookie('access').expires});
+                    $('#username').text(username);
+                }
+            },
+            error: function () {
+                console.log("find userinfo failed")
+            }
+        })
+    } else {
+        $('#username').text($.cookie('username'));
+    }
+}
+
+function showLogin(isAuth) {
+    if (isAuth) {
+        $('#signout_form').show();
+        $('#signin_form').hide();
+    } else {
+        $('#signout_form').hide();
+        $('#signin_form').show();
+    }
+}
+
+function reissue() {
+    $.ajaxSetup({
+        headers: {
+            'Refresh-Token': $.cookie('refresh')
+        }
+    })
+    $.ajax({
+        type: "POST",
+        url: `/user/reissue`,
+        contentType: "application/json",
+        success: function (response, status, request) {
+            const accessToken = request.getResponseHeader('Authorization')
+            const refreshToken = request.getResponseHeader('Refresh-Token')
+            if (accessToken && refreshToken) {
+                $.ajaxSetup({
+                    headers: {
+                        'Authorization': $.cookie('access', accessToken, {
+                            path: '/',
+                            expires: new Date(Date.now() + 30 * 60 * 1000)
+                        }),
+                        'Refresh-Token': $.cookie('refresh', refreshToken, {
+                            path: '/',
+                            expires: new Date(Date.now() + 24 * 60 * 60 * 1000)
+                        })
+                    }
+                });
+                console.log(request.getResponseHeader('Authorization'))
+                console.log(request.getResponseHeader('Refresh-Token'))
+                window.location.reload();
+            } else {
+                console.log("reissue failed")
+                showLogin()
+            }
+        }, error: function (request, status, error) {
+            console.log(request)
+            console.log(status)
+            console.log(error)
+            console.log("reissue error")
+            showLogin()
+        }
+    })
+}
+
 
 function execSearch() {
     /**
@@ -35,7 +136,7 @@ function execSearch() {
      * 검색결과 목록: #search-result-box
      * 검색결과 HTML 만드는 함수: addHTML
      */
-    // 1. 검색창의 입력값을 가져온다.
+        // 1. 검색창의 입력값을 가져온다.
     let query = $('#query').val();
 
     // 2. 검색창 입력값을 검사하고, 입력하지 않았을 경우 focus.
@@ -63,8 +164,7 @@ function execSearch() {
         url: `/api/search/user/${query}`,
         success: function (response) {
             $('#search-result-box-profile').empty();
-            // for (let i = 0; i < response.data.length; i++) {
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < response.data.length; i++) {
                 let itemDto = response.data[i];
                 let tempHtml = addProfileHTML(itemDto);
                 $('#search-result-box-profile').append(tempHtml);
@@ -82,6 +182,9 @@ function execSearch() {
                 console.log(itemDto)
                 let tempHtml = addLocationHTML(itemDto);
                 $('#search-result-box-location').append(tempHtml);
+            }
+        }
+    })
 }
 
 function addProfileHTML(itemDto) {
@@ -95,7 +198,7 @@ function addProfileHTML(itemDto) {
                     </div>
                     <div>
                         <span class="unit">게시글 </span>
-                        <span class="unit post"> ${itemDto.nPosts}</span>
+                        <span class="unit post"> ${itemDto.nposts}</span>
                         <span class="unit link" onclick = "moveToUserPosts(${itemDto.sid})" style="cursor:pointer"> 🔗링크</span>
                         <span class="unit">/ 팔로잉</span>
                         <span class="unit following"> ${itemDto.following}</span>
@@ -144,6 +247,29 @@ function findProfile(profileId) {
 
 function addPostHTML(itemDto) {
     let location_name = itemDto.name === null ? "" : "@" + itemDto.name
+    let like_num = itemDto.number_likes === null ? 0 : itemDto.number_likes
+    let comment_num = itemDto.number_comments === null ? 0 : itemDto.number_comments
+    return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findProfile(${itemDto.sid_profile})" >
+            <div class="search-itemDto-center" >
+                <div class="name" >
+                    ${itemDto.profile_name}
+                    <span class="unit"> ${location_name}</span>
+                </div>
+                <div>
+                    <span class="unit">좋아요</span>
+                    <span class="unit like">${like_num}</span>
+                    <span class="unit">개 /</span>
+                    <span class="unit">댓글 </span>
+                    <span class="unit comment">${comment_num}</span>
+                    <span class="unit">개</span>
+                </div>
+                <div>${itemDto.description}</div>
+            </div>
+        </div>`
+}
+
+function addLocationPostHTML(postDto) {
+    let location_name = itemDto.name === null ? "" : "@" + itemDto.name
     let like_num = itemDto.numbr_likes === null ? 0 : itemDto.numbr_likes
     let comment_num = itemDto.number_comments === null ? 0 : itemDto.number_comments
     return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findProfile(${itemDto.sid_profile})" >
@@ -164,33 +290,11 @@ function addPostHTML(itemDto) {
             </div>
         </div>`
 }
-function addLocationPostHTML(postDto) {
-    let location_name = itemDto.name===null? "": "@"+itemDto.name
-    let like_num = itemDto.numbr_likes===null? 0: itemDto.numbr_likes
-    let comment_num = itemDto.number_comments===null? 0: itemDto.number_comments
-    return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findProfile(${itemDto.sid_profile})" >
-            <div class="search-itemDto-center" >
-                <div class="name" >
-                    ${itemDto.profile_name}
-                    <span class="unit"> ${location_name}</span>
-                </div>
-                <div>
-                    <span class="unit">좋아요</span>
-                    <span class="unit like">${like_num}</span>
-                    <span class="unit">개 /</span>
-                    <span class="unit">댓글 </span>
-                    <span class="unit comment">${comment_num}</span>
-                    <span class="unit">개</span>
-                </div>
-                <div>${itemDto.description}</div>
-            </div>
-        </div>`
-}
 
 function moveToUserPosts(userSid) {
-            window.location.href = "user-posts?" + userSid
-            $('#search-result-box-post').empty();
-            findUserPosts(userSid);
+    window.location.href = "user-posts?" + userSid
+    $('#search-result-box-post').empty();
+    findUserPosts(userSid);
 }
 
 function addLocationHTML(itemDto) {
@@ -208,9 +312,10 @@ function addLocationHTML(itemDto) {
         </div>`
 }
 
-function movetoLocationPost(LocationId){
+function movetoLocationPost(LocationId) {
     console.log("locationPost?" + LocationId)
     window.location.href = "locationPost?" + LocationId
 }
+
 
 
