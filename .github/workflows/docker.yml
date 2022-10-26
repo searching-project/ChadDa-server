@@ -137,4 +137,3 @@ jobs:
             docker stop chadda_server
             docker rm chadda_server
             docker run --detach --name chadda_server -p 8080:8080 ${{secrets.DOCKER_USER}}/chadda-repo
-            docker run --name some-redis -d -p 6379:6379 redis
