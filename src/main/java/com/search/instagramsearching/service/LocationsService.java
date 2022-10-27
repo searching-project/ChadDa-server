@@ -3,7 +3,6 @@ package com.search.instagramsearching.service;
 import com.search.instagramsearching.dto.response.LocationResDto;
 import com.search.instagramsearching.dto.response.LocationResResultDto;
 import com.search.instagramsearching.dto.response.ResponseDto;
-import com.search.instagramsearching.exception.ResultNotFoundException;
 import com.search.instagramsearching.repository.LocationsRepository;
 import com.search.instagramsearching.repository.PostsRepository;
 import lombok.RequiredArgsConstructor;

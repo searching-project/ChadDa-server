@@ -1,26 +1,37 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta property="og:title" content="검색의 시작, 찾다">
+    <meta property="og:description" content="위치, 사용자, 게시글 기반 대용량 데이터 검색 서비스 ChadDa입니다.">
+    <meta property="og:image" content="images/og_chadda.png">
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script th:src="@{/js/main.js}" ></script>
-    <title>인스타그램 검색 서비스</title>
+    <title>검색의 시작, 찾다</title>
 </head>
 <body>
-<div class="header">
-    Instagram Searching
+<div class="header" style="position:relative;">
+
+    <div id="header-title-select-shop">
+        <img id="header-title-image" src = "images/chadda_logo.png" alt="">
+        ChadDa
+    </div>
+    <form id="signin_form" method="get" action="/user/loginView" >
+
+        <a id="login-text" href="javascript:{}" onclick="document.getElementById('signin_form').submit(); "> 로그인</a>
+    </form>
+    <form id="signout_form" method="post" action="/user/logout" >
+        <a id="logout-text" href="javascript:{}" onclick="document.getElementById('signout_form').submit(); "> <span id="username">user</span>님 로그아웃</a>
+    </form>
 </div>
 <div class="nav">
-    <div class="nav-search active">
-        검색하기
-    </div>
-    <div class="nav-see">
-        (미정)
-    </div>
 </div>
 
 <div id="see-area">
@@ -33,62 +44,19 @@
     <div>
         <input type="text" id="query">
     </div>
-<!--    th:onclick = "|location.href = '@{/postpage}'|"-->
     <div class="search-title"  onclick="move()"> Posts </div>
     <div id="search-result-box-post">
         <div class="search-itemDto">
-            <div class="search-itemDto-center">
-                <div class="name">
-                    hyemin1141
-                </div>
-                <div>
-                    <span class="unit">좋아요</span>
-                    <span class="unit like">11</span>
-                    <span class="unit">개 /</span>
-                    <span class="unit">댓글 </span>
-                    <span class="unit comment">0</span>
-                    <span class="unit">개</span>
-                </div>
-                <div>5 day count down till we see some coos!  @thompsbw #greatglenway</div>
-            </div>
         </div>
     </div>
     <div class="search-title"> Profiles </div>
     <div id="search-result-box-profile">
         <div class="search-itemDto">
-            <div class="search-itemDto-center">
-                <div class="name">
-                    hyemin1141
-                    <span class="unit business">✔</span>
-                </div>
-                <div>
-                    <span class="unit">게시물</span>
-                    <span class="unit like">23</span>
-                    <span class="unit">/ 팔로잉</span>
-                    <span class="unit like">11</span>
-                    <span class="unit">명 /</span>
-                    <span class="unit">팔로워 </span>
-                    <span class="unit comment">0</span>
-                    <span class="unit">명</span>
-                </div>
-                <div>hello </div>
-                <div>https://github.com</div>
-            </div>
         </div>
     </div>
     <div class="search-title"> Locations </div>
     <div id="search-result-box-location">
         <div class="search-itemDto">
-            <div class="search-itemDto-center">
-                <div class="name">
-                    Hankyu Department Store
-                </div>
-                <div>
-                    <span class="unit region"> </span>
-                    <span class="unit city">Osaka </span>
-                    <span class="unit street">北区角田町8-7</span>
-                </div>
-            </div>
         </div>
     </div>
     <div id="container" class="popup-container">
@@ -97,10 +65,8 @@
                 X
             </button>
             <div id="profile-detail">
-
             </div>
-<!--            <div id="user-posts">
-            </div>-->
+
         </div>
     </div>
 </div>

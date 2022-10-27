@@ -28,8 +28,52 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // kafka 관련 설정
+    implementation 'org.springframework.kafka:spring-kafka'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+
+    // logback-kafka-appender 관련 설정
+    implementation "com.github.danielwegener:logback-kafka-appender:0.1.0"
+    implementation 'net.logstash.logback:logstash-logback-encoder:5.2'
+
+//    // Logback json으로 생성하는 설정 ------------ ERROR
+//    implementation "org.apache.logging.log4j:log4j-slf4j18-impl:2.11.2"
+//    implementation "com.fasterxml.jackson.core:jackson-core:2.7.4"
+//    implementation "com.fasterxml.jackson.core:jackson-databind:2.7.4"
+//    implementation "com.fasterxml.jackson.core:jackson-annotations:2.7.4"
+
+    // logback : Log를 JSON 형식으로 출력 관련 설정 - 위랑 중복
+//    compile group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '5.2' // Log를 JSON 형식으로 표현하기 위해 사용
+
+    // logstash - json 형식 시도 1
+//    compile('net.logstash.logback:logstash-logback-encoder:5.0')
+
+    // logback -> json 시도 2
+    implementation "ch.qos.logback.contrib:logback-jackson:0.1.5"
+    implementation "ch.qos.logback.contrib:logback-json-classic:0.1.5"
+
+    // AOP 로깅 관련 설정
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+
+    //redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    // 스프링 시큐리티
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    // JWT
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    implementation 'commons-codec:commons-codec:1.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+    compileOnly 'com.auth0:java-jwt:3.13.0'
+
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+jar {
+    enabled = false
 }

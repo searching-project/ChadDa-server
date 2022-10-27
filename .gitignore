@@ -7,6 +7,7 @@ build/
 **/src/main/resources/application-db-password.properties
 **/src/main/resources/application-db-url.properties
 **/src/main/resources/application-db-username.properties
+**/src/main/resources/application-secret.properties
 
 ### STS ###
 .apt_generated
@@ -38,3 +39,4 @@ out/
 
 ### VS Code ###
 .vscode/
+*.log
