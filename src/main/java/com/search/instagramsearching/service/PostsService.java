@@ -52,7 +52,6 @@ public class PostsService {
 //            return str_response;
 
             // 방법 3 : 그냥 냅다 보내기
-            return searchResult;
         }
         return searchResult;
     }

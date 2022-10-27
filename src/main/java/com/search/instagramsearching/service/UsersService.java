@@ -52,7 +52,6 @@ public class UsersService {
 //            return str_response;
 
             // 방법 3 : 그냥 빈 리스트 보내기
-            return rawDataList;
 //
 //            // 방법 4 :  UserSearchResultDto 보내기
 //            List<UserResponseDto> result = new ArrayList<>();
