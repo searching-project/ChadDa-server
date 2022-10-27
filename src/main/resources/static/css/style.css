@@ -61,7 +61,7 @@ body {
     line-height: 1;
     letter-spacing: -0.54px;
     text-align: left;
-    color: #d6d6ee;
+    color: #a6d0ff;
 }
 .search-itemDto-center div.name {
     height: 27px;
@@ -213,7 +213,7 @@ button {
 }
 
 .header {
-    background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+    background: linear-gradient(to top right, rgb(23, 50, 115) 0%, rgb(78, 98, 148) 100%);
     color: white;
     text-align: center;
     padding: 50px;
@@ -223,9 +223,14 @@ button {
 
 
 #header-title-select-shop {
+    color : white;
     margin-top: 20px;
     font-size: 45px;
     letter-spacing: 1.1px;
+}
+#header-title-image {
+    width: 50px;
+
 }
 #logout-text {
     position:absolute;

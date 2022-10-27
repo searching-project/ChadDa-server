@@ -129,7 +129,6 @@ function reissue() {
     })
 }
 
-
 function execSearch() {
     /**
      * 검색어 input id: query
@@ -152,37 +151,50 @@ function execSearch() {
         url: `/api/search/post/${query}`,
         success: function (response) {
             $('#search-result-box-post').empty();
-            for (let i = 0; i < response.length; i++) {
-                let itemDto = response[i];
-                let tempHtml = addPostHTML(itemDto);
-                $('#search-result-box-post').append(tempHtml);
+            if (response.length === 0) {
+                $('#search-result-box-post').append("검색 결과가 없습니다.");
+            } else {
+                for (let i = 0; i < response.length; i++) {
+                    let itemDto = response[i];
+                    let tempHtml = addPostHTML(itemDto);
+                    $('#search-result-box-post').append(tempHtml);
+                }
             }
         }
     })
+
     $.ajax({
         type: 'GET',
         url: `/api/search/user/${query}`,
         success: function (response) {
             $('#search-result-box-profile').empty();
-            // for (let i = 0; i < response.data.length; i++) {
-            for (let i = 0; i < 5; i++) {
-                let itemDto = response.data[i];
-                let tempHtml = addProfileHTML(itemDto);
-                $('#search-result-box-profile').append(tempHtml);
+            if (response.data.length === 0) {
+                $('#search-result-box-profile').append("검색 결과가 없습니다.");
+            } else {
+                for (let i = 0; i < response.data.length; i++) {
+                    let itemDto = response.data[i];
+                    let tempHtml = addProfileHTML(itemDto);
+                    $('#search-result-box-profile').append(tempHtml);
+                }
             }
         }
     })
+
     $.ajax({
         type: 'GET',
         url: `/api/search/location/${query}`,
         success: function (response) {
             $('#search-result-box-location').empty();
-            console.log(response)
-            for (let i = 0; i < response['data'].length; i++) {
-                let itemDto = response['data'][i];
-                console.log(itemDto)
-                let tempHtml = addLocationHTML(itemDto);
-                $('#search-result-box-location').append(tempHtml);
+            if (response.data.length === 0) {
+                $('#search-result-box-location').append("검색 결과가 없습니다.");
+            } else {
+                console.log(response)
+                for (let i = 0; i < response['data'].length; i++) {
+                    let itemDto = response['data'][i];
+                    console.log(itemDto)
+                    let tempHtml = addLocationHTML(itemDto);
+                    $('#search-result-box-location').append(tempHtml);
+                }
             }
         }
     })
@@ -199,7 +211,7 @@ function addProfileHTML(itemDto) {
                     </div>
                     <div>
                         <span class="unit">게시글 </span>
-                        <span class="unit post"> ${itemDto.nPosts}</span>
+                        <span class="unit post"> ${itemDto.nposts}</span>
                         <span class="unit link" onclick = "moveToUserPosts(${itemDto.sid})" style="cursor:pointer"> 🔗링크</span>
                         <span class="unit">/ 팔로잉</span>
                         <span class="unit following"> ${itemDto.following}</span>
