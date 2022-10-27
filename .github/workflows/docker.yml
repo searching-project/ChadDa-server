@@ -136,4 +136,4 @@ jobs:
             docker pull ${{secrets.DOCKER_USER}}/chadda-repo
             docker stop chadda_server
             docker rm chadda_server
-            docker run --detach --name chadda_server -p 8080:8080 ${{secrets.DOCKER_USER}}/chadda-repo
+            docker run --detach --name chadda_server -p 80:8080 ${{secrets.DOCKER_USER}}/chadda-repo
