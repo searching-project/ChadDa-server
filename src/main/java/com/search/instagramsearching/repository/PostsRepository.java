@@ -15,7 +15,7 @@ import java.util.List;
 
 public interface PostsRepository extends JpaRepository<Posts, Long> {
     // locationId로 검색 -> JPA 문법 사용
-    List<Posts> findAllByLocationId(Long locationId);
+    List<Posts> findAllByLocationId(Long locationId, @PageableDefault Pageable pageable);
 
 
     @Query(value = "select * FROM posts as p WHERE MATCH(p.description) AGAINST(:keyword IN NATURAL LANGUAGE MODE)"

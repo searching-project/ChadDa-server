@@ -1,15 +1,15 @@
 package com.search.instagramsearching.service;
 
+import com.search.instagramsearching.aop.ExecutionTimeLogging;
 import com.search.instagramsearching.dto.request.LoginReqDto;
 import com.search.instagramsearching.dto.request.SignupRequestDto;
 import com.search.instagramsearching.dto.response.*;
 import com.search.instagramsearching.entity.RefreshToken;
 import com.search.instagramsearching.entity.Users;
 import com.search.instagramsearching.exception.ErrorCode;
-import com.search.instagramsearching.exception.ResultNotFoundException;
+import com.search.instagramsearching.exception.NotFoundException;
 import com.search.instagramsearching.jwt.util.JwtUtil;
 import com.search.instagramsearching.jwt.util.TokenProperties;
-import com.search.instagramsearching.repository.PostsRepository;
 import com.search.instagramsearching.repository.RefreshTokenRedisRepository;
 import com.search.instagramsearching.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,18 +31,36 @@ import java.util.Optional;
 public class UsersService {
     private final PasswordEncoder passwordEncoder;
     private final UsersRepository usersRepository;
-    private final PostsRepository postsRepository;
+
 
     private final RefreshTokenRedisRepository refreshTokenRepository;
     private final JwtUtil jwtUtil;
-
+    @ExecutionTimeLogging
     @Transactional
     public List<?> searchUsers(String keyword, Pageable pageable) {
 
         // 키워드에 맞는 검색 결과 받아오기
         List<UserSearchResultDto> rawDataList = usersRepository.searchUsers(keyword, pageable);
         if (rawDataList == null || rawDataList.size() == 0) {
-            throw new ResultNotFoundException();
+
+            // 방법 1 : 정석 - 예외처리
+//            throw new NotFoundException(ErrorCode.RESULT_NOT_FOUND);
+
+//            // 방법 2 : 임시 response 보내기 -> 이유는 모르겠지만 NPE로 실패
+//            List<String> str_response = new ArrayList<>();
+//            str_response.add(ErrorCode.RESULT_NOT_FOUND.getMessage());
+//            return str_response;
+
+            // 방법 3 : 그냥 빈 리스트 보내기
+            return rawDataList;
+//
+//            // 방법 4 :  UserSearchResultDto 보내기
+//            List<UserResponseDto> result = new ArrayList<>();
+//                result.add(
+//                        UserResponseDto.builder().sid(null).profileName("").businessAccountTf(false).firstnameLastname("").profileId(0L).nPosts(null).following(0).followers(0)
+//                                .description(ErrorCode.RESULT_NOT_FOUND.getMessage()).url("").build()
+//                );
+//            return result;
         }
 
         // 검색결과를 ResponseDto에 담기

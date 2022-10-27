@@ -18,32 +18,14 @@ public class GlobalExceptionHandler {
     private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler
-    protected ResponseEntity<?> resultNotFoundExceptionHandler(ResultNotFoundException exception) {
+    protected ResponseEntity<?> notFoundExceptionHandler(NotFoundException exception) {
         logger.error("resultNotFoundExceptionHandler", exception);
-        return new ResponseEntity<>(ResponseDto.fail(RESULT_NOT_FOUND), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(ResponseDto.fail(exception.getErrorCode()), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    protected ResponseEntity<?> resultExpirationExceptionHandler(ResultExpirationException exception) {
+    protected ResponseEntity<?> goneExceptionHandler(GoneException exception) {
         logger.error("resultExpirationExceptionHandler", exception);
-        return new ResponseEntity<>(ResponseDto.fail(RESULT_EXPIRATION), HttpStatus.GONE);
-    }
-
-    @ExceptionHandler
-    protected ResponseEntity<?> invalidParameterExceptionHandler(InvalidParameterException exception) {
-        logger.error("invalidParameterExceptionHandler", exception);
-        return new ResponseEntity<>(ResponseDto.fail(INVALID_PARAMETER), HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler
-    protected ResponseEntity<?> userNotFoundExceptionHandler(UserNotFoundException exception) {
-        logger.error("userNotFoundExceptionHandler", exception);
-        return new ResponseEntity<>(ResponseDto.fail(USER_NOT_FOUND), HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler
-    protected ResponseEntity<?> postNotFoundExceptionHandler(PostsNotFoundExceptioin exception) {
-        logger.error("postNotFoundExceptionHandler", exception);
-        return new ResponseEntity<>(ResponseDto.fail(POST_NOT_FOUND), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(ResponseDto.fail(exception.getErrorCode()), HttpStatus.GONE);
     }
 }

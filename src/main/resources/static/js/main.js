@@ -49,7 +49,6 @@ $(document).ready(function () {
 });
 
 function showUserInfo() {
-    if (!$.cookie('username')) {
         $.ajax({
             type: "POST",
             url: `/user/userinfo`,
@@ -63,7 +62,6 @@ function showUserInfo() {
                 if (!username) {
                     console.log("username not found")
                 } else {
-                    $.cookie('username', username, {path: '/', expires: $.cookie('access').expires});
                     $('#username').text(username);
                 }
             },
@@ -71,9 +69,6 @@ function showUserInfo() {
                 console.log("find userinfo failed")
             }
         })
-    } else {
-        $('#username').text($.cookie('username'));
-    }
 }
 
 function showLogin(isAuth) {
@@ -129,7 +124,6 @@ function reissue() {
     })
 }
 
-
 function execSearch() {
     /**
      * 검색어 input id: query
@@ -145,43 +139,67 @@ function execSearch() {
         $('#query').focus();
         return;
     }
-
+    $('#search-result-box-post').empty();
+    $('#search-result-box-profile').empty();
+    $('#search-result-box-location').empty();
+    var backGroundCover = "<div id='back'></div>";
+    var loadingBarImage = '';
+    loadingBarImage += "<div id='loadingBar'>";
+    loadingBarImage += "     <img src='images/loading.gif' style='height: 50px'/>";
+    loadingBarImage += "</div>";
+    $('#search-result-box-profile').append(backGroundCover).append(loadingBarImage);
+    $('#search-result-box-post').append(backGroundCover).append(loadingBarImage);
+    $('#search-result-box-location').append(backGroundCover).append(loadingBarImage);
     // 3. GET /api/search/${query} 요청
     $.ajax({
         type: 'GET',
         url: `/api/search/post/${query}`,
         success: function (response) {
             $('#search-result-box-post').empty();
-            for (let i = 0; i < response.length; i++) {
-                let itemDto = response[i];
-                let tempHtml = addPostHTML(itemDto);
-                $('#search-result-box-post').append(tempHtml);
+            if (response.length === 0) {
+                $('#search-result-box-post').append("검색 결과가 없습니다.");
+            } else {
+                for (let i = 0; i < response.length; i++) {
+                    let itemDto = response[i];
+                    let tempHtml = addPostHTML(itemDto);
+                    $('#search-result-box-post').append(tempHtml);
+                }
             }
         }
     })
+
     $.ajax({
         type: 'GET',
         url: `/api/search/user/${query}`,
         success: function (response) {
             $('#search-result-box-profile').empty();
-            for (let i = 0; i < response.data.length; i++) {
-                let itemDto = response.data[i];
-                let tempHtml = addProfileHTML(itemDto);
-                $('#search-result-box-profile').append(tempHtml);
+            if (response.data.length === 0) {
+                $('#search-result-box-profile').append("검색 결과가 없습니다.");
+            } else {
+                for (let i = 0; i < response.data.length; i++) {
+                    let itemDto = response.data[i];
+                    let tempHtml = addProfileHTML(itemDto);
+                    $('#search-result-box-profile').append(tempHtml);
+                }
             }
         }
     })
+
     $.ajax({
         type: 'GET',
         url: `/api/search/location/${query}`,
         success: function (response) {
             $('#search-result-box-location').empty();
-            console.log(response)
-            for (let i = 0; i < response['data'].length; i++) {
-                let itemDto = response['data'][i];
-                console.log(itemDto)
-                let tempHtml = addLocationHTML(itemDto);
-                $('#search-result-box-location').append(tempHtml);
+            if (response.data.length === 0) {
+                $('#search-result-box-location').append("검색 결과가 없습니다.");
+            } else {
+                console.log(response)
+                for (let i = 0; i < response['data'].length; i++) {
+                    let itemDto = response['data'][i];
+                    console.log(itemDto)
+                    let tempHtml = addLocationHTML(itemDto);
+                    $('#search-result-box-location').append(tempHtml);
+                }
             }
         }
     })
@@ -249,9 +267,9 @@ function addPostHTML(itemDto) {
     let location_name = itemDto.name === null ? "" : "@" + itemDto.name
     let like_num = itemDto.number_likes === null ? 0 : itemDto.number_likes
     let comment_num = itemDto.number_comments === null ? 0 : itemDto.number_comments
-    return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findProfile(${itemDto.sid_profile})" >
+    return `<div class="search-itemDto" id="${itemDto.sid}" >
             <div class="search-itemDto-center" >
-                <div class="name" >
+                <div class="name" onclick="findProfile(${itemDto.sid_profile})" style="cursor:pointer" >
                     ${itemDto.profile_name}
                     <span class="unit"> ${location_name}</span>
                 </div>
@@ -316,6 +334,3 @@ function movetoLocationPost(LocationId) {
     console.log("locationPost?" + LocationId)
     window.location.href = "locationPost?" + LocationId
 }
-
-
-

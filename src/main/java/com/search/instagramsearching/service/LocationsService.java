@@ -3,12 +3,12 @@ package com.search.instagramsearching.service;
 import com.search.instagramsearching.dto.response.LocationResDto;
 import com.search.instagramsearching.dto.response.LocationResResultDto;
 import com.search.instagramsearching.dto.response.ResponseDto;
-import com.search.instagramsearching.exception.ResultNotFoundException;
 import com.search.instagramsearching.repository.LocationsRepository;
 import com.search.instagramsearching.repository.PostsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -38,7 +38,7 @@ public class LocationsService {
         }
         return ResponseDto.success(locationResDtoList);
     }
-    public ResponseDto<?> searchPostsFromLocations(Long locationId){
-        return ResponseDto.success(postsRepository.findAllByLocationId(locationId));
+    public ResponseDto<?> searchPostsFromLocations(Long locationId,Pageable pageable){
+        return ResponseDto.success(postsRepository.findAllByLocationId(locationId , pageable));
     }
 }
