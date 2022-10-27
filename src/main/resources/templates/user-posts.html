@@ -12,6 +12,7 @@
     <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script th:src="@{/js/user-posts.js}" ></script>
     <title>검색의 시작, 찾다</title>
 </head>
@@ -26,7 +27,7 @@
             <a id="login-text" href="javascript:{}" onclick="document.getElementById('signin_form').submit(); "> 로그인</a>
         </form>
         <form id="signout_form" method="post" action="/user/logout" >
-            <a id="logout-text" style="display:none" href="javascript:{}" onclick="document.getElementById('signout_form').submit(); "> <span id="username">user</span>님 로그아웃</a>
+            <a id="logout-text" href="javascript:{}" onclick="document.getElementById('signout_form').submit(); "> <span id="username">user</span>님 로그아웃</a>
         </form>
     </div>
     <div id="search-area">

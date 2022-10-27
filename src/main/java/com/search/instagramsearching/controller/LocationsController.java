@@ -21,8 +21,8 @@ public class LocationsController {
         return locationsService.searchLocations(keyword,pageable);
     }
     @GetMapping("/search/location/{locationid}/post")
-    public ResponseDto<?> searchPostsFromLocations(@PathVariable Long locationid){
+    public ResponseDto<?> searchPostsFromLocations(@PathVariable Long locationid,@PageableDefault(page = 0, size = 20) Pageable pageable){
         System.out.println("메롱");
-        return locationsService.searchPostsFromLocations(locationid);
+        return locationsService.searchPostsFromLocations(locationid, pageable);
     }
 }
