@@ -1,10 +1,8 @@
 package com.search.instagramsearching.service;
 
 import com.search.instagramsearching.dto.response.PostResponseDto;
-import com.search.instagramsearching.dto.response.UserPostSearchResultDto;
-import com.search.instagramsearching.dto.response.UserPostsResponseDto;
 import com.search.instagramsearching.entity.Posts;
-import com.search.instagramsearching.exception.PostsNotFoundExceptioin;
+import com.search.instagramsearching.exception.ErrorCode;
 import com.search.instagramsearching.repository.PostsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,18 +31,28 @@ public class PostsService {
         return posts;
     }
 
-    public List<PostResponseDto> getUserPosts(Long userSid, Pageable pageable) {
+    public List<?> getUserPosts(Long userSid, Pageable pageable) {
 
         // profileId로 해당 posts 조회하기
-        List<PostResponseDto> posts = getSearchResult(userSid, pageable);
+        List<?> posts = getSearchResult(userSid, pageable);
         return posts;
     }
 
     // Index - profileId로 posts table 조회
-    private List<PostResponseDto> getSearchResult(Long profileId, Pageable pageable) {
+    private List<?> getSearchResult(Long profileId, Pageable pageable) {
         List<PostResponseDto> searchResult = postsRepository.getUserPosts(profileId, pageable);
         if (searchResult.size() == 0) {
-            throw new PostsNotFoundExceptioin();
+
+            // 방법 1 : 정석 예외처리
+//            throw new PostsNotFoundExceptioin();
+
+//            // 방법 2 : 임시 예외처리 - response 조작
+//            List<String> str_response = new ArrayList<>();
+//            str_response.add(ErrorCode.RESULT_NOT_FOUND.getMessage());
+//            return str_response;
+
+            // 방법 3 : 그냥 냅다 보내기
+            return searchResult;
         }
         return searchResult;
     }

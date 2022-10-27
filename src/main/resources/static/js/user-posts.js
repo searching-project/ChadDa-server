@@ -6,6 +6,7 @@ console.log(receivedData);
 // 페이지 로딩되자마자 함수 실행하기
 $(document).ready(function () {
     findUserPosts(receivedData);
+    alert("조회 완료");
 })
 
 // 유저의 포스트를 찾아 얻어오는 함수
@@ -26,7 +27,6 @@ function findUserPosts(userSid) {
             }
         }
     })
-    alert("조회 완료")
 }
 
 // 포스트 추가 함수
