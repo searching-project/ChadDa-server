@@ -44,7 +44,7 @@ public class UsersService {
         if (rawDataList == null || rawDataList.size() == 0) {
 
             // 방법 1 : 정석 - 예외처리
-            throw new NotFoundException(ErrorCode.RESULT_NOT_FOUND);
+//            throw new NotFoundException(ErrorCode.RESULT_NOT_FOUND);
 
 //            // 방법 2 : 임시 response 보내기 -> 이유는 모르겠지만 NPE로 실패
 //            List<String> str_response = new ArrayList<>();

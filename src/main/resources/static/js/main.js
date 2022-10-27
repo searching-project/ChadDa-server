@@ -49,7 +49,6 @@ $(document).ready(function () {
 });
 
 function showUserInfo() {
-    if (!$.cookie('username')) {
         $.ajax({
             type: "POST",
             url: `/user/userinfo`,
@@ -63,7 +62,6 @@ function showUserInfo() {
                 if (!username) {
                     console.log("username not found")
                 } else {
-                    $.cookie('username', username, {path: '/', expires: $.cookie('access').expires});
                     $('#username').text(username);
                 }
             },
@@ -71,9 +69,6 @@ function showUserInfo() {
                 console.log("find userinfo failed")
             }
         })
-    } else {
-        $('#username').text($.cookie('username'));
-    }
 }
 
 function showLogin(isAuth) {
@@ -240,7 +235,7 @@ function findProfile(profileId) {
                 <span class="unit business" id="profile-detail-business">${isbusiness}</span>
             </h1>
                 <span class="unit">게시물</span>
-                <span class="unit like" id="profile-detail-post"> ${response.nPosts}</span>
+                <span class="unit like" id="profile-detail-post"> ${response.nposts}</span>
                 <span class="unit">/ 팔로잉</span>
                 <span class="unit like" id="profile-detail-following"> ${response.following}</span>
                 <span class="unit">명 /</span>
@@ -262,9 +257,9 @@ function addPostHTML(itemDto) {
     let location_name = itemDto.name === null ? "" : "@" + itemDto.name
     let like_num = itemDto.number_likes === null ? 0 : itemDto.number_likes
     let comment_num = itemDto.number_comments === null ? 0 : itemDto.number_comments
-    return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findProfile(${itemDto.sid_profile})" >
+    return `<div class="search-itemDto" id="${itemDto.sid}" >
             <div class="search-itemDto-center" >
-                <div class="name" >
+                <div class="name" onclick="findProfile(${itemDto.sid_profile})" style="cursor:pointer" >
                     ${itemDto.profile_name}
                     <span class="unit"> ${location_name}</span>
                 </div>

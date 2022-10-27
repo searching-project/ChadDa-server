@@ -1,7 +1,101 @@
 $(document).ready(function () {
     let query = location.href.split('?')[1];
     findLocationPost(query);
-})
+
+    if ($.cookie('access') && $.cookie('refresh')) {
+        showLogin(true)
+        console.log("success authorization")
+        $.ajaxSetup({
+            headers: {
+                'Authorization': $.cookie('access'),
+                'Refresh-Token': $.cookie('refresh')
+            }
+        })
+        showUserInfo()
+
+    } else if ($.cookie('refresh')) {
+        reissue()
+    } else {
+        showLogin()
+        console.log("No access")
+    }
+});
+
+function showUserInfo() {
+    $.ajax({
+        type: "POST",
+        url: `/user/userinfo`,
+        contentType: "application/json",
+        headers: {
+            'Authorization': $.cookie('access'),
+            'Refresh-Token': $.cookie('refresh')
+        },
+        success: function (response) {
+            const username = response.username;
+            if (!username) {
+                console.log("username not found")
+            } else {
+                $('#username').text(username);
+            }
+        },
+        error: function () {
+            console.log("find userinfo failed")
+        }
+    })
+}
+
+function showLogin(isAuth) {
+    if (isAuth) {
+        $('#signout_form').show();
+        $('#signin_form').hide();
+    } else {
+        $('#signout_form').hide();
+        $('#signin_form').show();
+    }
+}
+
+function reissue() {
+    $.ajaxSetup({
+        headers: {
+            'Refresh-Token': $.cookie('refresh')
+        }
+    })
+    $.ajax({
+        type: "POST",
+        url: `/user/reissue`,
+        contentType: "application/json",
+        success: function (response, status, request) {
+            const accessToken = request.getResponseHeader('Authorization')
+            const refreshToken = request.getResponseHeader('Refresh-Token')
+            if (accessToken && refreshToken) {
+                $.ajaxSetup({
+                    headers: {
+                        'Authorization': $.cookie('access', accessToken, {
+                            path: '/',
+                            expires: new Date(Date.now() + 30 * 60 * 1000)
+                        }),
+                        'Refresh-Token': $.cookie('refresh', refreshToken, {
+                            path: '/',
+                            expires: new Date(Date.now() + 24 * 60 * 60 * 1000)
+                        })
+                    }
+                });
+                console.log(request.getResponseHeader('Authorization'))
+                console.log(request.getResponseHeader('Refresh-Token'))
+                window.location.reload();
+            } else {
+                console.log("reissue failed")
+                showLogin()
+            }
+        }, error: function (request, status, error) {
+            console.log(request)
+            console.log(status)
+            console.log(error)
+            console.log("reissue error")
+            showLogin()
+        }
+    })
+}
 
 function findLocationPost(id){
     console.log(id);

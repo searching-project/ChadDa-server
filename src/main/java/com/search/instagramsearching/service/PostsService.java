@@ -51,7 +51,7 @@ public class PostsService {
         if (searchResult.size() == 0) {
 
             // 방법 1 : 정석 예외처리
-            throw new NotFoundException(ErrorCode.RESULT_NOT_FOUND);
+//            throw new NotFoundException(ErrorCode.RESULT_NOT_FOUND);
 
 //            // 방법 2 : 임시 예외처리 - response 조작
 //            List<String> str_response = new ArrayList<>();
