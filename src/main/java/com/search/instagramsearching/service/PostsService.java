@@ -2,6 +2,8 @@ package com.search.instagramsearching.service;
 
 import com.search.instagramsearching.dto.response.PostResponseDto;
 import com.search.instagramsearching.entity.Posts;
+import com.search.instagramsearching.exception.ErrorCode;
+import com.search.instagramsearching.exception.NotFoundException;
 import com.search.instagramsearching.repository.PostsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,8 +43,8 @@ public class PostsService {
         List<PostResponseDto> searchResult = postsRepository.getUserPosts(profileId, pageable);
         if (searchResult.size() == 0) {
 
-//            // 방법 1 : 정석 예외처리
-//            throw new NotFoundException(ErrorCode.RESULT_NOT_FOUND);
+            // 방법 1 : 정석 예외처리
+            throw new NotFoundException(ErrorCode.RESULT_NOT_FOUND);
 
 //            // 방법 2 : 임시 예외처리 - response 조작
 //            List<String> str_response = new ArrayList<>();

@@ -7,6 +7,7 @@ import com.search.instagramsearching.dto.response.*;
 import com.search.instagramsearching.entity.RefreshToken;
 import com.search.instagramsearching.entity.Users;
 import com.search.instagramsearching.exception.ErrorCode;
+import com.search.instagramsearching.exception.NotFoundException;
 import com.search.instagramsearching.jwt.util.JwtUtil;
 import com.search.instagramsearching.jwt.util.TokenProperties;
 import com.search.instagramsearching.repository.RefreshTokenRedisRepository;
@@ -42,8 +43,8 @@ public class UsersService {
         List<UserSearchResultDto> rawDataList = usersRepository.searchUsers(keyword, pageable);
         if (rawDataList == null || rawDataList.size() == 0) {
 
-//            // 방법 1 : 정석 - 예외처리
-//            throw new NotFoundException(ErrorCode.RESULT_NOT_FOUND);
+            // 방법 1 : 정석 - 예외처리
+            throw new NotFoundException(ErrorCode.RESULT_NOT_FOUND);
 
 //            // 방법 2 : 임시 response 보내기 -> 이유는 모르겠지만 NPE로 실패
 //            List<String> str_response = new ArrayList<>();
