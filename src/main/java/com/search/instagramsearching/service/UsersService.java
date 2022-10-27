@@ -1,10 +1,6 @@
 package com.search.instagramsearching.service;
 
 import com.search.instagramsearching.aop.ExecutionTimeLogging;
-import com.search.instagramsearching.dto.response.UserResponseDto;
-import com.search.instagramsearching.dto.response.UserSearchResultDto;
-import com.search.instagramsearching.entity.Users;
-import com.search.instagramsearching.exception.ResultNotFoundException;
 import com.search.instagramsearching.dto.request.LoginReqDto;
 import com.search.instagramsearching.dto.request.SignupRequestDto;
 import com.search.instagramsearching.dto.response.*;
@@ -14,7 +10,6 @@ import com.search.instagramsearching.exception.ErrorCode;
 import com.search.instagramsearching.exception.NotFoundException;
 import com.search.instagramsearching.jwt.util.JwtUtil;
 import com.search.instagramsearching.jwt.util.TokenProperties;
-import com.search.instagramsearching.repository.PostsRepository;
 import com.search.instagramsearching.repository.RefreshTokenRedisRepository;
 import com.search.instagramsearching.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
