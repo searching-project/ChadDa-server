@@ -12,7 +12,17 @@
 </head>
 <body>
     <div class="header">
-        Instagram Searching
+        <div id="header-title-select-shop">
+            <img id="header-title-image" src = "images/chadda_logo.png" alt="">
+            ChadDa
+        </div>
+        <form id="signin_form" method="get" action="/user/loginView" >
+
+            <a id="login-text" href="javascript:{}" onclick="document.getElementById('signin_form').submit(); "> 로그인</a>
+        </form>
+        <form id="signout_form" method="post" action="/user/logout" >
+            <a id="logout-text" style="display:none" href="javascript:{}" onclick="document.getElementById('signout_form').submit(); "> <span id="username">user</span>님 로그아웃</a>
+        </form>
     </div>
     <div id="search-area">
         <div class="search-title"> Posts </div>
