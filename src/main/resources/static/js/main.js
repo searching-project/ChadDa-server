@@ -49,7 +49,6 @@ $(document).ready(function () {
 });
 
 function showUserInfo() {
-    if (!$.cookie('username')) {
         $.ajax({
             type: "POST",
             url: `/user/userinfo`,
@@ -63,7 +62,6 @@ function showUserInfo() {
                 if (!username) {
                     console.log("username not found")
                 } else {
-                    $.cookie('username', username, {path: '/', expires: $.cookie('access').expires});
                     $('#username').text(username);
                 }
             },
@@ -71,9 +69,6 @@ function showUserInfo() {
                 console.log("find userinfo failed")
             }
         })
-    } else {
-        $('#username').text($.cookie('username'));
-    }
 }
 
 function showLogin(isAuth) {
