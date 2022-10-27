@@ -32,10 +32,10 @@ public class UsersService {
     private final PasswordEncoder passwordEncoder;
     private final UsersRepository usersRepository;
 
-    @ExecutionTimeLogging
+
     private final RefreshTokenRedisRepository refreshTokenRepository;
     private final JwtUtil jwtUtil;
-
+    @ExecutionTimeLogging
     @Transactional
     public List<?> searchUsers(String keyword, Pageable pageable) {
 

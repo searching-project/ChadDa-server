@@ -6,7 +6,6 @@ console.log(receivedData);
 // 페이지 로딩되자마자 함수 실행하기
 $(document).ready(function () {
     findUserPosts(receivedData);
-    alert("조회 완료");
 
     if ($.cookie('access') && $.cookie('refresh')) {
         showLogin(true)
@@ -107,13 +106,20 @@ function reissue() {
 // 유저의 포스트를 찾아 얻어오는 함수
 function findUserPosts(userSid) {
     $('#search-result-box-post').empty();
-    alert("유저의 게시글을 조회중입니다.")
 
     $.ajax({
         type: 'GET',
         url: `/api/user/${userSid}/posts`,
         contentType: "application/json",
+        beforeSend: function () {
+            FunLoadingBarStart();      	//로딩바 생성
+        },
         success: function (response) {
+            $('#search-result-box-post').empty();
+            if (response.data.length === 0) {
+                alert("검색결과가 없습니다.")
+                window.location.href = "/"
+            }
             // 1. view 적용
             for (let i = 0; i < response.data.length; i++) {
                 let itemDto = response.data[i];
@@ -146,4 +152,14 @@ function addPostHTML(itemDto) {
                     <div>${itemDto.description}</div>
                 </div>
             </div>`
+}
+
+function FunLoadingBarStart() {
+    $('#search-result-box-post').empty();
+    var backGroundCover = "<div id='back'></div>";
+    var loadingBarImage = '';
+    loadingBarImage += "<div id='loadingBar'>";
+    loadingBarImage += "     <img src='images/loading.gif' style='height: 50px'/>";
+    loadingBarImage += "</div>";
+    $('#search-result-box-post').append(backGroundCover).append(loadingBarImage);
 }

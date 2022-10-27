@@ -139,7 +139,17 @@ function execSearch() {
         $('#query').focus();
         return;
     }
-
+    $('#search-result-box-post').empty();
+    $('#search-result-box-profile').empty();
+    $('#search-result-box-location').empty();
+    var backGroundCover = "<div id='back'></div>";
+    var loadingBarImage = '';
+    loadingBarImage += "<div id='loadingBar'>";
+    loadingBarImage += "     <img src='images/loading.gif' style='height: 50px'/>";
+    loadingBarImage += "</div>";
+    $('#search-result-box-profile').append(backGroundCover).append(loadingBarImage);
+    $('#search-result-box-post').append(backGroundCover).append(loadingBarImage);
+    $('#search-result-box-location').append(backGroundCover).append(loadingBarImage);
     // 3. GET /api/search/${query} 요청
     $.ajax({
         type: 'GET',
@@ -324,6 +334,3 @@ function movetoLocationPost(LocationId) {
     console.log("locationPost?" + LocationId)
     window.location.href = "locationPost?" + LocationId
 }
-
-
-
