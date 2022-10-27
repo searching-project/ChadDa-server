@@ -37,4 +37,10 @@ public class PostsController {
         System.out.println(requestDto);
         return postsService.createPost(requestDto);
     }
+    // 게시글 수정
+    @PutMapping("post/{sid}")
+    public ResponseDto<?> updatePost(@PathVariable Long sid, @RequestBody PostRequestDto requestDto){
+        return postsService.updatePost(sid, requestDto);
+    }
+    // 게시글 삭제
 }

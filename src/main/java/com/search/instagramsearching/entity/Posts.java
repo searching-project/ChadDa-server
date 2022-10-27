@@ -48,4 +48,10 @@ public class Posts {
         this.postType = requestDto.getPostType();
         this.sidProfile = requestDto.getSidProfile();
     }
+
+    public void update(PostRequestDto requestDto){
+        this.description = requestDto.getDescription();
+        this.postType = requestDto.getPostType();
+        this.sidProfile = requestDto.getSidProfile();
+    }
 }

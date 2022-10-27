@@ -6,6 +6,7 @@ import com.search.instagramsearching.dto.response.ResponseDto;
 import com.search.instagramsearching.dto.response.UserPostSearchResultDto;
 import com.search.instagramsearching.dto.response.UserPostsResponseDto;
 import com.search.instagramsearching.entity.Posts;
+import com.search.instagramsearching.exception.ErrorResponse;
 import com.search.instagramsearching.exception.PostsNotFoundExceptioin;
 import com.search.instagramsearching.repository.PostsRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -54,5 +56,20 @@ public class PostsService {
         Posts post = new Posts(requestDto);
         postsRepository.save(post);
         return ResponseDto.success(post);
+    }
+
+    @Transactional
+    public ResponseDto<?> updatePost(Long sid, PostRequestDto requestDto) {
+        Posts posts = isPresentPost(sid);
+        if(posts == null){
+            ErrorResponse.builder()
+            return ResponseDto.fail("POST_NOT_FOUND");
+
+        }
+        return ResponseDto.success("fe");
+    }
+    public Posts isPresentPost(Long id) {
+        Optional<Posts> optionalComment = postsRepository.findById(id);
+        return optionalComment.orElse(null);
     }
 }
