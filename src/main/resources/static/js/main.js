@@ -227,7 +227,7 @@ function findProfile(profileId) {
                 <span class="unit business" id="profile-detail-business">${isbusiness}</span>
             </h1>
                 <span class="unit">게시물</span>
-                <span class="unit like" id="profile-detail-post"> ${response.nPosts}</span>
+                <span class="unit like" id="profile-detail-post"> ${response.nposts}</span>
                 <span class="unit">/ 팔로잉</span>
                 <span class="unit like" id="profile-detail-following"> ${response.following}</span>
                 <span class="unit">명 /</span>
