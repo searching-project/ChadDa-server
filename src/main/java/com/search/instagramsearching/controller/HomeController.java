@@ -46,7 +46,6 @@ public class HomeController {
         return "login";
     }
 
-
     // 회원 가입 페이지
     @GetMapping("/user/signup")
     public String signup() {
@@ -90,4 +89,8 @@ public class HomeController {
         return usersService.reissue(request,response);
     }
 
+    @GetMapping("/user/post")
+    public String post() {
+        return "post";
+    }
 }

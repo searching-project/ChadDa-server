@@ -42,16 +42,11 @@
                         <textarea class="form-control" rows="20" name="content" >${article.content}</textarea>
                     </td>
                 </tr>
-                <tr>
-                    <th style="padding-top: 15px">첨부파일</th>
-                    <td><input type="file" class="btn btn-default" name="fileName"></td>
-                </tr>
                 </tbody>
             </table>
         </div>
         <div class="btn-group btn-group-sm" role="group" aria-label="...">
-            <input type="submit" class="btn btn-default" value="수정하기">
-            <input type="button" class="btn btn-default" value="취소" onclick="document.location.href='/bbs/content.bbs?articleNumber=${articleNumber}&pageNum=${pageNum}'">
+            <input type="submit" class="btn btn-default" value="생성하기">
         </div>
     </div>
 </form>
