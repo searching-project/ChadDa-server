@@ -306,7 +306,7 @@ function moveToUserPosts(userSid) {
 }
 
 function addLocationHTML(itemDto) {
-    return `<div class="search-itemDto" id="${itemDto.sid}" onclick="movetoLocationPost(${itemDto.sid})">
+    return `<div class="search-itemDto" id="${itemDto.sid}" onclick="fail()">
             <div class="search-itemDto-center">
                 <div class="name">
                      ${itemDto.name}
@@ -325,5 +325,9 @@ function movetoLocationPost(LocationId) {
     window.location.href = "locationPost?" + LocationId
 }
 
-
+function fail(){
+    setTimeout(() => {
+        alert('해당 위치와 연관된 게시물이 존재하지 않습니다.')
+    }, 5000)
+}
 

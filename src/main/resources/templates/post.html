@@ -20,8 +20,7 @@
 <body>
 <form action="/user/post" method="post">
     <div id="contentForm">
-        <input type="hidden" name="pageNum" value="${pageNum}">
-        <input type="hidden" name="articleNumber" value="${article.articleNumber}">
+        <input type="hidden" name="articleNumber" value="${sid}">
 
         <div class="input-group input-group-sm" role="group" aria-label="...">
             <table class="table table-striped table-bordered">
@@ -32,14 +31,14 @@
                 </tr>
                 <tr>
                     <th style="padding-top: 15px">제목</th>
-                    <td><input type="text" name="title" value="${article.title}"
+                    <td><input type="text" name="title" value="${sid}"
                                class="form-control" aria-describedby="basic-addon1"></td>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <td colspan="2">
-                        <textarea class="form-control" rows="20" name="content" >${article.content}</textarea>
+                        <textarea class="form-control" rows="20" name="content" >${sid}</textarea>
                     </td>
                 </tr>
                 </tbody>
