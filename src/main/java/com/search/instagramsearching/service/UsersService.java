@@ -1,5 +1,10 @@
 package com.search.instagramsearching.service;
 
+import com.search.instagramsearching.aop.ExecutionTimeLogging;
+import com.search.instagramsearching.dto.response.UserResponseDto;
+import com.search.instagramsearching.dto.response.UserSearchResultDto;
+import com.search.instagramsearching.entity.Users;
+import com.search.instagramsearching.exception.ResultNotFoundException;
 import com.search.instagramsearching.dto.request.LoginReqDto;
 import com.search.instagramsearching.dto.request.SignupRequestDto;
 import com.search.instagramsearching.dto.response.*;
@@ -31,8 +36,8 @@ import java.util.Optional;
 public class UsersService {
     private final PasswordEncoder passwordEncoder;
     private final UsersRepository usersRepository;
-    private final PostsRepository postsRepository;
 
+    @ExecutionTimeLogging
     private final RefreshTokenRedisRepository refreshTokenRepository;
     private final JwtUtil jwtUtil;
 
