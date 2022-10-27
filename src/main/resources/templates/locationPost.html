@@ -11,25 +11,27 @@
     <title>인스타그램 검색 서비스</title>
 </head>
 <body>
-<div class="header">
-    Instagram Searching
+<div class="header" style="position:relative;">
+
+    <div id="header-title-select-shop">
+        <img id="header-title-image" src = "images/chadda_logo.png" alt="">
+        ChadDa
+    </div>
+    <form id="signin_form" method="get" action="/user/loginView" >
+
+        <a id="login-text" href="javascript:{}" onclick="document.getElementById('signin_form').submit(); "> 로그인</a>
+    </form>
+    <form id="signout_form" method="post" action="/user/logout" >
+        <a id="logout-text" href="javascript:{}" onclick="document.getElementById('signout_form').submit(); "> <span id="username">user</span>님 로그아웃</a>
+    </form>
 </div>
 <div class="nav">
-    <div class="nav-search active">
-        검색하기
-    </div>
-    <div class="nav-see">
-        (미정)
-    </div>
 </div>
 
 <div id="see-area">
 </div>
 
 <div id="search-area">
-    <div>
-        <input type="text" id="query">
-    </div>
     <div class="search-title"> Posts </div>
     <div id="search-result-box-post">
     </div>

@@ -257,9 +257,9 @@ function addPostHTML(itemDto) {
     let location_name = itemDto.name === null ? "" : "@" + itemDto.name
     let like_num = itemDto.number_likes === null ? 0 : itemDto.number_likes
     let comment_num = itemDto.number_comments === null ? 0 : itemDto.number_comments
-    return `<div class="search-itemDto" id="${itemDto.sid}" onclick="findProfile(${itemDto.sid_profile})" >
+    return `<div class="search-itemDto" id="${itemDto.sid}" >
             <div class="search-itemDto-center" >
-                <div class="name" >
+                <div class="name" onclick="findProfile(${itemDto.sid_profile})" style="cursor:pointer" >
                     ${itemDto.profile_name}
                     <span class="unit"> ${location_name}</span>
                 </div>
