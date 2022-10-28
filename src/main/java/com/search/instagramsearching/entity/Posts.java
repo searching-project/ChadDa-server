@@ -43,6 +43,9 @@ public class Posts {
     @ColumnDefault("0")
     private Integer numberComments;
 
+    @Version
+    private Integer version;
+
     public Posts(PostRequestDto requestDto){
         this.description = requestDto.getDescription();
         this.postType = requestDto.getPostType();
