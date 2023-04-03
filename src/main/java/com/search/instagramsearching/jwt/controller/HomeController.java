@@ -1,4 +1,4 @@
-package com.search.instagramsearching.controller;
+package com.search.instagramsearching.jwt.controller;
 
 import com.search.instagramsearching.dto.UserInfoDto;
 import com.search.instagramsearching.dto.request.LoginReqDto;

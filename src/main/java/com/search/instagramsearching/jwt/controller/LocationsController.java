@@ -1,4 +1,4 @@
-package com.search.instagramsearching.controller;
+package com.search.instagramsearching.jwt.controller;
 
 import com.search.instagramsearching.dto.response.ResponseDto;
 import com.search.instagramsearching.service.LocationsService;
